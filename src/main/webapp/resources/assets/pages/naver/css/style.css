@@ -1,0 +1,203 @@
+table td,table th{
+  text-align: center;
+}
+
+.nobr{
+  width: 500px;
+  margin: 0px auto;
+}
+
+.table.table-xs td{
+  padding: .4rem 1rem;
+}
+
+.counter-card-1 [class*="card-"] > i, .counter-card-2 [class*="card-"] > i, .counter-card-3 [class*="card-"] > i {
+    position: absolute;
+    color: #1abc9c;
+    right: 30px;
+    top: 40px;
+    font-size: 35px;
+}
+
+.pCard{
+	margin-bottom: 0px;
+}
+
+.keyword-nowrap{
+  width: 100px;
+  margin:0 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.detail .card-header{
+  padding: 10px;
+  line-height: 16px;
+  text-align: left;
+}
+.form-control-inverse {
+    border-color: #dcdcdc;
+}
+.form-control {
+    font-size: 14px;
+    border-radius: 1px;
+    border-width: 1px;
+}
+.md-tabs li.active p {
+  	font-weight: bold;
+    color: black;
+}
+.datepicker-here form-control col-sm-1 f-left {
+    background-color: #ffffff;
+    color: black;
+    border-color: #dcdcdc;
+}
+.bg-inverse {
+    background-color: #ffffff !important;
+    color: black;
+    border-color: #dcdcdc;
+    border-width: 1px;
+}
+.card {
+    border-radius: 1px;
+    border-top: 1px solid #34495e;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    margin-bottom: 30px;
+	}
+.btn-warning {
+    background-color: #59a773;
+    border-color: #59a773;
+    color: #fff;
+    cursor: pointer;
+    transition: all ease-in 0.3s;
+}
+.btn-warning:hover {
+    background-color: #72ad86;
+    border-color: #72ad86;
+}
+.btn-list, .sweet-alert button.confirm, .wizard > .actions a {
+    background-color: #a6a6a6;
+    border-color: #a6a6a6;
+    color: #fff;
+    cursor: pointer;
+    transition: all ease-in 0.3s;
+}
+.input-group-inverse .form-control {
+    border-color: #dcdcdc;
+    border: 1px solid #dcdcdc;
+}
+.input-group-inverse .input-group-addon {
+    background-color: white;
+    border: 1px solid #dcdcdc;
+}
+.btn-inverse {
+    background-color: white;
+    border-color: white;
+    border: 1px solid #dcdcdc;
+    color: black;
+    cursor: pointer;
+    transition: all ease-in 0.3s;
+    border-color: #dcdcdc;
+}
+.btn-inverse:hover {
+    background-color: #dcdcdc;
+    border-color: #dcdcdc;
+    font-weight: bold;
+}
+/* .input-group-button .input-group-addon:hover {
+    background-color: #dcdcdc;
+    border-color: #dcdcdc;
+    font-weight: bold;
+} */
+.btn-twin, .sweet-alert button.confirm, .wizard > .actions a {
+    background-color: #2d3e50;
+    border-color: #2d3e50;
+    color: #fff;
+    cursor: pointer;
+    transition: all ease-in 0.3s;
+}
+/* .input-group-button .input-group-addon:hover {
+    background-color: #a6a6a6;
+    border-color: #a6a6a6;
+    color: #fff;
+    cursor: pointer;
+    transition: all ease-in 0.3s;
+} */
+.btn-list, .sweet-alert button.confirm, .wizard > .actions a {
+    background-color: #a6a6a6;
+    border-color: #a6a6a6;
+    color: #fff;
+    cursor: pointer;
+    transition: all ease-in 0.3s;
+}
+.btn-search {
+    background-color: white;
+    border-color: white;
+    color: black;
+    cursor: pointer;
+    transition: all ease-in 0.3s;
+    background-color: white;
+}
+.label-primary {
+    background-color: #0b4bff;
+}
+#loading {
+	height: 100%;
+	left: 0px;
+	position: fixed;
+	_position:absolute; 
+	top: 0px;
+	width: 100%;
+	filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	opacity : 0.5;
+}
+
+.loading {
+	background-color: darkgrey;
+	z-index: 199;
+}
+
+#loading_img{
+	
+	position:absolute; 
+	top:50%;
+	left:50%;
+	height:300px;
+	margin-top:-175px; 
+	margin-left:-175px;
+	z-index: 200; 
+}
+a:hover { color: black; text-decoration: underline;}
+.border-checkbox-section .border-checkbox-group .border-checkbox-label {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    height: 25px;
+    line-height: 25px;
+    padding-right: 20px;
+}
+.border-checkbox-section{
+  height: 20px;
+  margin-top: 3px;
+}
+
+.border-checkbox-section .border-checkbox-group .border-checkbox-label:before{
+  width: 20px;
+  height: 20px;
+}
+
+.border-checkbox-section .border-checkbox-group .border-checkbox-label:after{
+  width: 5px;
+  height: 12px;
+  left: 4px;
+  top: 12px;
+}
+
+.border-checkbox-section .border-checkbox-group .border-checkbox-label{
+  height: 20px;
+  padding-left: 0px;
+  margin-right: 0px;
+}

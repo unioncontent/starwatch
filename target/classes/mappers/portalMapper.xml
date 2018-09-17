@@ -1,0 +1,1615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="org.union.mappers.PortalMapper">
+
+ 	<sql id="search">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and portal_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and portal_title like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search2">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and portal_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and portal_title like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null and endDate != null">
+			and updateDate <![CDATA[>=]]> #{startDate}
+			and updateDate <![CDATA[<=]]> #{endDate}
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+ 
+ 	<sql id="search_writeDate">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and portal_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and portal_title like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>	
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and writeDate <![CDATA[<]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate2">
+		<if test="company != null">
+			where
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and writeDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate3">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				and portal_title like concat('%', #{keyword}, '%')
+			</if>
+		</if>	
+		<if test="startDate == null">
+			and
+        writeDate between date_add(curdate(), interval -1 month)
+        and curdate()+1
+		</if>	
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and writeDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate4">
+		<!-- <if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if> -->	
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate5">
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]>date_add(#{createminusDate}, interval -1 day)
+				and createDate <![CDATA[<=]]> #{endDate}
+		</if>
+	</sql>
+	<sql id="search_writeDate6">
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]>date_add(#{startDate}, interval -1 hour)
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+	</sql>
+ 
+ 	<insert id="create">
+ 		insert into
+ 			portal_data(portal_type, portal_name, writer, portal_title, portal_content, deviceType, writeDate, keyword, keyword_type, url, textType, thumbnail)
+ 		values
+ 			(#{portal_type}, #{portal_name}, #{writer}, #{portal_title}, #{portal_content}, #{deviceType}, #{writeDate}, #{keyword},
+ 			 #{keyword_type}, #{url}, #{textType}, #{thumbnail})
+ 	
+ 	</insert>
+ 
+ 	<select id="read" resultType="PortalVO">
+ 		select
+ 			*
+ 		from
+ 			portal_data
+ 		where
+ 			portal_idx = #{portal_idx}
+ 	
+ 	</select>
+ 
+ 	<update id="update">
+ 		update
+ 			portal_data
+ 		set
+ 			portal_type = #{portal_type},
+ 			portal_name = #{portal_name},
+ 			portal_title = #{portal_title},
+ 			deviceType = #{deviceType},
+ 			writeDate = #{writeDate},
+ 			keyword = #{keyword},
+ 			keyword_type = #{keyword_type},
+ 			url = #{url},
+ 			updateDate = now()
+ 		where
+ 			portal_idx = #{portal_idx}
+ 			
+ 	</update>
+ 
+ 	<delete id="delete">
+ 		delete from
+ 			portal_data
+ 		where
+ 			portal_idx = #{portal_idx}
+ 	
+ 	</delete>
+ 	
+ 	<select id="getTypeOfMovieCount" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from
+ 			portal_data
+ 		where
+ 			portal_name = 'naver'
+ 		and
+ 			keyword_type = '영화'
+ 	<include refid="search_writeDate"></include>
+ 	
+ 	</select>
+ 	
+ 	<select id="getTypeOfActorCount" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from
+ 			portal_data
+ 		where
+ 			portal_name = 'naver'
+ 		and
+ 			keyword_type = '배우'
+ 	<include refid="search_writeDate"></include>
+ 	
+ 	</select>
+ 	
+ 	<select id="allPageList" resultType="PortalVO">
+		select
+			*
+		from
+			portal_data
+		where
+			url is not null
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+		limit  
+			#{startPage}, #{perPageNum}
+	</select>
+	
+ 	<select id="TotalAllPageList" resultType="PortalVO">
+		select
+			*
+		from
+			portal_data_history
+		where
+			url is not null
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+		limit  
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="allPage" resultType="PortalVO">
+		select
+			*
+		from
+			portal_data
+		where
+			url is not null
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+	</select>
+	
+	<select id="totalAllPageex" resultType="PortalVO">
+		select
+			*
+		from
+			portal_data_history
+		where
+			url is not null
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+	</select>
+	
+	<select id="allPageCount" resultType="Integer">
+		select
+			count(*)
+		from
+			portal_data
+		where
+			url is not null
+		<include refid="search"></include>
+	</select>
+	
+	<select id="TotalAllPageCount" resultType="Integer">
+		select
+			count(*)
+		from
+			portal_data_history
+		where
+			url is not null
+		<include refid="search"></include>
+	</select>
+ 	
+ 	<select id="countAll" resultType="Integer">
+		select count(*)
+		from portal_data
+		where 
+		createDate between date_add(#{date}, interval -1 hour) and #{date}
+	
+	</select>
+	
+	<select id="showboxCountAll" resultType="Integer">
+		select count(*)
+		from portal_data
+		where 
+		keyword in (select keyword from keyword_data where user_idx = any(select user_idx from user_data where user_name = '쇼박스') )
+		and createDate between date_add(#{date}, interval -1 hour) and #{date}
+	
+	</select>
+	
+ 	<select id="toDayCount" resultType="GraphVO">
+ 		select count(if(portal_name = 'naver', portal_name, null)) type1,
+ 			 count(if(portal_name = 'daum', portal_name, null)) type2, count(*) type3  
+ 		from portal_data
+		where portal_type = #{type}
+		and date_add(now(), interval -1 day) <![CDATA[<]]> writeDate
+		and writeDate <![CDATA[<]]> now()
+ 	</select>
+ 	
+ 	<select id="showboxToDayCount" resultType="GraphVO">
+ 		select count(if(portal_name = 'naver', portal_name, null)) type1,
+ 			 count(if(portal_name = 'daum', portal_name, null)) type2, count(*) type3  
+ 		from portal_data
+		where portal_type = #{type}
+		and keyword in (select keyword from keyword_data where user_idx = any(select user_idx from user_data where user_name = '쇼박스') )
+		and date_add(now(), interval -1 day) <![CDATA[<]]> writeDate
+		and writeDate <![CDATA[<]]> now()
+ 	</select>
+ 	
+ 	<select id="yesterdayCount" resultType="GraphVO">
+ 		select count(if(writeDate <![CDATA[<]]> date_add(now(), interval -1 day), writeDate, null)) type1,
+	    count(if(writeDate <![CDATA[>]]> date_add(now(), interval -1 day), writeDate, null)) type2
+		from portal_data 
+		where writeDate between date_add(now(), interval -2 day) and  date_add(now(), interval -0 day)
+ 	</select>
+ 	
+ 	<select id="showboxYesterdayCount" resultType="GraphVO">
+ 		select count(if(writeDate <![CDATA[<]]> date_add(now(), interval -1 day), writeDate, null)) type1,
+	    count(if(writeDate <![CDATA[>]]> date_add(now(), interval -1 day), writeDate, null)) type2
+		from portal_data 
+		where 
+		keyword in (select keyword from keyword_data where user_idx = any(select user_idx from user_data where user_name = '쇼박스') )
+		and writeDate between date_add(now(), interval -2 day) and  date_add(now(), interval -0 day)
+ 	</select>
+ 	
+ 	
+ 	<select id="listNaver" resultType="PortalVO">
+ 		select * from portal_data 
+ 		where 
+ 			textType is not null
+ 		and
+ 			portal_name = 'naver'
+ 		<include refid="search"></include>
+		order 
+			by createdate desc
+		limit  
+			#{startPage}, #{perPageNum}
+ 	
+ 	</select>
+ 	
+ 	<select id="getNaverCount" resultType="Integer">
+ 		select count(*) from portal_data
+ 		where 
+ 			textType is not null
+ 		and score is null 
+ 		and texttype!='삭제글'
+ 		and
+ 			portal_name = 'naver'
+ 		<include refid="search_writeDate"></include>
+ 	
+ 	</select>
+ 	
+ 	<select id="textTypeCount" resultType="TextTypeVO">
+ 		select 
+		count(if(textType='좋은글', textType, null)) lik,
+		count(if(textType='나쁜글', textType, null)) dis,
+		count(if(textType='관심글', textType, null)) cu,
+		count(if(textType='기타글', textType, null)) etc,
+		count(if(textType is not null and texttype!='삭제글', textType, null)) al
+		from portal_data
+		where textType is not null
+		and score is null
+		<include refid="search_writeDate"></include>
+ 	</select>
+ 	
+ 	<select id="textTypeCount2" resultType="TextTypeDateVO">
+ 		select 
+		DATE_FORMAT(writeDate,'%Y-%m-%d') writeDate,
+		count(if(textType='좋은글', textType, null)) lik,
+		count(if(textType='나쁜글', textType, null)) dis,
+		count(if(textType='관심글', textType, null)) cu,
+		count(if(textType='기타글', textType, null)) etc,
+		count(if(textType is not null and texttype!='삭제글', textType, null)) al
+		from portal_data
+		where textType is not null
+		<include refid="search_writeDate"></include>
+		group by DATE_FORMAT(writeDate,'%Y-%m-%d')
+		ORDER BY writeDate desc;
+ 	</select>
+ 	
+ 	
+ 	<select id="blogTextTypeCount" resultType="TextTypeVO">
+ 	select 
+		count(if(textType='좋은글', textType, null)) lik,
+    	count(if(textType='나쁜글', textType, null)) dis,
+    	count(if(textType='관심글', textType, null)) cu,
+    	count(if(textType='기타글', textType, null)) etc,
+    	count(if(textType is not null and texttype!='삭제글', textType, null))
+	from 
+		union.portal_data
+	where 
+		portal_type = 'blog'
+ 	<include refid="search_writeDate"></include>
+ 	</select>
+ 	
+ 	<select id="cafeTextTypeCount" resultType="TextTypeVO">
+ 	select 
+		count(if(textType='좋은글', textType, null)) lik,
+    	count(if(textType='나쁜글', textType, null)) dis,
+    	count(if(textType='관심글', textType, null)) cu,
+    	count(if(textType='기타글', textType, null)) etc,
+    	count(if(textType is not null and texttype!='삭제글', textType, null))
+	from 
+		union.portal_data
+	where 
+		portal_type = 'cafe'
+	<include refid="search_writeDate"></include>
+ 	
+ 	</select>
+ 	
+ 	<select id="naverTextTypeCountb" resultType="TextTypeVO">
+ 	select 
+		count(if(textType='좋은글', textType, null)) lik,
+    	count(if(textType='나쁜글', textType, null)) dis,
+    	count(if(textType='관심글', textType, null)) cu,
+    	count(if(textType='기타글', textType, null)) etc,
+    	count(if(textType is not null and texttype!='삭제글', textType, null))
+	from 
+		union.portal_data
+	where 
+		portal_name = 'naver'
+	and 
+		portal_type = 'blog'	
+		<include refid="search_writeDate"></include>
+ 	</select>
+ 	<select id="naverTextTypeCountc" resultType="TextTypeVO">
+ 	select 
+		count(if(textType='좋은글', textType, null)) lik,
+    	count(if(textType='나쁜글', textType, null)) dis,
+    	count(if(textType='관심글', textType, null)) cu,
+    	count(if(textType='기타글', textType, null)) etc,
+    	count(if(textType is not null and texttype!='삭제글', textType, null))
+	from 
+		union.portal_data
+	where 
+		portal_name = 'naver'
+	and 
+		portal_type = 'cafe'	
+		<include refid="search_writeDate"></include>
+ 	</select>
+ 	<select id="naverTextTypeCountk" resultType="TextTypeVO">
+ 	select 
+		count(if(textType='좋은글', textType, null)) lik,
+    	count(if(textType='나쁜글', textType, null)) dis,
+    	count(if(textType='관심글', textType, null)) cu,
+    	count(if(textType='기타글', textType, null)) etc,
+    	count(if(textType is not null and texttype!='삭제글', textType, null))
+	from 
+		union.portal_data
+	where 
+		portal_name = 'naver'
+	and 
+		portal_type = 'kintip'
+		<include refid="search_writeDate"></include>
+ 	</select>
+ 	<select id="naverTextTypeCountw" resultType="TextTypeVO">
+ 	select 
+		count(if(textType='좋은글', textType, null)) lik,
+    	count(if(textType='나쁜글', textType, null)) dis,
+    	count(if(textType='관심글', textType, null)) cu,
+    	count(if(textType='기타글', textType, null)) etc,
+    	count(if(textType is not null and texttype!='삭제글', textType, null))
+	from 
+		union.portal_data
+	where 
+		portal_name = 'naver'
+	and 
+		portal_type = 'webdoc'	
+		<include refid="search_writeDate"></include>
+ 	</select>
+ 	
+ 	
+ 	<select id="daumTextTypeCountb" resultType="TextTypeVO">
+ 	select 
+		count(if(textType='좋은글', textType, null)) lik,
+    	count(if(textType='나쁜글', textType, null)) dis,
+    	count(if(textType='관심글', textType, null)) cu,
+    	count(if(textType='기타글', textType, null)) etc,
+    	count(if(textType is not null and texttype!='삭제글', textType, null))
+	from 
+		union.portal_data
+	where 
+		portal_name = 'daum'
+	and 
+		portal_type = 'blog'
+		<include refid="search_writeDate"></include>
+ 	</select>
+ 	<select id="daumTextTypeCountc" resultType="TextTypeVO">
+ 	select 
+		count(if(textType='좋은글', textType, null)) lik,
+    	count(if(textType='나쁜글', textType, null)) dis,
+    	count(if(textType='관심글', textType, null)) cu,
+    	count(if(textType='기타글', textType, null)) etc,
+    	count(if(textType is not null and texttype!='삭제글', textType, null))
+	from 
+		union.portal_data
+	where 
+		portal_name = 'daum'
+	and 
+		portal_type = 'cafe'
+		<include refid="search_writeDate"></include>
+ 	</select>
+ 	<select id="daumTextTypeCountk" resultType="TextTypeVO">
+ 	select 
+		count(if(textType='좋은글', textType, null)) lik,
+    	count(if(textType='나쁜글', textType, null)) dis,
+    	count(if(textType='관심글', textType, null)) cu,
+    	count(if(textType='기타글', textType, null)) etc,
+    	count(if(textType is not null and texttype!='삭제글', textType, null))
+	from 
+		union.portal_data
+	where 
+		portal_name = 'daum'
+	and 
+		portal_type = 'kintip'
+		<include refid="search_writeDate"></include>
+ 	</select>
+ 	<select id="daumTextTypeCountw" resultType="TextTypeVO">
+ 	select 
+		count(if(textType='좋은글', textType, null)) lik,
+    	count(if(textType='나쁜글', textType, null)) dis,
+    	count(if(textType='관심글', textType, null)) cu,
+    	count(if(textType='기타글', textType, null)) etc,
+    	count(if(textType is not null and texttype!='삭제글', textType, null))
+	from 
+		union.portal_data
+	where 
+		portal_name = 'daum'
+	and 
+		portal_type = 'webdoc'
+		<include refid="search_writeDate"></include>
+ 	</select>
+ 	
+ 	<select id="listDaum" resultType="PortalVO">
+ 		select * from portal_data 
+ 		where 
+ 			textType is not null
+ 		and
+ 			portal_name = 'daum'
+ 		<include refid="search"></include>
+		order 
+			by createdate desc
+		limit  
+			#{startPage}, #{perPageNum}
+ 	
+ 	</select>
+ 	
+ 	<select id="getDaumCount" resultType="Integer">
+ 		select count(*) from portal_data
+ 		where 
+ 			textType is not null
+ 		and score is null 
+ 		and texttype!='삭제글'
+ 		and
+ 			portal_name = 'daum'
+ 		<include refid="search_writeDate"></include>
+ 	
+ 	</select>
+ 	
+ 	<select id="listExtract" resultType="PortalVO">
+		select
+			*
+		from 
+			portal_data
+		where
+			textType is null
+		<include refid="search"></include>
+		order by
+			createDate desc
+		limit
+			#{startPage}, #{perPageNum}
+	</select>
+ 
+ 	<select id="getExtractCount" resultType="Integer">
+		select
+			count(*)
+		from 
+			portal_data
+		where
+			textType is null
+		<include refid="search"></include>
+	</select>
+ 
+ 	<select id="listSearch" resultType="PortalVO">
+ 		select 
+			*
+		from 
+			portal_data
+		where 
+			textType is not null
+		and
+			score is null
+		<include refid="search"></include>
+		order 
+			by createdate desc
+		limit  
+			#{startPage}, #{perPageNum}
+ 	</select>
+ 	
+ 	<select id="wlistSearch" resultType="PortalVO">
+ 		select 
+			*
+		from 
+			portal_data
+		where 
+			textType is not null
+		and
+			score is null	
+		<include refid="search_writeDate"></include>
+		order 
+			by updateDate desc
+		limit  
+			#{startPage}, #{perPageNum}
+ 	
+ 	</select>
+ 	
+ 	<select id="periodWlistSearch" resultType="PortalVO">
+ 		select 
+			*
+		from 
+			portal_data
+		where 
+			textType != '삭제글'
+		and
+			score is null	
+		<include refid="search_writeDate"></include>
+		order 
+			by updateDate desc
+		limit  
+			#{startPage}, #{perPageNum}
+ 	
+ 	</select>
+ 	
+ 	<select id="getScoreList" resultType="PortalVO">
+ 		select 
+			*
+		from 
+			portal_data
+		where 
+			portal_type = 'score'
+		<include refid="search_writeDate"></include>
+		order 
+			by writeDate desc
+		limit  
+			#{startPage}, #{perPageNum}
+ 	
+ 	</select>
+ 	
+ 	<select id="getScoreExcelList" resultType="PortalVO">
+ 		select 
+			*
+		from 
+			portal_data
+		where 
+			portal_type = 'score'
+		<include refid="search_writeDate"></include>
+		order 
+			by updateDate desc
+ 	</select>
+
+	<select id="getScoreCount" resultType="Integer">
+ 		select 
+			count(*)
+		from 
+			portal_data
+		where 
+			portal_type = 'score'
+		<include refid="search_writeDate"></include>
+ 	</select> 	
+ 	
+ 	<select id="getScoreTextType" resultType="TextTypeVO">
+ 		select  
+ 		count(if(textType='좋은글', textType, null)) lik,
+		count(if(textType='나쁜글', textType, null)) dis,
+		count(if(textType='관심글', textType, null)) cu,
+		count(if(textType='악성글', textType, null)) etc,
+		count(if(textType is not null and texttype!='삭제글', textType, null)) al
+ 		from portal_data where portal_type = 'score'
+ 		<include refid="search_writeDate"></include>
+ 	</select>
+ 	
+ 	<select id="getOnlyScore" resultType="Integer">
+ 		select
+ 			score
+ 		from
+ 			portal_data
+ 		where score is not null
+ 		<include refid="search_writeDate"></include>
+ 		
+ 	</select>
+ 	
+ 	<select id="listAll" resultType="PortalVO">
+ 		select 
+			*
+		from 
+			portal_data
+		where 
+			textType is not null
+		and score is null
+		<include refid="search"></include>
+ 	</select>
+ 	
+ 	<select id="listAllEx" resultType="PortalVO">
+ 		select 
+			*
+		from 
+			portal_data
+		where 
+			textType!='삭제글'
+		and score is null
+		<include refid="search"></include>
+ 	</select>
+ 	
+ 	<select id="dashListAll" resultType="PortalVO">
+ 		select 
+			*
+		from 
+			portal_data
+		where 
+			textType!='삭제글'
+		and score is null
+		<include refid="search2"></include>
+		and
+			createDate >= curdate();
+ 	</select>
+ 	
+ 	<update id="updateTextType">
+		update
+			portal_data
+		set
+			textType = #{textType},
+			updateDate = now()
+		where
+			portal_idx = #{portal_idx}
+	
+	</update>
+	
+	<select id = "getSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			portal_data
+		where
+			textType is not null
+		and
+			score is null
+		<include refid="search"></include>
+			
+	</select>
+	
+	<select id = "wgetSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			portal_data
+		where
+			(textType is null or textType != '삭제글')
+		and
+			score is null
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id = "periodWgetSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			portal_data
+		where
+			textType != '삭제글'
+		and
+			score is null
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id="wPageSearch" resultType="PortalVO">
+		select 
+			*
+		from 
+			portal_data
+		where 
+			textType != '삭제글'
+		and
+			score is null
+		<include refid="search_writeDate"></include>
+		order 
+			by writeDate desc
+	</select>
+
+	<update id="updateThumbnail">
+		update
+			portal_data
+		set
+			thumbnail = #{thumbnail}
+		where
+			portal_idx = #{portal_idx}
+	
+	</update>
+	
+	<!-- <select id="naverVideosList" resultType="NvVO">
+ 		select 
+		DATE_FORMAT(writeDate,'%Y-%m-%d') writeDate, portal_title, url, max(view_cnt)as view_cnt, max(like_cnt)as like_cnt, max(reply_cnt)as reply_cnt,count(*) as total
+		from naver_videos
+        where url is not null
+        <include refid="search_writeDate3"></include>
+        group by portal_title
+        order by writeDate desc
+        limit  
+			#{startPage}, #{perPageNum}
+ 	</select> -->
+ 	
+ 	<select id="naverVideosList" resultType="NvVO">
+ 		select 
+		DATE_FORMAT(writeDate,'%Y-%m-%d') writeDate, portal_title, url, portal_subtitle, max(view_cnt)as view_cnt, max(like_cnt)as like_cnt, max(reply_cnt)as reply_cnt,count(*) as total
+		from naver_videos
+        where url is not null
+        <include refid="search_writeDate3"></include>
+        group by portal_title
+        order by writeDate desc
+        limit  
+			#{startPage}, #{perPageNum}
+ 	</select>
+ 	
+ 	<select id="naverVideosallList" resultType="NvVO">
+ 		select 
+		DATE_FORMAT(writeDate,'%Y-%m-%d') writeDate, portal_title, url, max(view_cnt)as view_cnt, max(like_cnt)as like_cnt, max(reply_cnt)as reply_cnt,count(*) as total
+		from naver_videos
+        where
+			url is not null
+        group by portal_title
+        order by writeDate desc
+ 	</select>
+ 	
+ 	<select id="naverVideosList2" resultType="NvVO">
+ 		select 
+		DATE_FORMAT(writeDate,'%Y-%m-%d') writeDate, portal_title, url, portal_subtitle, max(view_cnt)as view_cnt, max(like_cnt)as like_cnt, max(reply_cnt)as reply_cnt,count(*) as total
+		from naver_videos_detail
+        where url is not null
+        <include refid="search_writeDate3"></include>
+        group by portal_title
+        order by writeDate desc
+        limit  
+			#{startPage}, #{perPageNum}
+ 	</select>
+ 	
+ 	<select id="naverVideosallList2" resultType="NvVO">
+ 		select 
+		DATE_FORMAT(writeDate,'%Y-%m-%d') writeDate, portal_title, url, max(view_cnt)as view_cnt, max(like_cnt)as like_cnt, max(reply_cnt)as reply_cnt,count(*) as total
+		from naver_videos_detail
+        where
+			url is not null
+        group by portal_title
+        order by writeDate desc
+ 	</select>
+ 	
+ 	<select id="naverVideosListTotalCnt" resultType="Integer">
+		select 
+		count(*) as total
+        from(
+        select DATE_FORMAT(writeDate,'%Y-%m-%d') writeDate, portal_title
+		from naver_videos
+        where url is not null
+        <include refid="search_writeDate3"></include>
+        group by portal_title) as total;
+	</select>
+	
+	<select id="naverVideosListTotalCnt2" resultType="Integer">
+		select 
+		count(*) as total
+        from(
+        select DATE_FORMAT(writeDate,'%Y-%m-%d') writeDate, portal_title
+		from naver_videos_detail
+        where url is not null
+        <include refid="search_writeDate3"></include>
+        group by portal_title) as total;
+	</select>
+ 	
+ 	<select id="nvlistSearch" resultType="NvVO">
+ 		select 
+ 			DATE_FORMAT(createDate,'%Y-%m-%d') createDate, portal_title, url, max(view_cnt)as view_cnt, max(like_cnt)as like_cnt, max(reply_cnt)as reply_cnt,count(*) as total
+		from 
+			naver_videos 
+ 		where 
+ 			url = #{url}
+ 		<include refid="search_writeDate4"></include>
+		group 
+			by DATE_FORMAT(createDate,'%Y-%m-%d')
+		order 
+			by createDate desc
+ 	</select>
+ 	
+ 	<select id="nvlistSearchEx" resultType="NvVO">
+ 		select 
+ 			* 
+ 		from 
+ 			naver_videos 
+ 		where 
+ 			url = #{url}
+ 		<include refid="search_writeDate4"></include>
+		order 
+			by createDate asc
+ 	</select>
+ 	
+ 	<select id="nvlistSearchTotalCnt" resultType="Integer">
+ 		select 
+			count(*) as total
+        from(
+ 		select 
+ 			DATE_FORMAT(createDate,'%Y-%m-%d') createDate, portal_title, url, max(view_cnt)as view_cnt, max(like_cnt)as like_cnt, max(reply_cnt)as reply_cnt,count(*) as total 
+ 		from 
+ 			naver_videos 
+ 		where 
+ 			url = #{url}
+ 		<include refid="search_writeDate4"></include>	
+ 		group by DATE_FORMAT(createDate,'%Y-%m-%d')
+		order 
+			by createDate desc) as total;	
+ 	</select>
+ 	
+ 	<select id="nvlistSearchList" resultType="NvVO">
+ 		select 
+ 			* 
+ 		from 
+ 			naver_videos 
+ 		where 
+ 			url = #{url}
+ 		and 
+ 			createDate <![CDATA[>=]]> #{createstartDate}
+		and 
+			createDate <![CDATA[<=]]> #{createendDate}
+		order 
+			by createDate desc
+ 	</select>
+ 	
+ 	<select id="nvlistSearchListTotalCnt" resultType="Integer">
+ 		select 
+ 			count(*) 
+ 		from 
+ 			naver_videos 
+ 		where 
+ 			url = #{url}
+ 		and 
+ 			createDate <![CDATA[>=]]> #{createstartDate}
+		and 
+			createDate <![CDATA[<=]]> #{createendDate}
+ 		order 
+			by createDate desc
+ 	</select>
+ 	
+ 	<select id="nvlistViewCnt" resultType="Integer">
+ 	select
+		f.view_cnt as view_cnt
+	from
+	(select 
+			(b.view_cnt-a.view_cnt) as view_cnt
+	from
+		(select @RNUM:=@RNUM+1 AS ROWNUM, view_cnt from (SELECT @RNUM:=0) R,(SELECT IFNULL(SUM(view_cnt), 0)as view_cnt FROM naver_videos WHERE view_cnt !=1 and url = #{url} and createDate between date_add(#{date}, interval -1 hour) and #{date} order by createDate desc limit 1)c) a,
+        (select @RNUM1:=@RNUM1+1 AS ROWNUM, view_cnt from (SELECT @RNUM1:=0) R,(select * from naver_videos where url = #{url} and createDate >= #{date} order by createDate asc limit 1)d) b
+	where a.rownum = b.rownum) f;
+ 	</select>
+ 	
+ 	<select id="nvlistReply_cnt" resultType="Integer">
+ 		select
+		f.reply_cnt as reply_cnt
+	from
+	(select 
+			(b.reply_cnt-a.reply_cnt) as reply_cnt
+	from
+		(select @RNUM:=@RNUM+1 AS ROWNUM, reply_cnt from (SELECT @RNUM:=0) R,(SELECT IFNULL(SUM(reply_cnt), 0)as reply_cnt FROM naver_videos WHERE reply_cnt !=1 and url = #{url} and createDate between date_add(#{date}, interval -1 hour) and #{date} order by createDate desc limit 1)c) a,
+        (select @RNUM1:=@RNUM1+1 AS ROWNUM, reply_cnt from (SELECT @RNUM1:=0) R,(select * from naver_videos where url = #{url} and createDate >= #{date} order by createDate asc limit 1)d) b
+	where a.rownum = b.rownum) f;
+ 	</select>
+ 	
+ 	<select id="nvlistlike_cnt" resultType="Integer">
+ 		select
+		f.like_cnt as like_cnt
+	from
+	(select 
+			(b.like_cnt-a.like_cnt) as like_cnt
+	from
+		(select @RNUM:=@RNUM+1 AS ROWNUM, like_cnt from (SELECT @RNUM:=0) R,(SELECT IFNULL(SUM(like_cnt), 0)as like_cnt FROM naver_videos WHERE like_cnt !=1 and url = #{url} and createDate between date_add(#{date}, interval -1 hour) and #{date} order by createDate desc limit 1)c) a,
+        (select @RNUM1:=@RNUM1+1 AS ROWNUM, like_cnt from (SELECT @RNUM1:=0) R,(select * from naver_videos where url = #{url} and createDate >= #{date} order by createDate asc limit 1)d) b
+	where a.rownum = b.rownum) f;
+ 	</select>
+ 	
+ 	<!-- naver_graph 테이블 사용시 
+ 	<select id="nvlistViewCnt" resultType="Integer">
+	 	select
+			view_cnt
+		from
+			naver_graph
+		where
+			url = #{url} 
+		and 
+			createDate >= #{date} 
+		order by createDate asc 
+		limit 1;
+ 	</select>
+ 	
+ 	<select id="nvlistReply_cnt" resultType="Integer">
+	 	select
+			reply_cnt
+		from
+			naver_graph
+		where
+			url = #{url} 
+		and 
+			createDate >= #{date} 
+		order by createDate asc 
+		limit 1;
+ 	</select>
+ 	
+ 	<select id="nvlistlike_cnt" resultType="Integer">
+	 	select
+			like_cnt
+		from
+			naver_graph
+		where
+			url = #{url} 
+		and 
+			createDate >= #{date} 
+		order by createDate asc 
+		limit 1;
+ 	</select> -->
+ 	
+ 	<select id="nvlistPlus" resultType="NvVO">
+ 		select 
+ 			*
+		from 
+			naver_videos 
+		where  
+			url = #{url}
+		<include refid="search_writeDate4"></include>
+		order 
+			by createDate asc
+ 	</select>
+ 	
+ 	<select id="nvlistlimt" resultType="NvVO">
+ 		select 
+ 			* 
+ 		from 
+ 			naver_videos 
+ 		where url = #{url} 
+ 		order by createDate asc limit 1;
+ 	</select>
+ 	
+ 	<select id="nvlistMinus2" resultType="NvVO">
+ 		select 
+ 			*
+		from 
+			naver_videos 
+		where 
+			url = #{url}
+		<include refid="search_writeDate5"></include>
+		order 
+			by createDate asc
+ 	</select>
+ 	
+ 	<select id="nvlistMinus" resultType="NvVO">
+ 		select 
+ 			view_cnt, reply_cnt, like_cnt
+		from 
+			naver_videos 
+		where 
+			view_cnt != (select view_cnt from naver_videos where url=#{url} and 
+ 			createDate <![CDATA[>=]]> date_add(#{createminusDate}, interval -1 day)
+		and 
+			createDate <![CDATA[<=]]> #{createendDate} order by createDate desc limit 1) 
+		and 
+			url = #{url}
+		and 
+ 			createDate <![CDATA[>=]]> date_add(#{createminusDate}, interval -1 day)
+		and 
+			createDate <![CDATA[<=]]> #{createendDate}
+		order 
+			by createDate desc
+ 	</select>
+ 	<select id="nvlistSearchTime" resultType="NvVO">
+ 		select 
+ 			*
+ 		from 
+ 			naver_videos
+ 		where
+ 			url = #{url}
+ 		order by createDate asc 
+ 		limit 1
+ 	</select>
+ 	
+ 	<select id="nvSearchlistSearchTime" resultType="NvVO">
+ 		select 
+ 			*
+ 		from 
+ 			naver_videos
+ 		where
+ 			url = #{url}
+ 		and 
+ 			createDate <![CDATA[>=]]> #{createstartDate}
+		and 
+			createDate <![CDATA[<=]]> #{createendDate}
+ 		order by createDate asc 
+ 		limit 1
+ 	</select>
+ 	
+ 	<select id="nvlistOne" resultType="NvVO">
+ 		select 
+ 			createDate, portal_title, url, portal_subtitle
+ 		from 
+ 			naver_videos 
+ 		where 
+ 			url = #{url}
+		order by createDate asc 
+			limit 1;
+ 	</select>
+ 	
+ 	<select id="nvlistTwo" resultType="NvVO">
+ 		select 
+ 			createDate, portal_title, url, portal_subtitle 
+ 		from 
+ 			naver_videos 
+ 		where 
+ 			url = #{url}
+		order by createDate asc 
+			limit 1;
+ 	</select>
+ 	
+ 	<select id="nvlistGraph" resultType="NvVO">
+ 		select 0 as 'view_cnt', 0 as 'reply_cnt', 0 as 'like_cnt' from dual 
+        	union all
+ 		select 
+ 			view_cnt, reply_cnt, like_cnt 
+ 		from 
+ 			naver_videos 
+ 		where 
+ 			url = #{url}
+ 	</select>
+ 	
+ 	<!-- naver_graph 테이블 사용시
+ 	<select id="nvlistGraph" resultType="NvVO">
+ 		select 
+ 			view_cnt, reply_cnt, like_cnt 
+ 		from 
+ 			naver_graph 
+ 		where 
+ 			url = #{url}
+ 	</select> -->
+ 	
+ 	<select id="scoreTotalcnt" resultType="Integer">
+		select
+			count(*)
+		from
+			portal_data
+		where
+			portal_type='score'
+        and
+			portal_title is not null
+		<include refid="search_writeDate"></include>
+		and
+			createDate >= curdate();
+		
+	</select>
+	
+	<select id="portalTextcnt" resultType="Integer">
+		select 
+			count(*) 
+		from 
+			portal_data 
+		where 
+			textType!='삭제글'
+		and 
+			score is null
+		<include refid="search"></include>
+		and
+			createDate >= curdate();
+		
+	</select>
+ 	
+ 	<select id="portalTextcnt2" resultType="Integer">
+		select 
+			count(*) 
+		from 
+			portal_data 
+		where 
+			textType = '나쁜글'
+		<include refid="search_writeDate"></include> 
+		and 
+			createDate >= curdate();
+	</select>
+	
+	<select id="graphNaverCount" resultType="Integer">
+ 		select count(*) from portal_data
+ 		where 
+ 			textType is not null
+ 		and score is null 
+ 		and texttype!='삭제글'
+ 		and
+ 			portal_name = 'naver'
+ 		and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		and createDate <![CDATA[>=]]> #{startDate}
+		and createDate <![CDATA[<=]]> #{endDate}
+ 	</select>
+ 	
+ 	<select id="graphDaumCount" resultType="Integer">
+ 		select count(*) from portal_data
+ 		where 
+ 			textType is not null
+ 		and score is null 
+ 		and texttype!='삭제글'
+ 		and
+ 			portal_name = 'daum'
+ 		and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		and createDate <![CDATA[>=]]> #{startDate}
+		and createDate <![CDATA[<=]]> #{endDate}
+ 	
+ 	</select>
+ 	
+ 	<insert id="scoreCheckList">
+ 		INSERT INTO score_data SELECT * FROM portal_data where portal_idx = #{portal_idx}
+ 	</insert>
+ 	
+ 	<delete id="scoreCheckDelete">
+ 		delete from
+ 			score_data
+ 		where
+ 			portal_idx = #{portal_idx}
+ 	</delete>
+ 	
+ 	<update id="scoreUpdate">
+ 		update 
+ 			portal_data
+ 		set
+ 			portal_state = 1
+ 		where
+ 			portal_idx = #{portal_idx}
+ 		
+ 	</update>
+ 	
+ 	<update id="scoreUpdate2">
+ 		update 
+ 			portal_data
+ 		set
+ 			portal_state = 0
+ 		where
+ 			portal_idx = #{portal_idx}
+ 		
+ 	</update>
+ 	
+ 	<select id="scoreListReport" resultType="ScoreVO">
+ 		select 
+ 			* 
+ 		from 
+ 			score_data 
+ 		where 
+ 			(textType = '악성글' or textType = '나쁜글')
+ 		<include refid="search_writeDate"></include>
+ 		order by createDate desc limit 5
+ 	</select>
+ 	
+ 	<select id = "getNvCount" resultType="Integer">
+		select count(*) from naver_videos where url = #{url}
+	</select>
+	
+	
+	
+	<select id="nvlistSearch2" resultType="NvVO">
+ 		select 
+ 			DATE_FORMAT(createDate,'%Y-%m-%d') createDate, portal_title, url, max(view_cnt)as view_cnt, max(like_cnt)as like_cnt, max(reply_cnt)as reply_cnt,count(*) as total
+		from 
+			naver_videos_detail 
+ 		where 
+ 			url = #{url}
+ 		<include refid="search_writeDate4"></include>
+		group 
+			by DATE_FORMAT(createDate,'%Y-%m-%d')
+		order 
+			by createDate desc
+ 	</select>
+	<select id="nvlistSearchList2" resultType="NvVO">
+ 		select 
+ 			* 
+ 		from 
+ 			naver_videos_detail 
+ 		where 
+ 			url = #{url}
+ 		and 
+ 			createDate <![CDATA[>=]]> #{createstartDate}
+		and 
+			createDate <![CDATA[<=]]> #{createendDate}
+		order 
+			by createDate desc
+ 	</select>
+
+	<select id="nvlistMinus3" resultType="NvVO">
+ 		select 
+ 			view_cnt, reply_cnt, like_cnt
+		from 
+			naver_videos_detail 
+		where 
+			view_cnt != (select view_cnt from naver_videos_detail where url=#{url} and 
+ 			createDate <![CDATA[>=]]> date_add(#{createminusDate}, interval -1 day)
+		and 
+			createDate <![CDATA[<=]]> #{createendDate} order by createDate desc limit 1) 
+		and 
+			url = #{url}
+		and 
+ 			createDate <![CDATA[>=]]> date_add(#{createminusDate}, interval -1 day)
+		and 
+			createDate <![CDATA[<=]]> #{createendDate}
+		order 
+			by createDate desc
+ 	</select>
+	<select id="nvlistSearchTime2" resultType="NvVO">
+ 		select 
+ 			*
+ 		from 
+ 			naver_videos_detail
+ 		where
+ 			url = #{url}
+ 		order by createDate asc 
+ 		limit 1
+ 	</select>
+
+	<select id="nvlistSearchTotalCnt2" resultType="Integer">
+ 		select 
+			count(*) as total
+        from(
+ 		select 
+ 			DATE_FORMAT(createDate,'%Y-%m-%d') createDate, portal_title, url, max(view_cnt)as view_cnt, max(like_cnt)as like_cnt, max(reply_cnt)as reply_cnt,count(*) as total 
+ 		from 
+ 			naver_videos_detail 
+ 		where 
+ 			url = #{url}
+ 		<include refid="search_writeDate4"></include>	
+ 		group by DATE_FORMAT(createDate,'%Y-%m-%d')
+		order 
+			by createDate desc) as total;	
+ 	</select>
+ 	
+ 	<select id="nvlistViewCnt2" resultType="Integer">
+ 	select
+		f.view_cnt as view_cnt
+	from
+	(select 
+			(b.view_cnt-a.view_cnt) as view_cnt
+	from
+		(select @RNUM:=@RNUM+1 AS ROWNUM, view_cnt from (SELECT @RNUM:=0) R,(SELECT IFNULL(SUM(view_cnt), 0)as view_cnt FROM naver_videos_detail WHERE view_cnt !=1 and url = #{url} and createDate between date_add(#{date}, interval -1 hour) and #{date} order by createDate desc limit 1)c) a,
+        (select @RNUM1:=@RNUM1+1 AS ROWNUM, view_cnt from (SELECT @RNUM1:=0) R,(select * from naver_videos_detail where url = #{url} and createDate >= #{date} order by createDate asc limit 1)d) b
+	where a.rownum = b.rownum) f;
+ 	</select>
+ 	
+ 	<select id="nvlistReply_cnt2" resultType="Integer">
+ 		select
+		f.reply_cnt as reply_cnt
+	from
+	(select 
+			(b.reply_cnt-a.reply_cnt) as reply_cnt
+	from
+		(select @RNUM:=@RNUM+1 AS ROWNUM, reply_cnt from (SELECT @RNUM:=0) R,(SELECT IFNULL(SUM(reply_cnt), 0)as reply_cnt FROM naver_videos_detail WHERE reply_cnt !=1 and url = #{url} and createDate between date_add(#{date}, interval -1 hour) and #{date} order by createDate desc limit 1)c) a,
+        (select @RNUM1:=@RNUM1+1 AS ROWNUM, reply_cnt from (SELECT @RNUM1:=0) R,(select * from naver_videos_detail where url = #{url} and createDate >= #{date} order by createDate asc limit 1)d) b
+	where a.rownum = b.rownum) f;
+ 	</select>
+ 	
+ 	<select id="nvlistlike_cnt2" resultType="Integer">
+ 		select
+		f.like_cnt as like_cnt
+	from
+	(select 
+			(b.like_cnt-a.like_cnt) as like_cnt
+	from
+		(select @RNUM:=@RNUM+1 AS ROWNUM, like_cnt from (SELECT @RNUM:=0) R,(SELECT IFNULL(SUM(like_cnt), 0)as like_cnt FROM naver_videos_detail WHERE like_cnt !=1 and url = #{url} and createDate between date_add(#{date}, interval -1 hour) and #{date} order by createDate desc limit 1)c) a,
+        (select @RNUM1:=@RNUM1+1 AS ROWNUM, like_cnt from (SELECT @RNUM1:=0) R,(select * from naver_videos_detail where url = #{url} and createDate >= #{date} order by createDate asc limit 1)d) b
+	where a.rownum = b.rownum) f;
+ 	</select>
+ 	
+ 	<select id="nvlistSearchEx2" resultType="NvVO">
+ 		select 
+ 			* 
+ 		from 
+ 			naver_videos_detail 
+ 		where 
+ 			url = #{url}
+ 		<include refid="search_writeDate4"></include>
+		order 
+			by createDate asc
+ 	</select>
+
+	<select id="nvlistPlus2" resultType="NvVO">
+ 		select 
+ 			*
+		from 
+			naver_videos_detail 
+		where  
+			url = #{url}
+		<include refid="search_writeDate4"></include>
+		order 
+			by createDate asc
+ 	</select>
+
+
+	<select id="nvlistMinus4" resultType="NvVO">
+ 		select 
+ 			*
+		from 
+			naver_videos_detail 
+		where 
+			url = #{url}
+		<include refid="search_writeDate5"></include>
+		order 
+			by createDate asc
+ 	</select>
+
+	<select id="nvlistlimt2" resultType="NvVO">
+ 		select 
+ 			* 
+ 		from 
+ 			naver_videos_detail 
+ 		where url = #{url} 
+ 		order by createDate asc limit 1;
+ 	</select>
+ 	
+ 	<select id="nvSearchlistSearchTime2" resultType="NvVO">
+ 		select 
+ 			*
+ 		from 
+ 			naver_videos_detail
+ 		where
+ 			url = #{url}
+ 		and 
+ 			createDate <![CDATA[>=]]> #{createstartDate}
+		and 
+			createDate <![CDATA[<=]]> #{createendDate}
+ 		order by createDate asc 
+ 		limit 1
+ 	</select>
+ 	
+ 	<select id="nvlistSearchListTotalCnt2" resultType="Integer">
+ 		select 
+ 			count(*) 
+ 		from 
+ 			naver_videos_detail 
+ 		where 
+ 			url = #{url}
+ 		and 
+ 			createDate <![CDATA[>=]]> #{createstartDate}
+		and 
+			createDate <![CDATA[<=]]> #{createendDate}
+ 		order 
+			by createDate desc
+ 	</select>
+ 	
+ 	<select id="nvlistGraph2" resultType="NvVO">
+ 		select 0 as 'view_cnt', 0 as 'reply_cnt', 0 as 'like_cnt' from dual 
+        	union all
+ 		select 
+ 			view_cnt, reply_cnt, like_cnt 
+ 		from 
+ 			naver_videos_detail 
+ 		where 
+ 			url = #{url}
+ 	</select>
+ 	
+ 	<select id="nvlistOne2" resultType="NvVO">
+ 		select 
+ 			createDate, portal_title, portal_subtitle, url 
+ 		from 
+ 			naver_videos_detail 
+ 		where 
+ 			url = #{url}
+		order by createDate asc 
+			limit 1;
+ 	</select>
+ 	
+ 	<select id="nvlistTwo2" resultType="NvVO">
+ 		select 
+ 			createDate, portal_title, portal_subtitle, url 
+ 		from 
+ 			naver_videos_detail 
+ 		where 
+ 			url = #{url}
+		order by createDate asc 
+			limit 1;
+ 	</select>
+ 	
+ 	<update id="nvUpdate">
+ 		update
+ 			naver_videos
+ 		set
+ 			portal_subtitle = #{portal_subtitle}
+ 		where
+ 			url = #{url};
+ 	</update>
+ 	
+ 	<update id="nvUpdate2">
+ 		update
+ 			naver_videos_detail
+ 		set
+ 			portal_subtitle = #{portal_subtitle}
+ 		where
+ 			url = #{url};
+ 	</update>
+ 	
+ 	<select id="nvCheckList" resultType="NvVO">
+ 		select 
+ 			*
+		from 
+			naver_videos
+		where 
+			createDate >=  date_format(now(), '%x-%m-%d')
+		order by createDate desc 
+		limit 1;
+ 	</select>
+ 	
+ 	<select id="nvCheckList2" resultType="NvVO">
+ 		select 
+ 			*
+		from 
+			naver_videos_detail
+		where 
+			createDate >=  date_format(now(), '%x-%m-%d')
+		order by createDate desc 
+		limit 1;
+ 	</select>
+ </mapper>

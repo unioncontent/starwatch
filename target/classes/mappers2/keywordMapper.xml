@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.union.mapper.KeywordMapper">
+
+	<sql id="search">
+		<if test="selectKey == null">
+			and keyword_main = #{selectKey}
+		</if>
+		<if test="selectKey != null">
+			and keyword_main = #{selectKey}
+		</if>
+	</sql>
+	<sql id="search_writeDate">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="writeDate != null">
+			and writeDate = #{writeDate}
+		</if>
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and writeDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate2">
+		<if test="company != null">
+			and
+			   user_idx in (select 
+						user_idx 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company}
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+			and keyword_main = #{selectKey}
+		</if>
+	</sql>
+
+	<insert id="create">
+		insert into
+			keyword_data(user_idx, keyword_type, keyword_property, keyword)
+		values
+			(#{user_idx}, #{keyword_type}, #{keyword_property}, #{keyword})
+	
+	</insert>
+
+	<update id="update">
+		update
+			keyword_data
+		set
+			user_idx = #{user_idx},
+			keyword_type = #{keyword_type},
+			keyword_property = #{keyword_property},
+			keyword = #{keyword},
+			updateDate = now()
+		where
+			keyword_idx = #{keyword_idx}
+	
+	</update>
+	
+	<update id="stateUpdateOn">
+		update keyword_data 
+			set keyword_property='포함'
+		where
+			keyword_main = #{keyword_main} and keyword_property='포함0';
+	
+	</update>
+	
+	<update id="stateUpdateOff">
+		update keyword_data 
+			set keyword_property='포함0'
+		where
+			keyword_main = #{keyword_main} and keyword_property='포함';
+	
+	</update>
+
+	<delete id="delete">
+		delete from
+			keyword_data
+		where
+			keyword = #{keyword}
+		
+	</delete>
+	
+	<delete id="swearwordDelete">
+		delete from
+			swearword_data
+		where
+			swearword = #{swearword}
+		
+	</delete>
+	
+	<insert id="createMain">
+		insert keyword_data (user_idx, keyword_main)
+		values ((select user_idx from user_data b where company_name = #{company}), #{keyword_main})
+	</insert>
+	
+	<insert id="createKeyword">
+		insert keyword_data (user_idx, keyword_main, keyword, keyword_property, keyword_type)
+		values
+			(
+		    (select user_idx from keyword_data a where keyword_main = #{keyword_main} group by keyword_main),
+		    #{keyword_main},
+		    #{keyword},
+		    #{keyword_property},
+		    #{keyword_type}
+		    )
+		
+	</insert>
+	
+	<delete id="deleteMain">
+		delete from keyword_data where keyword_main = #{keyword_main}
+	
+	</delete>
+
+	<insert id="swearwordCreate">
+		insert into
+			swearword_data(swearword)
+		values
+			(#{swearword})
+	
+	</insert>
+	
+	<insert id="createIssue">
+		insert into
+			issue_data(company_name, title_key, keyword, issue_content, writeDate)
+		values
+			(#{company_name}, #{title_key}, #{keyword}, #{issue_content}, #{writeDate})
+	</insert>
+	
+	<update id="issueUpdate">
+		update
+			issue_data
+		set
+			issue_content = #{issue_content}
+		where
+			issue_idx = #{issue_idx}
+	</update>
+	
+	<delete id="issueDelete">
+		delete from
+			issue_data
+		where
+			issue_idx = #{issue_idx}
+		
+	</delete>
+	
+</mapper>

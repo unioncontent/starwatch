@@ -1,0 +1,160 @@
+.table td, .table th {
+  vertical-align: inherit;
+  text-align: center;
+}
+
+.b-r-1{
+  border-right: 1px solid #ccc;
+}
+.b-b-1{
+  border-bottom: 1px solid #ccc;
+}
+.press:hover,.news:hover{
+  font-weight: bold;
+}
+
+th .sort{
+  position: relative;
+  left: -10px;
+}
+
+th .sort > i{
+  color: #727070;
+  font-size: 17px;
+}
+
+th .sort > i.on{
+  color: #ffffff;
+}
+
+th .sort > i:first-child{
+  position: relative;
+  right: -12px;
+}
+
+tr.more{
+  display: none;
+}
+
+.detail .card-header{
+  padding: 10px;
+  line-height: 16px;
+  text-align: left;
+}
+.form-control-inverse {
+    border-color: #dcdcdc;
+}
+.form-control {
+    font-size: 14px;
+    border-radius: 1px;
+    border-width: 1px;
+}
+.nav-tabs .slide {
+    background: #50b772;
+    width: calc(100% / 5);
+    height: 4px;
+    position: absolute;
+    -webkit-transition: left 0.3s ease-out;
+    transition: left 0.3s ease-out;
+    bottom: 0;
+}
+.md-tabs li.active p {
+  	font-weight: bold;
+    color: black;
+}
+.btn-inverse {
+    background-color: white;
+    border-color: white;
+    border: 1px solid #dcdcdc;
+    color: black;
+    cursor: pointer;
+    transition: all ease-in 0.3s;
+    border-color: #dcdcdc;
+}
+.btn-inverse:hover {
+    background-color: #dcdcdc;
+    border-color: #dcdcdc;
+    font-weight: bold;
+}
+.input-group-addon {
+    background-color: #ffffff;
+    color: black;
+    border-color: #dcdcdc;
+}
+.bg-inverse {
+    background-color: #ffffff !important;
+    color: black;
+    border-color: #dcdcdc;
+    border-width: 1px;
+}
+.card {
+    border-radius: 1px;
+    border-top: 1px solid #34495e;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    margin-bottom: 30px;
+	}
+.btn-warning {
+    background-color: #59a773;
+    border-color: #59a773;
+    color: #fff;
+    cursor: pointer;
+    transition: all ease-in 0.3s;
+}
+.btn-warning:hover {
+    background-color: #72ad86;
+    border-color: #72ad86;
+}
+.btn-modal {
+    background-color: #a6a6a6;
+    border-color: #a6a6a6;
+    color: #fff;
+    cursor: pointer;
+    transition: all ease-in 0.3s;
+}
+.content-nowrap{
+  width: 200px;
+  margin:0 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.content-nowrap2{
+  width: 270px;
+  margin:0 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+a:hover { color: black; text-decoration: underline;}
+#loading {
+	height: 100%;
+	left: 0px;
+	position: fixed;
+	_position:absolute; 
+	top: 0px;
+	width: 100%;
+	filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	opacity : 0.5;
+}
+
+.loading {
+	background-color: darkgrey;
+	z-index: 199;
+}
+
+#loading_img{
+	
+	position:absolute; 
+	top:50%;
+	left:50%;
+	height:300px;
+	margin-top:-175px; 
+	margin-left:-175px;
+	z-index: 200; 
+}
+.bg-youtube {
+	background-color: #ff0000;
+}
+

@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="org.union.mappers.MainMapper">
+
+	<sql id="search_writeDate">
+		<if test="selectKey == null">
+			and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = '')
+		</if>
+		<if test="selectKey != null">
+			and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>	
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+
+	<select id = "portalSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			portal_data
+		where
+			textType != '삭제글'
+		and
+			score is null
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id = "portalBadSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			portal_data
+		where
+			textType = '나쁜글'
+		and
+			score is null
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id = "communitySearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			community_data
+		where
+			textType != '삭제글'
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id = "communityBadSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			community_data
+		where
+			textType = '나쁜글'
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id = "snsSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			sns_data
+		where
+			url is not null
+		and 
+			keyword != ''
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id="youtubeTotalCount" resultType="Integer">
+ 		select 
+ 			count(*)
+ 		from	
+ 			sns_data
+ 		where
+ 			sns_name = 'youtube'
+ 		and 
+			keyword != ''
+ 		<include refid="search_writeDate"></include>
+ 		
+ 	</select>
+ 	
+ 	<select id = "mediaSearchCount" resultType="Integer">
+		select
+			count(*)
+		from 
+			media_data
+		where 
+			textType!='삭제글'
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id = "mediaBadSearchCount" resultType="Integer">
+		select
+			count(*)
+		from 
+			media_data
+		where 
+			textType ='나쁜글'
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id = "replySearchCount" resultType="Integer">
+		select
+			count(*)
+		from 
+			reply_data
+		where 
+			not textType in ('','삭제글')
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id = "replyBadSearchCount" resultType="Integer">
+		select
+			count(*)
+		from 
+			reply_data
+		where 
+			textType ='나쁜글'
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id = "mediaTextTypeCount" resultType="TextTypeVO">
+		select 
+			count(if(textType='좋은글', textType, null)) lik,
+	    	count(if(textType='나쁜글', textType, null)) dis,
+	    	count(if(textType='관심글', textType, null)) cu,
+	    	count(if(textType='기타글', textType, null)) etc,
+	    	count(if(textType is not null and texttype!='삭제글', textType, null)) al
+		from 
+			media_data
+		where 
+			url is not null
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id = "replyTextTypeCount" resultType="TextTypeVO">
+		select 
+			count(if(textType='좋은글', textType, null)) lik,
+	    	count(if(textType='나쁜글', textType, null)) dis,
+	    	count(if(textType='관심글', textType, null)) cu,
+	    	count(if(textType='기타글', textType, null)) etc,
+	    	count(if(textType is not null and texttype!='삭제글', textType, null)) al
+		from 
+			reply_data
+		where 
+			reply_content is not null
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id = "writeTextTypeCount" resultType="TextTypeVO">
+		select 
+			count(if(textType='좋은글', textType, null)) lik,
+	    	count(if(textType='나쁜글', textType, null)) dis,
+	    	count(if(textType='관심글', textType, null)) cu,
+	    	count(if(textType='기타글', textType, null)) etc,
+	    	count(if(textType is not null and texttype!='삭제글', textType, null)) al
+		from
+		(select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url, textType
+		from 
+			community_data
+		where
+			url is not null
+		and
+			textType != '삭제글'
+		<include refid="search_writeDate"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url, textType
+		from 
+			portal_data
+		where
+			url is not null
+		and
+			textType != '삭제글'
+		<include refid="search_writeDate"></include>
+        ) x;
+		
+	</select>
+	
+	<select id = "detailMediaList" resultType="MediaVO">
+		select
+			*
+		from 
+			media_data
+		where 
+			url is not null
+		<include refid="search_writeDate"></include>
+		order 
+			by createDate desc
+		limit  
+			#{startPage}, #{perPageNum}
+			
+	</select>
+	
+	<select id = "detailwriteList" resultType="CommunityVO">
+		select 
+			*
+		from
+		(select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url, textType, thumbnail
+		from 
+			community_data
+		where
+			url is not null
+		and
+			textType != '삭제글'
+		<include refid="search_writeDate"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url, textType, thumbnail
+		from 
+			portal_data
+		where
+			url is not null
+		and
+			textType != '삭제글'
+		<include refid="search_writeDate"></include>
+        ) x
+        order 
+			by createDate desc
+		limit
+			#{startPage}, #{perPageNum}
+		
+	</select>
+	
+	<select id = "detailwriteCount" resultType="Integer">
+		select 
+			count(*)
+		from
+		(select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url, textType
+		from 
+			community_data
+		where
+			url is not null
+		and
+			textType != '삭제글'
+		<include refid="search_writeDate"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url, textType
+		from 
+			portal_data
+		where
+			url is not null
+		and
+			textType != '삭제글'
+		<include refid="search_writeDate"></include>
+        ) x;
+		
+	</select>
+	
+	<select id = "detailReplyList" resultType="ReplyVO">
+		select 
+			a.*,(select url from news_data where news_idx = a.news_idx)as url,(select media_title from news_data where news_idx = a.news_idx)as media_title  
+		from 
+			reply_data a
+		where 
+			not textType in ('','삭제글')
+		<include refid="search_writeDate"></include>
+		order 
+			by createDate desc
+		limit  
+			#{startPage}, #{perPageNum}
+			
+	</select>
+	
+</mapper>

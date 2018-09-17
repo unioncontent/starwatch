@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.union.mappers.EtMapper">
+
+	<sql id="search">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and et_title like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate != null">
+			and writeDate <![CDATA[>]]> #{startDate}
+			<if test="endDate != null">
+				and writeDate <![CDATA[<]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	
+	<select id="getSearchCount1" resultType="Integer">
+		select
+			count(*)
+		from
+			entertainment_data
+		where
+			et_number = 1
+		<include refid="search"></include>
+	
+	</select>
+	
+	<select id="getSearchCount2" resultType="Integer">
+		select
+			count(*)
+		from
+			entertainment_data
+		where
+			et_number = 2
+		<include refid="search"></include>
+	
+	</select>
+	
+	<select id="getSearchCount3" resultType="Integer">
+		select
+			count(*)
+		from
+			entertainment_data
+		where
+			et_number = 3
+		<include refid="search"></include>
+	
+	</select>
+	
+	<select id="getSearchCountAll" resultType="Integer">
+		select
+			count(*)
+		from
+			entertainment_data
+		where
+			et_idx > 0
+		<include refid="search"></include>
+	
+	</select>
+
+</mapper>

@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ 
+ <mapper namespace="org.union.mappers.MobileEntMapper">
+ 
+ 	<sql id="search">
+		<!-- <if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if> -->
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+		<if test="endDate != null">
+				and writeDate <![CDATA[<=]]> #{endDate}
+		</if>
+		</if>
+	</sql>
+	
+	<sql id="search2">
+		<!-- <if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if> -->
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+		<if test="endDate != null">
+				and writeDate <![CDATA[<=]]> #{endDate}
+		</if>
+		</if>
+	</sql>
+	
+	<sql id="search3">
+		<!-- <if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if> -->
+		<if test="selectKey != null">
+			and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+	</sql>
+ 
+ 	<select id="read" resultType="MobileEntVO">
+ 		select
+ 			*
+ 		from
+ 			mobileent_data
+ 		where
+ 			ME_idx = #{ME_idx}
+ 		and
+ 			ME_type='ent'
+ 	</select>
+ 	
+ 	<select id="searchList" resultType="MobileEntVO">
+ 		select
+ 			*
+ 		from
+ 			mobileent_data
+ 		where
+ 			url is not null
+ 		and
+ 			ME_type='ent'	
+ 		<include refid="search"></include>
+		order by writeDate desc, ME_rank asc
+		limit  
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="showSearchList" resultType="MobileEntVO">
+ 		select
+ 			writeDate, ME_rank, url, ME_title, reply_cnt, reporter_name, reporter_media_name, createDate, ME_type,
+		(select keyword from keyword_data b where b.keyword = a.keyword and b.user_idx = 1 group by keyword)keyword
+ 		from
+ 			mobileent_data a
+ 		where
+ 			url is not null
+ 		and
+ 			ME_type='ent'	
+ 		<include refid="search"></include>
+		order by writeDate desc, ME_rank asc
+		limit  
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="searchAllList" resultType="MobileEntVO">
+ 		select
+ 			*
+ 		from
+ 			mobileent_data
+ 		where
+ 			url is not null
+ 		and
+ 			ME_type='ent'	
+ 		<include refid="search"></include>
+ 		order by writeDate desc, ME_rank asc
+	</select>
+	
+	<select id="showSearchAllList" resultType="MobileEntVO">
+ 		select
+ 			writeDate, ME_rank, url, ME_title, reply_cnt, reporter_name, reporter_media_name, createDate, ME_type, title_key,
+		(select keyword from keyword_data b where b.keyword = a.keyword and b.user_idx = 1 group by keyword)keyword
+ 		from
+ 			mobileent_data a
+ 		where
+ 			url is not null
+ 		and
+ 			ME_type='ent'	
+ 		<include refid="search"></include>
+ 		order by writeDate desc, ME_rank asc
+	</select>
+
+	<select id="getSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			mobileent_data
+		where
+			url is not null
+		and
+ 			ME_type='ent'
+		<include refid="search"></include>
+	</select>
+ 	
+ 	<select id="getTypeOfMovieCount" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from
+ 			mobileent_data
+ 		where
+ 			keyword_type = '영화'
+ 		and
+ 			ME_type='ent'
+ 		<include refid="search"></include>
+ 	
+ 	</select>
+ 	
+ 	<select id="getTypeOfActorCount" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from
+ 			mobileent_data
+ 		where
+ 			keyword_type = '배우'
+ 		and
+ 			ME_type='ent'
+ 		<include refid="search"></include>
+ 	
+ 	</select>
+ 	
+ 	<select id="getMatchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			mobileent_data
+		where
+ 			ME_type='ent'
+        and    
+			reporter_name is not null
+		<include refid="search"></include>
+	</select>
+ 	
+ 	<select id="MsearchList" resultType="MobileEntVO">
+ 		select
+ 			*
+ 		from
+ 			mobileent_data
+ 		where
+ 			url is not null
+ 		and
+ 			ME_type='movie'	
+ 		<include refid="search"></include>
+		order by writeDate desc, ME_rank asc
+		limit  
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="showMsearchList" resultType="MobileEntVO">
+ 		select
+ 			writeDate, ME_rank, url, ME_title, reply_cnt, reporter_name, reporter_media_name, createDate, ME_type,
+		(select keyword from keyword_data b where b.keyword = a.keyword and b.user_idx = 1 group by keyword)keyword
+ 		from
+ 			mobileent_data a
+ 		where
+ 			url is not null
+ 		and
+ 			ME_type='movie'	
+ 		<include refid="search"></include>
+		order by writeDate desc, ME_rank asc
+		limit  
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="MsearchAllList" resultType="MobileEntVO">
+ 		select
+ 			*
+ 		from
+ 			mobileent_data
+ 		where
+ 			url is not null
+ 		and
+ 			ME_type='movie'	
+ 		<include refid="search"></include>
+ 		order by writeDate desc, ME_rank asc
+	</select>
+	
+	<select id="showMsearchAllList" resultType="MobileEntVO">
+ 		select
+ 			writeDate, ME_rank, url, ME_title, reply_cnt, reporter_name, reporter_media_name, createDate, ME_type, title_key,
+		(select keyword from keyword_data b where b.keyword = a.keyword and b.user_idx = 1 group by keyword)keyword
+ 		from
+ 			mobileent_data a
+ 		where
+ 			url is not null
+ 		and
+ 			ME_type='movie'	
+ 		<include refid="search"></include>
+ 		order by writeDate desc, ME_rank asc
+	</select>
+	
+	<select id="MgetSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			mobileent_data
+		where
+			url is not null
+		and
+ 			ME_type='movie'
+		<include refid="search"></include>
+	</select>
+ 	
+ 	<select id="MgetTypeOfMovieCount" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from
+ 			mobileent_data
+ 		where
+ 			keyword_type = '영화'
+ 		and
+ 			ME_type='movie'
+ 		and
+			writeDate >= curdate()
+ 	
+ 	</select>
+ 	
+ 	<select id="MgetTypeOfActorCount" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from
+ 			mobileent_data
+ 		where
+ 			keyword_type = '배우'
+ 		and
+ 			ME_type='movie'
+ 		and
+			writeDate >= curdate()
+ 	
+ 	</select>
+ 	
+ 	<select id="MgetMatchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			mobileent_data
+		where
+ 			ME_type='movie'
+        and    
+			reporter_name is not null
+		and
+			writeDate >= curdate()
+	</select>
+	
+	<select id="getTypeOfMovieCountGraph" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from
+ 			mobileent_data
+ 		where
+ 			keyword_type = '영화'
+ 		and
+ 			ME_type='ent'
+ 		<include refid="search3"></include>
+		and
+			createDate between date_add(#{date}, interval -1 hour) and #{date}
+ 	
+ 	</select>
+ 	
+ 	<select id="getTypeOfActorCountGraph" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from
+ 			mobileent_data
+ 		where
+ 			keyword_type = '배우'
+ 		and
+ 			ME_type='ent'
+ 		<include refid="search3"></include>
+		and
+			createDate between date_add(#{date}, interval -1 hour) and #{date}
+ 	
+ 	</select>
+ 	
+ 	<select id="getMatchCountGraph" resultType="Integer">
+		select
+			count(*)
+		from
+			mobileent_data
+		where
+ 			ME_type='ent'
+        and    
+			reporter_name is not null
+		<include refid="search3"></include>
+		and
+			createDate between date_add(#{date}, interval -1 hour) and #{date}
+	</select>
+	
+	<select id="MgetTypeOfMovieCountGraph" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from
+ 			mobileent_data
+ 		where
+ 			keyword_type = '영화'
+ 		and
+ 			ME_type='movie'
+ 		<include refid="search3"></include>
+		and
+			createDate between date_add(#{date}, interval -1 hour) and #{date}
+ 	
+ 	</select>
+ 	
+ 	<select id="MgetTypeOfActorCountGraph" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from
+ 			mobileent_data
+ 		where
+ 			keyword_type = '배우'
+ 		and
+ 			ME_type='movie'
+ 		<include refid="search3"></include>
+		and
+			createDate between date_add(#{date}, interval -1 hour) and #{date}
+ 	
+ 	</select>
+ 	
+ 	<select id="MgetMatchCountGraph" resultType="Integer">
+		select
+			count(*)
+		from
+			mobileent_data
+		where
+ 			ME_type='movie'
+        and    
+			reporter_name is not null
+		<include refid="search3"></include>
+		and
+			createDate between date_add(#{date}, interval -1 hour) and #{date}
+	</select>
+ </mapper>

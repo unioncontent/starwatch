@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="org.union.mappers.SNSMapper">
+ 
+ 	<sql id="search">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and sns_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and sns_content like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+			
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate != null and endDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+			and writeDate <![CDATA[<=]]> #{endDate}
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search2">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and sns_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and sns_content like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>	
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and sns_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and sns_content like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>	
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and writeDate <![CDATA[<]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	<sql id="search_writeDate2">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and portal_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and portal_title like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>	
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<]]> #{endDate}
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate3">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				and sns_content like concat('%', #{keyword}, '%')
+			</if>
+		</if>
+		<!-- <if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if> -->	
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and writeDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate4">
+		<!-- <if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if> -->	
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate5">
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]>date_add(#{createminusDate}, interval -1 day)
+				and createDate <![CDATA[<=]]> #{endDate}
+		</if>
+	</sql>
+	<sql id="search_writeDate6">
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]>date_add(#{startDate}, interval -1 hour)
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate7">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>	
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> date_add(CURDATE(), interval -1 day)  
+		</if>	
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> date_add(#{startDate}, interval -1 day)  
+			<if test="endDate != null">
+				and writeDate <![CDATA[<]]> date_add(#{endDate}, interval -1 day)
+			</if>
+		</if>
+	</sql>
+	
+ 	<insert id="create">
+ 		insert into
+ 			sns_data(sns_name, sns_title, sns_content, sns_writer, like_cnt, reply_cnt, share_cnt, writeDate, keyword, keyword_type, url, textType, thumbnail)
+ 		values
+ 			(#{sns_name}, #{sns_title}, #{sns_content}, #{sns_writer}, #{like_cnt}, #{reply_cnt}, #{share_cnt}, #{writeDate}, #{keyword}, #{keyword_type}, #{url}, #{textType}, #{thumbnail})
+ 	</insert>
+ 
+ 	<update id="update">
+ 		update
+ 			sns_data
+ 		set
+ 			sns_name = #{sns_name},
+ 			sns_title = #{sns_title},
+ 			sns_content = #{sns_content},
+ 			sns_writer = #{sns_writer},
+ 			like_cnt = #{like_cnt},
+ 			reply_cnt = #{reply_cnt},
+ 			share_cnt = #{share_cnt},
+ 			writeDate = #{writeDate},
+ 			keyword = #{keyword},
+ 			keyword_type = #{keyword_type},
+ 			url = #{url},
+ 			updateDate = now()
+ 		where
+ 			sns_idx = #{sns_idx}
+ 	
+ 	</update>
+ 	
+ 	<delete id="delete">
+ 		delete from
+ 			sns_data
+ 		where
+ 			sns_idx = #{sns_idx}
+ 			
+ 	</delete>
+ 	
+ 	<update id="updateTextType">
+		update
+			sns_data
+		set
+			textType = #{textType}, 
+			updateDate = now()
+		where
+			sns_idx = #{sns_idx}
+	
+	</update>
+
+	<update id="updateThumbnail">
+		update
+			sns_data
+		set
+			thumbnail = #{thumbnail}
+		where
+			sns_idx = #{sns_idx}
+	
+	</update>
+	
+	<update id="fvUpdate">
+ 		update
+ 			facebook_videos
+ 		set
+ 			sns_subcontent = #{sns_subcontent}
+ 		where
+ 			url = #{url};
+ 	</update>
+ </mapper>

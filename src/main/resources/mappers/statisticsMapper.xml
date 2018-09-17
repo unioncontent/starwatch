@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.union.mappers.StatisticsMapper">
+
+	<sql id="search">
+		<if test="selectKey == null">
+				and keyword_main in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = '')
+		</if>
+		<if test="selectKey != null">
+				and keyword_main in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+	</sql>
+	
+	<sql id="allsearch">
+		<if test="selectKey == null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = '')
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="startDate == null">
+			and createDate  <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null and endDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			and createDate <![CDATA[<=]]> #{endDate}
+		</if>
+	</sql>
+	
+	<select id="searchkeywordList" resultType="SKeywordVO">
+		select
+			*
+		from
+			searchkeyword_data
+		where
+			keyword is not null
+		<include refid="search"></include>
+		order by createDate desc
+		limit 1;
+	</select>
+	
+	<select id="searchkeywordCount" resultType="Integer">
+		select 
+			count(*)
+		from
+		(select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url
+		from 
+			community_data
+		where
+			url is not null
+		and
+			textType != '삭제글'
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			media_idx, media_name, media_title, media_content, keyword, createDate, writeDate, url
+		from 
+			media_data
+		where
+			url is not null
+		and
+			textType != '삭제글'
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url
+		from 
+			portal_data
+		where
+			url is not null
+		and
+			textType != '삭제글'
+		<include refid="allsearch"></include>
+        ) x
+	</select>
+	
+	<select id="searchkeywordBadCount" resultType="Integer">
+		select 
+			count(*)
+		from
+		(select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url
+		from 
+			community_data
+		where
+			url is not null
+		and
+			textType = '나쁜글'
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			media_idx, media_name, media_title, media_content, keyword, createDate, writeDate, url
+		from 
+			media_data
+		where
+			url is not null
+		and
+			textType = '나쁜글'
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url
+		from 
+			portal_data
+		where
+			url is not null
+		and
+			textType = '나쁜글'
+		<include refid="allsearch"></include>
+        ) x
+	</select>
+
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+ <mapper namespace = "org.union.mappers.UserMapper">
+ 
+ 	<insert id="create">
+ 		insert into
+ 			user_data(user_type, user_ID, user_PW, user_name, user_phoneNum, user_email, company_name, company_type, company_licensee, company_location, thumbnail)
+ 		values
+ 			(#{user_type}, #{user_ID}, #{user_PW}, #{user_name}, #{user_phoneNum}, #{user_email}, #{company_name}, #{company_type}, #{company_licensee}, #{company_location}, #{thumbnail})
+ 	
+ 	</insert>
+ 
+ 	<update id="update">
+ 		update
+ 			user_data
+ 		set
+ 			user_type = #{user_type},
+ 			user_ID = #{user_ID},
+ 			user_PW = #{user_PW},
+ 			user_name = #{user_name},
+ 			user_phoneNum = #{user_phoneNum},
+ 			user_email = #{user_email},
+ 			company_name = #{company_name},
+ 			company_type = #{company_type},
+ 			company_licensee = #{company_licensee},
+ 			company_location= #{company_location},
+ 			thumbnail = #{thumbnail},
+ 			updateDate = now()
+ 		where
+ 			user_idx = #{user_idx}
+ 	
+ 	</update>
+ 	
+ 	<delete id="delete">
+ 		delete from
+ 			user_dataz
+ 		where
+ 			user_idx = #{user_idx}
+ 	
+ 	</delete>
+ 	
+ </mapper>

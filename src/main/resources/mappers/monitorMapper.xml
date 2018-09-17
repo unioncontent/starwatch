@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.union.mapper.MonitorMapper">
+
+	<insert id="create">
+		insert into monitor_data (monitor_domain, monitor_site, monitor_user)
+		values (#{monitor_domain}, #{monitor_site}, #{monitor_user})
+	
+	</insert>
+
+
+	<select id="pageAll" resultType="MonitorVO">
+		select *
+		from monitor_data
+	
+	</select>
+	
+	<select id="checkLast" parameterType="String" resultType="MonitorVO">
+	
+		<if test="_parameter == 'media'.toString()">
+			select media_title title, url url, createDate 
+			from media_data 
+			where createDate >=  date_format(now(), '%x-%m-%d') 
+			order by createDate desc 
+			limit 1
+		</if>
+		
+		<if test="_parameter == 'portal'.toString()">
+			select portal_title title, url url, createDate
+			from portal_data 
+			where createDate >=  date_format(now(), '%x-%m-%d') 
+			order by createDate desc 
+			limit 1
+		</if>
+		
+		<if test="_parameter == 'community'.toString()">
+			select community_title title, url url, createDate 
+			from community_data 
+			where createDate >=  date_format(now(), '%x-%m-%d') 
+			order by createDate desc 
+			limit 1
+		</if>
+	</select>
+	
+	<select id="checkLast2" parameterType="String" resultType="PortalVO">
+		<if test="_parameter == 'blog'.toString()">
+			select * 
+			from portal_data 
+			where 
+			portal_type='blog' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'cafe'.toString()">
+			select * 
+			from portal_data 
+			where 
+			portal_type='cafe' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'webdoc'.toString()">
+			select * 
+			from portal_data 
+			where
+			portal_type='webdoc' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+	</select>
+	
+	<select id="checkLast3" parameterType="String" resultType="SNSVO">
+		<if test="_parameter == 'facebook'.toString()">
+			select * 
+			from sns_data 
+			where 
+			sns_name='facebook' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'instagram'.toString()">
+			select * 
+			from sns_data 
+			where 
+			sns_name='instagram' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'twitter'.toString()">
+			select * 
+			from sns_data 
+			where 
+			sns_name='twitter' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+	</select>
+	<select id="checkLast4" parameterType="String" resultType="MediaVO">
+		<if test="_parameter == 'ACROFAN'.toString()">
+			select *
+			from media_data
+			where media_name='ACROFAN' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'bnt뉴스'.toString()">
+			select *
+			from media_data
+			where media_name='bnt뉴스' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'CBC뉴스'.toString()">
+			select *
+			from media_data
+			where media_name='CBC뉴스' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'CBS노컷뉴스'.toString()">
+			select *
+			from media_data
+			where media_name='CBS노컷뉴스' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'daum'.toString()">
+			select *
+			from media_data
+			where media_name='daum' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'heraldcorp'.toString()">
+			select *
+			from media_data
+			where media_name='heraldcorp' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'naver'.toString()">
+			select *
+			from media_data
+			where media_name='naver' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'naver_web'.toString()">
+			select *
+			from media_data
+			where media_name='naver_web' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'OSEN'.toString()">
+			select *
+			from media_data
+			where media_name='OSEN' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'stoo'.toString()">
+			select *
+			from media_data
+			where media_name='stoo' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'tv리포트'.toString()">
+			select *
+			from media_data
+			where media_name='tv리포트' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'YTN스타'.toString()">
+			select *
+			from media_data
+			where media_name='YTN스타' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == '뉴스엔'.toString()">
+			select *
+			from media_data
+			where media_name='뉴스엔' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == '뉴스인사이드'.toString()">
+			select *
+			from media_data
+			where media_name='뉴스인사이드' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == '동아닷컴'.toString()">
+			select *
+			from media_data
+			where media_name='동아닷컴' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == '로이슈'.toString()">
+			select *
+			from media_data
+			where media_name='로이슈' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == '데일리한국'.toString()">
+			select *
+			from media_data
+			where media_name='데일리한국' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == '일간스포츠'.toString()">
+			select *
+			from media_data
+			where media_name='일간스포츠' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+	</select>
+	<select id="checkLast5" parameterType="String" resultType="CommunityVO">
+		<if test="_parameter == '82cook'.toString()">
+			select *
+			from community_data
+			where community_name='82cook' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'besthgc'.toString()">
+			select *
+			from community_data
+			where community_name='besthgc' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'bestiz'.toString()">
+			select *
+			from community_data
+			where community_name='bestiz' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'bobae'.toString()">
+			select *
+			from community_data
+			where community_name='bobae' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'bobae_freeb'.toString()">
+			select *
+			from community_data
+			where community_name='bobae_freeb' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'clien'.toString()">
+			select *
+			from community_data
+			where community_name='clien' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'daum'.toString()">
+			select *
+			from community_data
+			where community_name='daum' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'dcinside'.toString()">
+			select *
+			from community_data
+			where community_name='dcinside' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'dogdrip'.toString()">
+			select *
+			from community_data
+			where community_name='dogdrip' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'dramameeting'.toString()">
+			select *
+			from community_data
+			where community_name='dramameeting' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'dramameeting_broad'.toString()">
+			select *
+			from community_data
+			where community_name='dramameeting_broad' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'dyb'.toString()">
+			select *
+			from community_data
+			where community_name='dyb' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'egloos'.toString()">
+			select *
+			from community_data
+			where community_name='egloos' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'extrememovie'.toString()">
+			select *
+			from community_data
+			where community_name='extrememovie' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'extrememovie_best'.toString()">
+			select *
+			from community_data
+			where community_name='extrememovie_best' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'humoruniv'.toString()">
+			select *
+			from community_data
+			where community_name='humoruniv' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'ilbe'.toString()">
+			select *
+			from community_data
+			where community_name='ilbe' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'instagram'.toString()">
+			select *
+			from community_data
+			where community_name='instagram' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'instiz'.toString()">
+			select *
+			from community_data
+			where community_name='instiz' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'inven'.toString()">
+			select *
+			from community_data
+			where community_name='inven' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'issuein'.toString()">
+			select *
+			from community_data
+			where community_name='issuein' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'm1.486sx'.toString()">
+			select *
+			from community_data
+			where community_name='m1.486sx' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'mlbpark'.toString()">
+			select *
+			from community_data
+			where community_name='mlbpark' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'naver'.toString()">
+			select *
+			from community_data
+			where community_name='naver' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'naver blog'.toString()">
+			select *
+			from community_data
+			where community_name='naver blog' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'slrclub'.toString()">
+			select *
+			from community_data
+			where community_name='slrclub' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'ruliweb'.toString()">
+			select *
+			from community_data
+			where community_name='ruliweb' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'soccerline'.toString()">
+			select *
+			from community_data
+			where community_name='soccerline' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'square'.toString()">
+			select *
+			from community_data
+			where community_name='square' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'theqoo'.toString()">
+			select *
+			from community_data
+			where community_name='theqoo' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'todayhumor'.toString()">
+			select *
+			from community_data
+			where community_name='todayhumor' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'ygosu'.toString()">
+			select *
+			from community_data
+			where community_name='ygosu' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'insight'.toString()">
+			select *
+			from community_data
+			where community_name='insight' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'gasengi'.toString()">
+			select *
+			from community_data
+			where community_name='gasengi' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'threppa'.toString()">
+			select *
+			from community_data
+			where community_name='threppa' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'fmkorea'.toString()">
+			select *
+			from community_data
+			where community_name='fmkorea' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'postshare'.toString()">
+			select *
+			from community_data
+			where community_name='postshare' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'flash24'.toString()">
+			select *
+			from community_data
+			where community_name='flash24' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'coolenjoy'.toString()">
+			select *
+			from community_data
+			where community_name='coolenjoy' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'paxnet'.toString()">
+			select *
+			from community_data
+			where community_name='paxnet' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'redtea'.toString()">
+			select *
+			from community_data
+			where community_name='redtea' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'orbi'.toString()">
+			select *
+			from community_data
+			where community_name='orbi' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'dvdprime'.toString()">
+			select *
+			from community_data
+			where community_name='dvdprime' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		
+		<if test="_parameter == 'etoland'.toString()">
+			select *
+			from community_data
+			where community_name='etoland' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+		<if test="_parameter == 'etoland_movie'.toString()">
+			select *
+			from community_data
+			where community_name='etoland_movie' and createDate >=  date_format(now(), '%x-%m-%d')
+			order by createDate desc 
+			limit 1;
+		</if>
+	</select>
+	
+	<select id="portalBMonitor" parameterType="Map" resultType="PortalVO">
+		select * 
+		from portal_data 
+		where portal_type='blog'
+		order by createDate Desc
+        limit 1;
+	</select>
+	<select id="portalCMonitor" parameterType="Map" resultType="PortalVO">
+		select * 
+		from portal_data 
+		where portal_type='cafe'
+		order by createDate Desc
+        limit 1;
+	</select>
+	<select id="portalWMonitor" parameterType="Map" resultType="PortalVO">
+		select * 
+		from portal_data 
+		where portal_type='webdoc'
+		order by createDate Desc
+        limit 1;
+	</select>
+	
+	<select id="portalBMonitor2" parameterType="Map" resultType="PortalVO">
+		select * 
+		from portal_data 
+		where portal_type='blog'
+		order by createDate Desc
+        limit 1;
+	</select>
+	<select id="portalCMonitor2" parameterType="Map" resultType="PortalVO">
+		select * 
+		from portal_data 
+		where portal_type='cafe'
+		order by createDate Desc
+        limit 1;
+	</select>
+	<select id="portalWMonitor2" parameterType="Map" resultType="PortalVO">
+		select * 
+		from portal_data 
+		where portal_type='webdoc'
+		order by createDate Desc
+        limit 1;
+	</select>
+	
+	<select id="snsMonitorf" parameterType="Map" resultType="SNSVO">
+		select * 
+		from sns_data 
+		where sns_name='facebook'
+		order by createDate Desc
+        limit 1;
+	</select>
+	<select id="snsMonitori" parameterType="Map" resultType="SNSVO">
+		select * 
+		from sns_data 
+		where sns_name='instagram'
+		order by createDate Desc
+        limit 1;
+	</select>
+	<select id="snsMonitort" parameterType="Map" resultType="SNSVO">
+		select * 
+		from sns_data 
+		where sns_name='twitter'
+		order by createDate Desc
+        limit 1;
+	</select>
+	
+	<select id="mediaMonitor" parameterType="Map" resultType="MediaVO">
+		select 
+		media_name, url, media_title, createDate
+		from media_data
+		where media_name=#{media}
+		order by createDate Desc
+        limit 1;
+	</select>
+	
+	<select id="communityMonitor" parameterType="Map" resultType="CommunityVO">
+		select *
+		from community_data
+		where community_name=#{community}
+		order by createDate Desc
+        limit 1;
+	</select>
+</mapper>

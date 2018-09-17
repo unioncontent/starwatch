@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ 
+ <mapper namespace="org.union.mappers.NaverMovieMapper">
+ 
+ 	<sql id="search">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and NM_title like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<!-- <if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if> -->
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and writeDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+	</sql>
+ 	
+ 	<select id="searchList" resultType="NaverMovieVO">
+ 		select
+ 			*
+ 		from
+ 			navermovienews_data
+ 		where
+ 			url is not null
+ 		<include refid="search"></include>
+		order 
+			by NM_idx desc
+		limit  
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="showSearchList" resultType="NaverMovieVO">
+ 		select
+ 			writeDate, url, NM_title, writer,
+		(select keyword from keyword_data b where b.keyword = a.keyword and b.user_idx = 1 group by keyword)keyword
+ 		from
+ 			navermovienews_data a
+ 		where
+ 			url is not null
+ 		<include refid="search"></include>
+		order 
+			by NM_idx desc
+		limit  
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="searchAllList" resultType="NaverMovieVO">
+ 		select
+ 			*
+ 		from
+ 			navermovienews_data
+		where 
+			keyword is not null
+ 		<include refid="search"></include>
+		order 
+			by NM_idx desc
+	</select>
+	
+	<select id="showSearchAllList" resultType="NaverMovieVO">
+ 		select
+ 			writeDate, url, NM_title, writer, title_key, NM_idx, createDate, updateDate,
+		(select keyword from keyword_data b where b.keyword = a.keyword and b.user_idx = 1 group by keyword)keyword
+ 		from
+ 			navermovienews_data a
+ 		where
+			url is not null
+ 		<include refid="search"></include>
+		order 
+			by NM_idx desc
+	</select>
+
+	<select id="getSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			navermovienews_data
+		where 
+			url is not null
+		
+		<include refid="search"></include>	
+	
+	</select> 	
+ 	
+ </mapper>

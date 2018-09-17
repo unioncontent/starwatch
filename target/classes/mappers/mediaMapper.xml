@@ -1,0 +1,1806 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="org.union.mappers.MediaMapper">
+ 
+ 	<sql id="periodSearch">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="startDate != null and endDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			and createDate <![CDATA[<=]]> #{endDate}
+		</if>
+ 	</sql>
+ 	<sql id="search">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and media_content like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'm'.toString()">
+					and media_name like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'r'.toString()">
+					and reporter_name like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null and endDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			and createDate <![CDATA[<=]]> #{endDate}
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search2">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and media_content like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'm'.toString()">
+					and media_name like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'r'.toString()">
+					and reporter_name like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and createDate <![CDATA[>]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search3">
+		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and reply_content like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>	
+		<if test="startDate != null and endDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			and createDate <![CDATA[<=]]> #{endDate}
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search4">
+		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and media_content like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'm'.toString()">
+					and media_name like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'r'.toString()">
+					and reporter_name like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>	
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search5">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and media_content like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'm'.toString()">
+					and media_name like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'r'.toString()">
+					and reporter_name like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null and endDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			and createDate <![CDATA[<=]]> #{endDate}
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+ 	<sql id="search_writeDate">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and writeDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate2">
+		<if test="company != null">
+			  and keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	<sql id="search_writeDate3">
+		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and reply_content like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   a.keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and a.keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>	
+		<if test="startDate != null and endDate != null">
+			and a.updateDate <![CDATA[>=]]> #{startDate}
+			and a.updateDate <![CDATA[<=]]> #{endDate}
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate4">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search_graph">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+	</sql>
+	
+	<sql id="search_graph2">
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+	</sql>
+	
+	<sql id="search_mail">
+		<if test="selectKey != null">
+				and M_keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+	</sql>
+	
+	<sql id="search_match">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+ 
+ 	<insert id="create">
+ 		insert into
+ 			media_data(media_name, media_title, media_content, reporter_name, reporter_ID, writeDate, last_writeDate, last_media_title, 
+ 			last_media_content, keyword, keyword_type, url, textType, thumbnail)
+ 		values
+ 			(#{media_name}, #{media_title}, #{media_content}, #{reporter_name}, #{reporter_ID}, #{writeDate}, #{last_writeDate}, #{last_media_title},
+ 			 #{last_media_content}, #{keyword}, #{keyword_type}, #{url}, #{textType}, #{thumbnail})
+ 	
+ 	</insert>
+ 		
+ 	<insert id="replyAdd">
+ 		insert into 
+ 			news_data(company_name, media_name, media_title, reporter_name, writeDate, title_key, keyword, url, news_type, news_state, createDate, updateDate)
+ 		values
+ 			(#{company_name}, #{media_name}, #{media_title}, #{reporter_name}, #{writeDate}, #{title_key}, #{keyword}, #{url}, #{news_type}, #{news_state}, sysdate(), sysdate());
+ 	</insert>
+ 
+ 	<select id="read" resultType="MediaVO">
+ 		select
+ 			*
+ 		from
+ 			media_data
+ 		where
+ 			media_idx = #{media_idx}
+ 	
+ 	</select>
+ 
+ 	<update id="update">
+ 		update 
+ 			media_data
+ 		set
+ 			media_name = #{media_name},
+ 			media_title = #{media_title},
+ 			media_content = #{media_content},
+ 			reporter_name = #{reporter_name},
+ 			writeDate = #{writeDate},
+ 			last_writeDate = #{last_writeDate},
+ 			last_media_title = #{last_media_title},
+ 			last_media_content = #{last_media_content},
+ 			keyword = #{keyword},
+ 			keyword_type = #{keyword_type},
+ 			url = #{url},
+ 			updateDate = now()
+ 		where
+ 			media_idx = #{media_idx}
+ 		
+ 	</update>
+ 
+ 	<delete id="delete">
+ 		delete from
+ 			media_data
+ 		where
+ 			media_idx = #{media_idx}
+ 	
+ 	</delete>
+ 	
+ 	<delete id="newsDelete">
+ 		delete from
+ 			news_data
+ 		where
+ 			news_idx = #{news_idx}
+ 	
+ 	</delete>
+ 	
+ 	<delete id="replyDelete">
+ 		delete from
+ 			reply_data
+ 		where
+ 			reply_idx = #{reply_idx}
+ 	
+ 	</delete>
+ 	
+ 	<select id="replyTotalList">
+ 		select * from reply_data where news_idx = #{news_idx}
+ 	</select>
+ 	
+ 	<select id="allPageList" resultType="MediaVO">
+		select
+			*
+		from
+			media_data
+		where
+			url is not null
+		<include refid="search2"></include>
+		order 
+			by createDate desc
+		limit  
+		#{startPage}, #{perPageNum}
+		
+	</select>
+	
+ 	<select id="TotalAllPageList" resultType="MediaVO">
+		select
+			*
+		from
+			media_data_history
+		where
+			url is not null
+		<include refid="search2"></include>
+		order 
+			by updateDate desc
+		limit  
+		#{startPage}, #{perPageNum}
+		
+	</select>
+	
+	<select id="allPage" resultType="MediaVO">
+		select
+			*
+		from
+			media_data
+		where
+			url is not null
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+		
+	</select>
+	
+	<select id="newsExcel" resultType="MediaVO">
+		select
+			*
+		from
+			media_data
+		where
+			url is not null
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+		
+	</select>
+	
+	<select id="totalAllPageex" resultType="MediaVO">
+		select
+			*
+		from
+			media_data_history
+		where
+			url is not null
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+		
+	</select>
+	
+	<select id="replyAllPage" resultType="ReplyVO">
+		select 
+			a.*,(select url from news_data where news_idx = a.news_idx)as url,(select media_title from news_data where news_idx = a.news_idx)as media_title  
+		from 
+			reply_data a
+		where 
+			reply_comm_num is not null
+		<include refid="search3"></include>
+		order 
+			by updateDate desc
+	</select>
+	
+	<select id="allPageCount" resultType="Integer">
+		select
+			count(*)
+		from
+			media_data
+		where
+			url is not null
+		<include refid="search2"></include>
+	</select>
+	
+	<select id="newsAllPageCount" resultType="Integer">
+		select
+			count(*)
+		from
+			news_data
+		where
+			url is not null
+		<include refid="search_writeDate2"></include>
+	</select>
+	
+	<select id="replyAllPageCount" resultType="Integer">
+		select count(*)
+			from reply_data a
+		join news_data b
+			on a.news_idx = b.news_idx
+		where 
+			reply_comm_num is not null
+		<include refid="search_writeDate3"></include>
+	</select>     
+	
+	<select id="TotalAllPageCount" resultType="Integer">
+		select
+			count(*)
+		from
+			media_data_history
+		where
+			url is not null
+		<include refid="search"></include>
+	</select>
+ 	
+ 	<select id="yesterdayCount" resultType="GraphVO">
+ 		select count(if(writeDate <![CDATA[<]]> date_add(now(), interval -1 day), writeDate, null)) type1,
+	    count(if(writeDate <![CDATA[>]]> date_add(now(), interval -1 day), writeDate, null)) type2
+		from media_data 
+		where writeDate between date_add(now(), interval -2 day) and  date_add(now(), interval -0 day)
+ 	</select>
+ 	
+ 	<select id="showboxYesterdayCount" resultType="GraphVO">
+ 		select count(if(writeDate <![CDATA[<]]> date_add(now(), interval -1 day), writeDate, null)) type1,
+	    count(if(writeDate <![CDATA[>]]> date_add(now(), interval -1 day), writeDate, null)) type2
+		from media_data
+		where 
+		keyword in (select keyword from keyword_data where user_idx = any(select user_idx from user_data where user_name = '쇼박스') )
+		and writeDate between date_add(now(), interval -2 day) and  date_add(now(), interval -0 day)
+ 	</select>
+ 	
+ 
+ 	<select id="naverMediaCount" resultType="TextTypeVO">
+ 		select 
+ 		count(if(textType='좋은글', textType, null)) lik, 
+ 		count(if(textType='나쁜글', textType, null)) dis, 
+ 		count(if(textType='관심글', textType, null)) cu, 
+ 		count(if(textType='기타글', textType, null)) etc, 
+ 		count(if(textType is not null and texttype!='삭제글', textType, null)) al
+		from media_data where media_name = 'naver'
+ 		<include refid="search_writeDate2"></include>
+ 	</select>
+ 	
+ 	<select id="daumMediaCount" resultType="TextTypeVO">
+ 		select  
+ 		count(if(textType='좋은글', textType, null)) lik,
+		count(if(textType='나쁜글', textType, null)) dis,
+		count(if(textType='관심글', textType, null)) cu,
+		count(if(textType='기타글', textType, null)) etc,
+		count(if(textType is not null and texttype!='삭제글', textType, null)) al
+ 		from media_data where media_name = 'daum'
+ 		<include refid="search_writeDate2"></include>
+ 	</select>
+ 	
+ 	<select id="totalMediaCount" resultType="TextTypeVO">
+ 		select  
+ 		count(if(textType='좋은글', textType, null)) lik,
+		count(if(textType='나쁜글', textType, null)) dis,
+		count(if(textType='관심글', textType, null)) cu,
+		count(if(textType='기타글', textType, null)) etc,
+		count(if(textType is not null and texttype!='삭제글', textType, null)) al
+ 		from media_data where media_title is not null
+ 		<include refid="search_writeDate2"></include>
+ 	</select>
+ 	
+ 	<select id="periodTextTypeCount" resultType="TextTypeVO">
+ 		select  
+ 		count(if(textType='좋은글', textType, null)) lik,
+		count(if(textType='나쁜글', textType, null)) dis,
+		count(if(textType='관심글', textType, null)) cu,
+		count(if(textType='기타글', textType, null)) etc,
+		count(if(textType is not null and texttype!='삭제글', textType, null)) al
+ 		from union.media_data where textType is not null
+ 		<if test="textType != 'press'.toString()">
+  			and keyword = 'press'
+	  		<if test="startDate != null and endDate != null">
+				and left(writeDate,10) <![CDATA[>=]]> #{startDate}
+				and left(writeDate,10) <![CDATA[<=]]> #{endDate}
+			</if>
+  		</if>
+  		<if test="textType != null">
+		<include refid="periodSearch"></include>
+  		</if>
+ 	</select>
+ 
+ 	<select id="searchAll" resultType="MediaVO">
+ 		select
+ 			*
+ 		from
+ 			media_data
+ 			
+ 	
+ 	</select>
+ 	
+ 	
+ 	<select id="listExtract" resultType="MediaVO">
+		select
+			*
+		from 
+			media_data
+		where
+			textType is null
+		<include refid="search"></include>
+		order by
+			createDate desc
+		limit
+			#{startPage}, #{perPageNum}
+	</select>
+ 	
+ 	<select id="getExtractCount" resultType="Integer">
+		select
+			count(*)
+		from 
+			media_data
+		where
+			textType is null
+		<include refid="search"></include>
+	</select>
+ 	
+ 	<select id="listSearch" resultType="MediaVO">
+ 		select 
+			*
+		from 
+			media_data
+		where 
+			textType is not null
+		<include refid="search4"></include>
+		order 
+			by createdate desc
+		limit  
+			#{startPage}, #{perPageNum}
+ 	</select>
+ 	
+ 	<select id="textTypelistSearch" parameterType="Map" resultType="MediaVO">
+ 		select 
+			*
+		from 
+			media_data
+		where 
+			textType is not null
+		and 
+			textType='좋은글'
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+ 	</select>
+ 	<select id="textTypelistSearch2" parameterType="Map" resultType="MediaVO">
+ 		select 
+			*
+		from 
+			media_data
+		where 
+			textType is not null
+		and 
+			textType='나쁜글'
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+ 	</select>
+ 	<select id="textTypelistSearch3" parameterType="Map" resultType="MediaVO">
+ 		select 
+			*
+		from 
+			media_data
+		where 
+			textType is not null
+		and 
+			textType='관심글'
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+ 	</select>
+ 	<select id="textTypelistSearch4" parameterType="Map" resultType="MediaVO">
+ 		select 
+			*
+		from 
+			media_data
+		where 
+			textType is not null
+		and 
+			textType='기타글'
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+ 	</select>
+ 	
+ 	<select id = "getSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			media_data
+		where
+			textType is not null
+		<include refid="search4"></include>
+			
+	</select>
+	<select id="mediaListData" resultType="MediaVO">
+ 		select 
+			*
+		from 
+			media_data
+		where 
+			textType != '삭제글'
+		<include refid="search_writeDate"></include>
+		order 
+			by writeDate desc
+		limit  
+			#{startPage}, #{perPageNum}
+ 	</select>
+	<select id="wlistSearch" resultType="MediaVO">
+ 		select 
+			*
+		from 
+			media_data
+		where 
+			textType != '삭제글'
+		<include refid="search_writeDate"></include>
+		order 
+			by writeDate desc
+		limit  
+			#{startPage}, #{perPageNum}
+ 	</select>
+ 	<select id="wlistSearch2" resultType="MediaVO">
+ 		select 
+			*
+		from 
+			media_data
+		where 
+			textType is not null
+		and 
+			textType !='삭제글'
+		<include refid="search_writeDate"></include>
+		order 
+			by updateDate desc
+		limit  
+			#{startPage}, #{perPageNum}
+ 	
+ 	</select>
+ 	
+ 	<select id = "wgetSearchCount" resultType="Integer">
+		select
+			count(*)
+		from 
+			media_data
+		where 
+			textType!='삭제글'
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+ 	<!-- <select id = "wgetSearchCount2" resultType="Integer">
+		select
+			count(*)
+		from
+			media_data
+		where
+			textType is not null
+		and
+			textType!='삭제글'
+		<include refid="search_writeDate"></include>
+			
+	</select> -->
+ 	
+ 	<select id="getTotalCount" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from
+ 			media_data
+ 		where
+ 			textType is not null
+ 		and
+			textType!='삭제글'
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>	
+ 		<if test="startDate != null and endDate != null">
+			and writeDate <![CDATA[>]]> #{startDate}
+			and writeDate <![CDATA[<]]> #{endDate}
+		</if>
+ 	</select>
+ 	
+ 	<select id="getMatchCount" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from
+ 			media_data
+ 		where 
+	 		textType is not null
+	 	and
+			textType!='삭제글'
+ 		<include refid="search_writeDate"></include>
+ 	</select>
+ 	
+ 	<select id="listAll" resultType="MediaVO">
+ 		select 
+			*
+		from 
+			media_data
+		where
+			textType is not null
+		<include refid="search"></include>
+ 	</select>
+ 	
+ 	<select id="listAllEx" resultType="MediaVO">
+ 		select 
+			*
+		from 
+			media_data
+		where
+			textType!='삭제글'
+		<include refid="search"></include>
+ 	</select>
+ 	
+ 	<select id="dashListAll" resultType="MediaVO">
+ 		select 
+			*
+		from 
+			media_data
+		where 
+			textType!='삭제글'
+		<include refid="search5"></include>
+		and
+			createDate >= curdate();
+ 	</select>
+ 	
+ 	<select id="wPageSearch" resultType="MediaVO">
+ 		select 
+			*
+		from 
+			media_data
+		where 
+			textType != '삭제글'
+		<include refid="search_writeDate"></include>
+		order 
+			by writeDate desc
+ 	</select>
+ 	
+ 	<select id="mediaGetTotalCount" resultType="Integer">
+ 		select 
+ 			count(*) 
+ 		from 
+ 			media_data
+ 		where
+ 			media_name = #{keyword}
+ 		and
+			textType!='삭제글'
+ 		<if test="startDate != null and endDate != null">
+			and updateDate <![CDATA[>]]> #{startDate}
+			and updateDate <![CDATA[<]]> #{endDate}
+		</if>
+ 	
+ 	</select>
+ 	
+ 	<select id="reporterGetTotalCount" resultType="Integer">
+ 		select 
+ 			count(*) 
+ 		from 
+ 			media_data
+ 		where
+ 			reporter_name = #{keyword}
+ 		<if test="startDate != null and endDate != null">
+			and updateDate <![CDATA[>]]> #{startDate}
+			and updateDate <![CDATA[<]]> #{endDate}
+		</if>
+ 	
+ 	</select>
+ 	
+ 	<select id="reporterGetTextTypeCount" resultType="Map">
+ 		select 
+ 			writeDate, media_name, media_title, keyword, textType
+ 		from 
+ 			media_data
+ 		where
+ 			reporter_name = #{reporter}
+ 		and
+ 			textType = #{textType}	
+ 		<if test="startDate != null and endDate != null">
+			and updateDate <![CDATA[>]]> #{startDate}
+			and updateDate <![CDATA[<]]> #{endDate}
+		</if>
+ 	</select>
+ 	
+ 	<select id="mediaGetSearchCount" resultType="Integer">
+ 		select 
+ 			count(*) 
+ 		from 
+ 			media_data
+ 		where
+ 			media_name = #{keyword}
+ 		<include refid="periodSearch"></include>
+ 		
+ 	</select>
+ 	
+ 	<select id="reporterGetSearchCount" resultType="Integer">
+ 		select
+ 			count(*)
+ 		from
+ 			media_data
+ 		where
+ 			reporter_name like concat('%', #{keyword}, '%')
+ 	    <include refid="periodSearch"></include>
+ 	</select>
+ 	
+ 	
+ 	<update id="updateTextType">
+		update
+			media_data
+		set
+			textType = #{textType}, 
+			updateDate = now()
+		where
+			media_idx = #{media_idx}
+	
+	</update>
+	
+	<update id="newsUpdateTextType">
+		update
+			news_data
+		set
+			textType = #{textType}, 
+			updateDate = now()
+		where
+			news_idx = #{news_idx}
+	
+	</update>
+	<update id="newsUpdateState">
+		update
+			news_data
+		set
+			news_state = #{news_state}, 
+			updateDate = now()
+		where
+			news_idx = #{news_idx}
+	
+	</update>
+	
+	<update id="replyUpdateTextType">
+		update
+			reply_data
+		set
+			textType = #{textType}, 
+			updateDate = now()
+		where
+			reply_idx = #{reply_idx}
+	
+	</update>
+
+	<update id="updateThumbnail">
+		update
+			media_data
+		set
+			thumbnail = #{thumbnail}
+		where
+			media_idx = #{media_idx}
+	
+	</update>
+	
+	<select id="getMediaPortalCount" resultType="TextTypeVO">
+		select
+			count(if(media_name='naver', media_name, null)) lik,
+			count(if(media_name='daum', media_name, null)) dis
+		from
+			media_data
+		where
+			media_content like concat('%', #{keyword}, '%')
+		<include refid="periodSearch"></include>
+	</select>
+	
+ 	<select id="getMediaTextTypeTotalCount" resultType="TextTypeVO">
+	 	select
+			count(if(textType='좋은글', textType, null)) lik,
+			count(if(textType='나쁜글', textType, null)) dis,
+			count(if(textType='관심글', textType, null)) cu
+		from
+			media_data
+		where
+			media_content like concat('%', #{keyword}, '%')
+	
+ 	</select>
+ 	
+ 	<select id="getMediaTextTypeSearchCount" resultType="TextTypeVO">
+	 	select
+			count(if(textType='좋은글', textType, null)) lik,
+			count(if(textType='나쁜글', textType, null)) dis,
+			count(if(textType='관심글', textType, null)) cu
+		from
+			media_data
+		where
+			media_content like concat('%', #{keyword}, '%')
+		<include refid="periodSearch"></include>
+		
+ 	</select>
+ 	
+ 	<select id="getPressPortalCount" resultType="TextTypeVO">
+		select
+			count(if(media_name='naver', media_name, null)) lik,
+			count(if(media_name='daum', media_name, null)) dis
+		from
+			media_data
+		where
+			reporter_name like concat('%', #{keyword}, '%')
+		<include refid="periodSearch"></include>
+	</select>
+	
+ 	<select id="getPressTextTypeTotalCount" resultType="TextTypeVO">
+	 	select
+			count(if(textType='좋은글', textType, null)) lik,
+			count(if(textType='나쁜글', textType, null)) dis,
+			count(if(textType='관심글', textType, null)) cu
+		from
+			media_data
+		where
+			reporter_name like concat('%', #{keyword}, '%')
+	
+ 	</select>
+ 	
+ 	<select id="getPressTextTypeSearchCount" resultType="TextTypeVO">
+	 	select
+			count(if(textType='좋은글', textType, null)) lik,
+			count(if(textType='나쁜글', textType, null)) dis,
+			count(if(textType='관심글', textType, null)) cu
+		from
+			media_data
+		where
+			reporter_name like concat('%', #{keyword}, '%')
+		<include refid="periodSearch"></include>
+		
+ 	</select>
+ 	
+ 	<select id="newsList" resultType="NewsVO">
+		select 
+			a.*,(select count(*) 
+		from 
+			reply_data where news_idx = a.news_idx)as replycnt from news_data a
+		where 
+			url is not null
+		<include refid="search_writeDate2"></include>
+		order 
+			by news_idx desc
+		limit  
+		#{startPage}, #{perPageNum}	
+	</select>
+	
+	<select id="replyList" resultType="ReplyVO">
+		select a.*,b.url,b.media_title,b.company_name
+			from reply_data a
+		join news_data b
+			on a.news_idx = b.news_idx
+		where 
+			reply_comm_num is not null
+		<include refid="search_writeDate3"></include>
+		order 
+			by reply_idx desc
+		limit  
+			#{startPage}, #{perPageNum}	
+	</select>
+	
+	<select id="mediaCnt" resultType="TextTypeVO">
+ 		select  
+ 		count(if(textType='좋은글', textType, null)) lik,
+		count(if(textType='나쁜글', textType, null)) dis,
+		count(if(textType='관심글', textType, null)) cu,
+		count(if(textType='기타글', textType, null)) etc,
+		count(if(textType is not null and texttype!='삭제글', textType, null)) al
+ 		from media_data where media_title is not null
+ 		<include refid="search_writeDate"></include>
+ 	</select>
+ 	<select id="textTypeCount2" resultType="TextTypeDateVO">
+ 		select 
+		DATE_FORMAT(writeDate,'%Y-%m-%d') writeDate,
+		count(if(textType='좋은글', textType, null)) lik,
+		count(if(textType='나쁜글', textType, null)) dis,
+		count(if(textType='관심글', textType, null)) cu,
+		count(if(textType='기타글', textType, null)) etc,
+		count(if(textType is not null and texttype!='삭제글', textType, null)) al
+		from media_data
+		where textType is not null
+		<include refid="search_writeDate"></include>
+		group by DATE_FORMAT(writeDate,'%Y-%m-%d')
+		ORDER BY writeDate ASC;
+ 	</select>
+ 	<select id="checkUrl" resultType="Integer">
+		select count(*) from news_data where url = #{url}
+	
+	</select>
+	
+	<select id="mTotalCnt" resultType="Integer">
+ 		select 
+ 			count(*)
+ 		from 
+ 			media_data
+ 		where 
+ 			textType != '삭제글'
+		and 
+			keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		and
+			writeDate between date_add(#{date}, interval -1 day) and #{date}
+		and writeDate != #{date}
+ 	</select>
+ 	
+ 	<select id="graphmTotalCnt" resultType="Integer">
+ 		select 
+ 			count(*)
+ 		from 
+ 			media_data
+ 		where 
+ 			textType != '삭제글'
+		and 
+			keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		 and
+		 	writeDate <![CDATA[>=]]> #{startDate}
+		 and
+		 	writeDate <![CDATA[<=]]> #{endDate};
+ 	</select>
+ 	
+ 	<insert id="checkList">
+ 		INSERT INTO headline_data SELECT * FROM media_data where media_idx = #{media_idx}
+ 	</insert>
+ 	
+ 	<delete id="checkDelete">
+ 		delete from
+ 			headline_data
+ 		where
+ 			media_idx = #{media_idx}
+ 	</delete>
+ 	
+ 	<select id="headlineList" resultType="MediaVO">
+ 		select 
+			DATE_FORMAT(writeDate,'%Y-%m-%d')as writeDate,DATE_FORMAT(createDate,'%Y-%m-%d')as createDate, media_title,url
+		from 
+			headline_data
+		where
+			url is not null
+		<include refid="search_writeDate"></include>
+		order by updateDate desc limit 5;
+ 	</select>
+ 	
+ 	<update id="headlineUpdate">
+ 		update 
+ 			media_data
+ 		set
+ 			media_state = 1
+ 		where
+ 			media_idx = #{media_idx}
+ 		
+ 	</update>
+ 	
+ 	<update id="headlineUpdate2">
+		update 
+ 			media_data
+ 		set
+ 			media_state = 0
+ 		where
+ 			media_idx = #{media_idx}
+	
+	</update>
+ 	
+ 	<select id="mediaTotalcnt" resultType="Integer">
+		select
+			count(*)
+		from
+			media_data
+		where
+			url is not null
+		and
+			texttype!='삭제글'
+		<include refid="search_writeDate"></include>
+		and
+			createDate >= curdate();
+	</select>
+	<select id="replyTotalcnt" resultType="Integer">
+		select
+			count(*)
+		from
+			reply_data
+		where
+			reply_content is not null
+		<include refid="search_writeDate4"></include>
+		
+	</select>
+	
+	<select id="mediaTextcnt" resultType="Integer">
+		select 
+			count(*)
+		from 
+			media_data
+		where 
+			textType!='삭제글'
+		<include refid="search_writeDate2"></include>
+		
+	</select>
+ 	
+ 	<select id="mediaTextcnt2" resultType="Integer">
+		select 
+			count(*) 
+		from 
+			media_data 
+		where 
+			textType = '나쁜글'
+		<include refid="search_writeDate"></include>
+	</select>
+	<select id="mediaCountAll" resultType="Integer">
+		select count(*)
+		from media_data
+		where
+			texttype!='삭제글'
+		and 
+			keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		and
+			createDate between date_add(#{date}, interval -1 hour) and #{date}
+	
+	</select>
+	
+	<select id="mailList" resultType="MailVO">
+		select 
+			a.n_idx,a.M_send,a.M_subject, a.sendCount,a.success,a.fail,a.M_keyword_idx,
+            (select 
+				count(*) 
+			from 
+				media_data 
+            where 
+				keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = a.M_keyword)
+			and
+				textType != '삭제글' 
+            and
+				createDate <![CDATA[>=]]> DATE_FORMAT(a.M_send,'%Y-%m-%d 00:00:00')
+			and
+				createDate <![CDATA[<=]]> DATE_FORMAT(a.M_send,'%Y-%m-%d 23:59:00'))as total from period_view a
+		where 
+			a.M_subject is not null
+		<include refid="search_mail"></include> 
+		order 
+			by a.M_send desc limit 5;
+	</select>
+	
+	<select id="mailCountAll" parameterType="String" resultType="Integer">
+		select 
+ 			sum(successNum)
+ 		from 
+ 			period_view
+ 		where 
+			M_keyword is not null
+		and 
+			M_keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		and M_send <![CDATA[>=]]> #{startDate}
+		and M_send <![CDATA[<=]]> #{endDate}
+		order by M_send desc;
+	</select>
+	
+	<select id="mediaMatchList" resultType="MediaVO">
+ 		select 
+ 			media_name,count(*)as total 
+ 		from 
+ 			media_data
+		where
+			media_name !='naver'
+        and 
+        	media_name !='daum'
+        and
+			media_name !='쇼박스'
+		<include refid="search_match"></include>
+		group by media_name
+        order by total desc
+        limit 10
+ 	</select>
+	<select id="mediaMatchCount" resultType="Integer">
+		select 
+			count(*) 
+		from 
+			media_data 
+		WHERE
+			url is not null 
+		<include refid="search_match"></include>
+	</select>
+	
+	<select id="mediaMatchList2" resultType="MediaVO">
+ 		select 
+ 			media_name,count(*)as total 
+ 		from 
+ 			media_data
+		where
+			media_name !='naver'
+        and 
+        	media_name !='daum'
+        and
+			media_name !='쇼박스'
+        and
+			keyword != 'press'
+		<include refid="search_match"></include>
+		group by media_name
+        order by total desc
+        limit 10
+ 	</select>
+	<select id="mediaMatchCount2" resultType="Integer">
+		select 
+			count(*) 
+		from 
+			media_data 
+		WHERE
+			keyword != 'press' 
+		<include refid="search_match"></include>
+	</select>
+	<select id="mediaMatchCount3" resultType="Integer">
+		select 
+			count(*)
+        from(
+		select 
+ 			media_name,count(*)as total 
+ 		from 
+ 			media_data 
+		where
+			media_name !='naver'
+        and 
+        	media_name !='daum'
+        and
+			media_name !='쇼박스'
+        and
+			keyword != 'press' 
+		<include refid="search_match"></include>
+		group by media_name
+        order by total desc
+        limit 10
+        ) as total;
+	</select>
+	<select id="mediaMatchCount4" resultType="Integer">
+		select 
+			count(*)
+        from(
+		select 
+ 			media_name,count(*)as total 
+ 		from 
+ 			media_data 
+		where
+			media_name !='naver'
+        and 
+        	media_name !='daum'
+        and
+			media_name !='쇼박스'
+		<include refid="search_match"></include>
+		group by media_name
+        order by total desc
+        limit 10
+        ) as total;
+	</select>
+	
+	<select id="mediaTotalMatchList" resultType="MediaVO">
+ 		 select a.media_name,a.total as match_total, b.total as match_total2 
+		from 
+			(select 
+				media_name,count(*)as total 
+			from 
+				media_data 
+			WHERE
+				media_name !='naver'
+			and 
+				media_name !='daum' 
+			and
+				media_name !='쇼박스'
+			<include refid="search_match"></include>
+			group by media_name
+			order by total desc) as a
+        left join 
+			(select 
+				media_name,count(*)as total 
+			from 
+				media_data
+			where
+				media_name !='naver'
+			and 
+				media_name !='daum'
+			and
+				media_name !='쇼박스'
+			and
+				keyword != 'press'
+			<include refid="search_match"></include>
+			group by media_name
+			order by total desc) as b
+        on a.media_name  = b.media_name 
+        order by match_total desc
+        limit 10;
+ 	</select>
+ 	
+ 	<select id="reporterMatchList" resultType="MediaVO">
+ 		select 
+ 			reporter_name,media_name,count(*)as total 
+ 		from 
+ 			media_data
+		where
+			media_name !='naver'
+        and 
+        	media_name !='daum'
+        and
+			media_name !='쇼박스'
+        and
+        
+			reporter_name is not null
+		<include refid="search_match"></include>
+		group by reporter_name
+        order by total desc
+        limit 10
+ 	</select>
+	<select id="reporterMatchCount" resultType="Integer">
+		select 
+			count(*) 
+		from 
+			media_data 
+		WHERE
+			url is not null
+		and
+			reporter_name is not null 
+		<include refid="search_match"></include>
+	</select>
+	
+	<select id="reporterMatchList2" resultType="MediaVO">
+ 		select 
+ 			reporter_name,media_name,count(*)as total 
+ 		from 
+ 			media_data
+		where
+			media_name !='naver'
+        and 
+        	media_name !='daum'
+        and
+			media_name !='쇼박스'
+        and
+			keyword != 'press'
+		and
+			reporter_name is not null
+		<include refid="search_match"></include>
+		group by reporter_name
+        order by total desc
+        limit 10
+ 	</select>
+	<select id="reporterMatchCount2" resultType="Integer">
+		select 
+			count(*) 
+		from 
+			media_data 
+		WHERE
+			keyword != 'press'
+		and
+			reporter_name is not null 
+		<include refid="search_match"></include>
+	</select>
+	<select id="reporterMatchCount3" resultType="Integer">
+		select 
+			count(*)
+        from(
+		select 
+ 			reporter_name,media_name,count(*)as total 
+ 		from 
+ 			media_data 
+		where
+			media_name !='naver'
+        and 
+        	media_name !='daum'
+        and
+			media_name !='쇼박스'
+        and
+			keyword != 'press'
+		and
+			reporter_name is not null 
+		<include refid="search_match"></include>
+		group by reporter_name
+        order by total desc
+        limit 10
+        ) as total;
+	</select>
+	<select id="reporterMatchCount4" resultType="Integer">
+		select 
+			count(*)
+        from(
+		select 
+ 			reporter_name,media_name,count(*)as total 
+ 		from 
+ 			media_data 
+		where
+			media_name !='naver'
+        and 
+        	media_name !='daum'
+        and
+			media_name !='쇼박스'
+		and
+			reporter_name is not null 
+		<include refid="search_match"></include>
+		group by reporter_name
+        order by total desc
+        limit 10
+        ) as total;
+	</select>
+	<select id="reporterTotalMatchList" resultType="MediaVO">
+ 		 select a.reporter_name,a.media_name,a.total as match_total, b.total as match_total2 
+		from 
+			(select
+				reporter_name,media_name,count(*)as total 
+			from 
+				media_data 
+			WHERE
+				media_name !='naver'
+			and 
+				media_name !='daum'
+			and
+				media_name !='쇼박스'
+			and
+				reporter_name is not null 
+			<include refid="search_match"></include>
+			group by reporter_name
+			order by total desc) as a
+        left join 
+			(select 
+				reporter_name,media_name,count(*)as total 
+			from 
+				media_data
+			where
+				media_name !='naver'
+			and 
+				media_name !='daum'
+			and
+				media_name !='쇼박스'
+			and
+				keyword != 'press'
+			and
+				reporter_name is not null
+			<include refid="search_match"></include>
+			group by reporter_name
+			order by total desc) as b
+        on a.reporter_name  = b.reporter_name 
+        order by match_total desc
+        limit 10;
+ 	</select>
+ 	<select id="mediaMatchallList" resultType="MediaVO">
+		select 
+			* 
+		from 
+			media_data
+		where
+			media_name !='naver'
+		and 
+			media_name !='daum'
+		and
+			media_name !='쇼박스' 
+		<include refid="search_match"></include>
+		order by media_name, createDate desc;
+	</select>
+	<select id="reporterMatchallList" resultType="MediaVO">
+		select 
+			* 
+		from 
+			media_data
+		where
+			media_name !='naver'
+		and 
+			media_name !='daum'
+		and
+			media_name !='쇼박스'
+		and
+			reporter_name is not null 
+		<include refid="search_match"></include>
+		order by reporter_name, createDate desc;
+	</select>
+	<select id="mediaDataList" resultType="MediaVO">
+		select 
+			* 
+		from 
+			media_data
+		where 
+			media_name=#{media_name}
+	    <include refid="search_match"></include>
+		order by writeDate desc;
+	</select>
+	<select id="mediaMatchDataList" resultType="MediaVO">
+		select 
+			* 
+		from 
+			media_data
+		where 
+			media_name=#{media_name}
+		and
+			keyword != 'press'
+	    <include refid="search_match"></include>
+		order by writeDate desc;
+	</select>
+	<select id="reporterDataList" resultType="MediaVO">
+		select 
+			* 
+		from 
+			media_data
+		where 
+			reporter_name=#{reporter_name}
+	    <include refid="search_match"></include>
+		order by writeDate desc;
+	</select>
+	<select id="reporterMatchDataList" resultType="MediaVO">
+		select 
+			* 
+		from 
+			media_data
+		where 
+			reporter_name=#{reporter_name}
+		and
+			keyword != 'press'
+	    <include refid="search_match"></include>
+		order by writeDate desc;
+	</select>
+	<select id="mailMatch" resultType="MediaVO">
+		select
+			*
+		from
+			media_data
+		where
+			texttype!='삭제글'
+		<include refid="search5"></include>
+		order 
+			by writeDate desc
+		
+	</select>
+	<select id="dashMediaMatch" resultType="MediaVO">
+		select
+			*
+		from
+			media_data
+		where
+			url is not null
+		and
+			texttype!='삭제글'
+		<include refid="search5"></include>
+		and
+			createDate >= curdate()
+		order 
+			by createDate desc
+	</select>
+ </mapper>

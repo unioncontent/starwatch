@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="org.union.mappers.MediaMapper">
+ 
+ 	<sql id="periodSearch">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="startDate != null and endDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			and createDate <![CDATA[<=]]> #{endDate}
+		</if>
+ 	</sql>
+ 	<sql id="search">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and media_content like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'm'.toString()">
+					and media_name like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'r'.toString()">
+					and reporter_name like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null and endDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			and createDate <![CDATA[<=]]> #{endDate}
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search2">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and media_content like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'm'.toString()">
+					and media_name like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'r'.toString()">
+					and reporter_name like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and createDate <![CDATA[>]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search3">
+		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and reply_content like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>	
+		<if test="startDate != null and endDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			and createDate <![CDATA[<=]]> #{endDate}
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search4">
+		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and media_content like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'm'.toString()">
+					and media_name like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'r'.toString()">
+					and reporter_name like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>	
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search5">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and media_content like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'm'.toString()">
+					and media_name like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'r'.toString()">
+					and reporter_name like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null and endDate != null">
+			and updateDate <![CDATA[>=]]> #{startDate}
+			and updateDate <![CDATA[<=]]> #{endDate}
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+ 	<sql id="search_writeDate">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and writeDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate2">
+		<if test="company != null">
+			  and keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	<sql id="search_writeDate3">
+		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and reply_content like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   a.keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and a.keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>	
+		<if test="startDate != null and endDate != null">
+			and a.updateDate <![CDATA[>=]]> #{startDate}
+			and a.updateDate <![CDATA[<=]]> #{endDate}
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate4">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search_graph">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+	</sql>
+	
+	<sql id="search_graph2">
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+	</sql>
+	
+	<sql id="search_mail">
+		<if test="selectKey != null">
+				and M_keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+	</sql>
+	
+	<sql id="search_match">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+ 
+ 	<insert id="create">
+ 		insert into
+ 			media_data(media_name, media_title, media_content, reporter_name, reporter_ID, writeDate, last_writeDate, last_media_title, 
+ 			last_media_content, keyword, keyword_type, url, textType, thumbnail)
+ 		values
+ 			(#{media_name}, #{media_title}, #{media_content}, #{reporter_name}, #{reporter_ID}, #{writeDate}, #{last_writeDate}, #{last_media_title},
+ 			 #{last_media_content}, #{keyword}, #{keyword_type}, #{url}, #{textType}, #{thumbnail})
+ 	
+ 	</insert>
+ 		
+ 	<insert id="replyAdd">
+ 		insert into 
+ 			news_data(company_name, media_name, media_title, reporter_name, writeDate, title_key, keyword, url, news_type, news_state, createDate, updateDate)
+ 		values
+ 			(#{company_name}, #{media_name}, #{media_title}, #{reporter_name}, #{writeDate}, #{title_key}, #{keyword}, #{url}, #{news_type}, #{news_state}, sysdate(), sysdate());
+ 	</insert>
+ 
+ 	<update id="update">
+ 		update 
+ 			media_data
+ 		set
+ 			media_name = #{media_name},
+ 			media_title = #{media_title},
+ 			media_content = #{media_content},
+ 			reporter_name = #{reporter_name},
+ 			writeDate = #{writeDate},
+ 			last_writeDate = #{last_writeDate},
+ 			last_media_title = #{last_media_title},
+ 			last_media_content = #{last_media_content},
+ 			keyword = #{keyword},
+ 			keyword_type = #{keyword_type},
+ 			url = #{url},
+ 			updateDate = now()
+ 		where
+ 			media_idx = #{media_idx}
+ 		
+ 	</update>
+ 
+ 	<delete id="delete">
+ 		delete from
+ 			media_data
+ 		where
+ 			media_idx = #{media_idx}
+ 	
+ 	</delete>
+ 	
+ 	<delete id="newsDelete">
+ 		delete from
+ 			news_data
+ 		where
+ 			news_idx = #{news_idx}
+ 	
+ 	</delete>
+ 	
+ 	<delete id="replyDelete">
+ 		delete from
+ 			reply_data
+ 		where
+ 			reply_idx = #{reply_idx}
+ 	
+ 	</delete>
+ 	
+ 	
+ 	<update id="updateTextType">
+		update
+			media_data
+		set
+			textType = #{textType}, 
+			updateDate = now()
+		where
+			media_idx = #{media_idx}
+	
+	</update>
+	
+	<update id="newsUpdateTextType">
+		update
+			news_data
+		set
+			textType = #{textType}, 
+			updateDate = now()
+		where
+			news_idx = #{news_idx}
+	
+	</update>
+	
+	<update id="newsUpdateState">
+		update
+			news_data
+		set
+			news_state = #{news_state}, 
+			updateDate = now()
+		where
+			news_idx = #{news_idx}
+	
+	</update>
+	
+	<update id="replyUpdateTextType">
+		update
+			reply_data
+		set
+			textType = #{textType}, 
+			updateDate = now()
+		where
+			reply_idx = #{reply_idx}
+	
+	</update>
+
+	<update id="updateThumbnail">
+		update
+			media_data
+		set
+			thumbnail = #{thumbnail}
+		where
+			media_idx = #{media_idx}
+	
+	</update>
+	
+ 	<insert id="checkList">
+ 		INSERT INTO headline_data SELECT * FROM media_data where media_idx = #{media_idx}
+ 	</insert>
+ 	
+ 	<delete id="checkDelete">
+ 		delete from
+ 			headline_data
+ 		where
+ 			media_idx = #{media_idx}
+ 	</delete>
+ 	
+ 	<update id="headlineUpdate">
+ 		update 
+ 			media_data
+ 		set
+ 			media_state = 1
+ 		where
+ 			media_idx = #{media_idx}
+ 		
+ 	</update>
+ 	
+ 	<update id="headlineUpdate2">
+		update 
+ 			media_data
+ 		set
+ 			media_state = 0
+ 		where
+ 			media_idx = #{media_idx}
+	
+	</update>
+	
+ </mapper>

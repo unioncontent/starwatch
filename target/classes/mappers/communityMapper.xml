@@ -1,0 +1,1017 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.union.mapper.CommunityMapper">
+
+	<sql id="search">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and community_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and community_content like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate == null">
+			and createDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and createDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search2">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and community_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and community_content like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="startDate == null">
+			and updateDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and updateDate <![CDATA[>]]> #{startDate}
+			<if test="endDate != null">
+				and updateDate <![CDATA[<]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search3">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and community_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and community_content like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null and endDate != null">
+			and updateDate <![CDATA[>=]]> #{startDate}
+			and updateDate <![CDATA[<=]]> #{endDate}
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="allsearch">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="subSelectKey != null">
+				and keyword = #{subSelectKey}
+		</if>
+		<if test="startDate == null">
+			and updateDate  <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null and endDate != null">
+			and updateDate <![CDATA[>=]]> #{startDate}
+			and updateDate <![CDATA[<=]]> #{endDate}
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="keywordSearch">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					where community_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					where community_content like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+	</sql>
+
+	<sql id="search_writeDate">
+ 		<if test="keyword != null">
+			<if test="searchType != null">
+				<if test="searchType == 't'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+				<if test="searchType == 'c'.toString()">
+					and media_title like concat('%', #{keyword}, '%')
+				</if>
+			</if>
+		</if>
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>
+		<if test="startDate != null">
+			and writeDate <![CDATA[>]]> #{startDate}
+			<if test="endDate != null">
+				and writeDate <![CDATA[<]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	<sql id="search_writeDate2">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+			</if>	
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>	
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and writeDate <![CDATA[<]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+
+	<insert id="create">
+		insert into
+			community_data(community_name, community_title, community_content, community_writer, community_writer_IP, writeDate, keyword, keyword_type, url, board_number, textType, thumbnail)
+		values
+			(#{community_name}, #{community_title}, #{community_content}, #{community_writer}, #{community_writer_IP}, #{writeDate}, #{keyword}, #{keyword_type}, #{url}, #{board_number}, #{textType}, #{thumbnail})
+	
+	</insert>
+
+	<select id="read" resultType="CommunityVO">
+		select
+			*
+		from
+			community_data
+		where
+			community_idx = #{community_idx}
+	
+	</select>
+	
+	<update id="update">
+		update
+			community_data
+		set
+			community_name = #{community_name},
+			community_title = #{community_title},
+			community_content = #{community_content},
+			community_writer = #{community_writer},
+			community_writer_IP = #{community_writer_IP},
+			writeDate = #{writeDate},
+			keyword = #{keyword},
+			keyword_type = #{keyword_type},
+			url = #{url},
+			board_number = #{board_number},
+			updateDate = now()
+		where
+			community_idx = #{community_idx}
+	
+	</update>
+
+	<delete id="delete">
+		delete from
+			community_data
+		where
+			community_idx = #{community_idx}
+	
+	</delete>
+	
+	<select id="countAll" resultType="Integer">
+		select count(*)
+		from community_data
+		where createDate between date_add(#{date}, interval -1 hour) and #{date}
+	
+	</select>
+	
+	<select id="showboxCountAll" resultType="Integer">
+		select count(*)
+		from community_data
+		where 
+		keyword in (select keyword from keyword_data where user_idx = any(select user_idx from user_data where user_name = '쇼박스') )
+		and createDate between date_add(#{date}, interval -1 hour) and #{date}
+	
+	</select>
+	
+	
+	<select id="textTypeCount" resultType="TextTypeVO">
+ 		select 
+		count(if(textType='좋은글', textType, null)) lik,
+		count(if(textType='나쁜글', textType, null)) dis,
+		count(if(textType='관심글', textType, null)) cu,
+		count(if(textType='기타글', textType, null)) etc,
+		count(if(textType is not null and texttype!='삭제글', textType, null)) al
+		from community_data
+		where textType is not null
+		<include refid="search_writeDate"></include>
+ 	</select>
+	
+	<select id="listExtract" resultType="CommunityVO">
+		select
+			*
+		from 
+			community_data
+		where
+			textType is null
+		<include refid="search"></include>
+		order by
+			createDate desc
+		limit
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="getExtractCount" resultType="Integer">
+		select
+			count(*)
+		from 
+			community_data
+		where
+			textType is null
+		<include refid="search"></include>
+	
+	
+	</select>
+	
+	<select id="alllistExtract" resultType="CommunityVO">
+		select 
+			*
+		from
+		(select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url,'community' as domain
+		from 
+			community_data
+		where
+			textType is null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			media_idx, media_name, media_title, media_content, keyword, createDate, writeDate, url,'media' as domain
+		from 
+			media_data
+		where
+			textType is null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url, 'portal' as domain
+		from 
+			portal_data
+		where
+			textType is null
+		<include refid="allsearch"></include>
+        ) x 
+        <include refid="keywordSearch"></include>
+        order 
+			by createDate desc
+		limit
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="allgetExtractCount" resultType="Integer">
+		select 
+			count(*)
+		from
+		(select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url
+		from 
+			community_data
+		where
+			textType is null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			media_idx, media_name, media_title, media_content, keyword, createDate, writeDate, url
+		from 
+			media_data
+		where
+			textType is null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url
+		from 
+			portal_data
+		where
+			textType is null
+		<include refid="allsearch"></include>
+        ) x
+        <include refid="keywordSearch"></include>
+	</select>
+	
+	<select id="listComplete" resultType="CommunityVO">
+		select 
+			*
+		from 
+			community_data
+		where 
+			textType != '삭제글'
+		<include refid="search_writeDate2"></include>
+		order 
+			by createdate desc
+		limit  
+			#{startPage}, #{perPageNum}
+	
+	</select>
+	
+	<select id="getCompleteCount" resultType="Integer">
+		select
+			count(*)
+		from
+			community_data
+		where
+			textType != '삭제글'
+		<include refid="search_writeDate2"></include>
+	</select>
+
+	<select id="alllistSearch" resultType="CommunityVO">
+		select 
+			*
+		from
+		(select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url,'community' as domain, thumbnail,textType
+		from 
+			community_data
+		where
+			textType is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			media_idx, media_name, media_title, media_content, keyword, createDate, writeDate, url,'media' as domain, thumbnail,textType
+		from 
+			media_data
+		where
+			textType is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url, 'portal' as domain, thumbnail,textType
+		from 
+			portal_data
+		where
+			textType is not null
+		<include refid="allsearch"></include>
+        ) x 
+        <include refid="keywordSearch"></include>
+        order 
+			by createDate desc
+		limit
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="allgetSearchCount" resultType="Integer">
+		select 
+			count(*)
+		from
+		(select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url
+		from 
+			community_data
+		where
+			textType is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			media_idx, media_name, media_title, media_content, keyword, createDate, writeDate, url
+		from 
+			media_data
+		where
+			textType is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url
+		from 
+			portal_data
+		where
+			textType is not null
+		<include refid="allsearch"></include>
+        ) x
+        <include refid="keywordSearch"></include>
+	</select>
+	
+	<select id="listSearch" resultType="CommunityVO">
+		select 
+			*
+		from 
+			community_data
+		where 
+			textType is not null
+		<include refid="search"></include>
+		order 
+			by createdate desc
+		limit  
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id = "getSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			community_data
+		where
+			textType is not null
+		<include refid="search"></include>
+	</select>
+	
+	<select id = "getSearchCount2" resultType="Integer">
+		select
+			count(*)
+		from
+			community_data
+		where
+			textType is not null
+		<include refid="search2"></include>
+			
+	</select>
+	
+	<select id="wlistSearch" resultType="CommunityVO">
+		select 
+			*
+		from 
+			community_data
+		where 
+			textType is not null
+		<include refid="search_writeDate"></include>
+		order 
+			by updateDate desc
+		limit  
+			#{startPage}, #{perPageNum}
+	
+	</select>
+	
+	<select id = "wgetSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			community_data
+		where
+			(textType is null or textType != '삭제글')
+		<include refid="search_writeDate"></include>
+			
+	</select>
+	
+	<select id = "periodWgetSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			community_data
+		where
+			textType != '삭제글'
+		<include refid="search_writeDate2"></include>
+			
+	</select>
+	
+	<select id="wPageSearch" resultType="CommunityVO">
+		select 
+			*
+		from 
+			community_data
+		where 
+			textType != '삭제글'
+		<include refid="search_writeDate2"></include>
+		order 
+			by writeDate desc
+	
+	</select>
+	
+	
+	<select id="allPageList" resultType="CommunityVO">
+		select
+			*
+		from
+			community_data
+		where
+			url is not null
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+		limit  
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="TotalAllPageList" resultType="CommunityVO">
+		select
+			*
+		from
+			community_data_history
+		where
+			url is not null
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+		limit  
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="allPage" resultType="CommunityVO">
+		select
+			*
+		from
+			community_data
+		where
+			url is not null
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+	</select>
+	<select id="totalAllPageex" resultType="CommunityVO">
+		select
+			*
+		from
+			community_data_history
+		where
+			url is not null
+		<include refid="search"></include>
+		order 
+			by updateDate desc
+	</select>
+	
+	<select id="allPageCount" resultType="Integer">
+		select
+			count(*)
+		from
+			community_data
+		where
+			url is not null
+		<include refid="search"></include>
+	</select>
+	
+	<select id="TotalAllPageCount" resultType="Integer">
+		select
+			count(*)
+		from
+			community_data_history
+		where
+			url is not null
+		<include refid="search"></include>
+	</select>
+	
+	<select id="listAll" resultType="CommunityVO">
+		select 
+			*
+		from 
+			community_data
+		where 
+			textType is not null
+		<include refid="search"></include>
+	</select>
+	
+	<select id="listAllEx" resultType="CommunityVO">
+		select 
+			*
+		from 
+			community_data
+		where 
+			textType!='삭제글'
+		<include refid="search"></include>
+	</select>
+	
+	<select id="dashListAll" resultType="CommunityVO">
+		select 
+			*
+		from 
+			community_data
+		where 
+			textType!='삭제글'
+		<include refid="search3"></include>
+		and
+			createDate >= curdate();
+	</select>
+
+	<update id="updateTextType">
+		update
+			community_data
+		set
+			textType = #{textType},
+			updateDate = now()
+		where
+			community_idx = #{community_idx}
+	
+	</update>
+
+	<update id="updateThumbnail">
+		update
+			community_data
+		set
+			thumbnail = #{thumbnail}
+		where
+			community_idx = #{community_idx}
+	
+	</update>
+	
+	<select id="textTypeCount2" resultType="TextTypeDateVO">
+ 		select 
+		DATE_FORMAT(writeDate,'%Y-%m-%d') writeDate,
+		count(if(textType='좋은글', textType, null)) lik,
+		count(if(textType='나쁜글', textType, null)) dis,
+		count(if(textType='관심글', textType, null)) cu,
+		count(if(textType='기타글', textType, null)) etc,
+		count(if(textType is not null and texttype!='삭제글', textType, null)) al
+		from community_data
+		where textType is not null
+		<include refid="search_writeDate2"></include>
+		group by DATE_FORMAT(writeDate,'%Y-%m-%d')
+		ORDER BY writeDate ASC;
+ 	</select>
+	
+	<select id="communityTextcnt" resultType="Integer">
+		select 
+			count(*) 
+		from 
+			community_data 
+		where 
+			textType!='삭제글'
+		<include refid="search"></include>
+		
+	</select>
+ 	
+ 	<select id="communityTextcnt2" resultType="Integer">
+		select 
+			count(*) 
+		from 
+			community_data 
+		where 
+			textType = '나쁜글'
+		<include refid="search"></include>
+	</select>
+	
+	<select id = "graphSearchCount" resultType="Integer">
+		select
+			count(*)
+		from
+			community_data
+		where
+			textType is not null
+		and 
+			keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		and writeDate <![CDATA[>=]]> #{startDate}
+		and writeDate <![CDATA[<=]]> #{endDate}
+		and 
+			textType = #{textType}
+			
+	</select>
+	
+	<select id="allPageallList" resultType="CommunityVO">
+		select 
+			*
+		from
+		(select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url,'community' as domain, textType
+		from 
+			community_data
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			media_idx, media_name, media_title, media_content, keyword, createDate, writeDate, url,'media' as domain,textType
+		from 
+			media_data
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url, 'portal' as domain,textType
+		from 
+			portal_data
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        ) x 
+        <include refid="keywordSearch"></include>
+        order 
+			by createDate desc
+		limit
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="allPageallCount" resultType="Integer">
+		select 
+			count(*)
+		from
+		(select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url
+		from 
+			community_data
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			media_idx, media_name, media_title, media_content, keyword, createDate, writeDate, url
+		from 
+			media_data
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url
+		from 
+			portal_data
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        ) x
+        <include refid="keywordSearch"></include>
+	</select>
+	
+	<select id="totalallPageallList" resultType="CommunityVO">
+		select 
+			*
+		from
+		(select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url,'community' as domain, textType
+		from 
+			community_data
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			media_idx, media_name, media_title, media_content, keyword, createDate, writeDate, url,'media' as domain,textType
+		from 
+			media_data
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url, 'portal' as domain,textType
+		from 
+			portal_data
+		where
+			url is not null
+		<include refid="allsearch"></include>
+		
+		UNION ALL
+		
+		select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url,'community' as domain, textType
+		from 
+			community_data_history
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			media_idx, media_name, media_title, media_content, keyword, createDate, writeDate, url,'media' as domain,textType
+		from 
+			media_data_history
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url, 'portal' as domain,textType
+		from 
+			portal_data_history
+		where
+			url is not null
+		<include refid="allsearch"></include>
+		
+        ) x 
+        <include refid="keywordSearch"></include>
+        order 
+			by createDate desc
+		limit
+			#{startPage}, #{perPageNum}
+	</select>
+	
+	<select id="totalallPageallCount" resultType="Integer">
+		select 
+			count(*)
+		from
+		(select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url
+		from 
+			community_data
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			media_idx, media_name, media_title, media_content, keyword, createDate, writeDate, url
+		from 
+			media_data
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url
+		from 
+			portal_data
+		where
+			url is not null
+		<include refid="allsearch"></include>
+		
+		UNION ALL
+		
+		select
+			community_idx, community_name, community_title, community_content, keyword, createDate, writeDate, url
+		from 
+			community_data_history
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			media_idx, media_name, media_title, media_content, keyword, createDate, writeDate, url
+		from 
+			media_data_history
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        
+        UNION ALL
+        
+        select
+			portal_idx, portal_name, portal_title, portal_content, keyword, createDate, writeDate, url
+		from 
+			portal_data_history
+		where
+			url is not null
+		<include refid="allsearch"></include>
+        ) x
+        <include refid="keywordSearch"></include>
+	</select>
+
+</mapper>

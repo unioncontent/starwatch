@@ -1,0 +1,308 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 추가 */
+.header-navbar .navbar-wrapper .navbar-container .nav-left a, .header-navbar .navbar-wrapper .navbar-container .nav-right a {
+  color: #47494b;
+  padding: 1.5rem .6rem;
+}
+.main-body .page-wrapper {
+  padding: 0.9rem;
+}
+.btn-group{
+  width: 100%;
+}
+.btn-group button{
+  width: 25%;
+  font-size: 12px;
+}
+.header-navbar {
+  z-index: 100;
+}
+#boardList{
+  background-color: white;
+}
+.pcoded[vertical-nav-type="expanded"][vertical-effect="overlay"] .pcoded-overlay-box{
+  z-index: 99;
+}
+.pcoded .pcoded-navbar[navbar-theme="theme4"] .main-menu .main-menu-header {
+    background-color: #818285;
+}
+.pcoded .pcoded-navbar[navbar-theme="theme4"] .main-menu {
+    background-color: #404041;
+}
+.pcoded .pcoded-navbar[navbar-theme="theme4"] .pcoded-item > li.active > a {
+    background: #404041 !important;
+}
+.pcoded .pcoded-navbar[navbar-theme="theme4"] .pcoded-item > li.active:hover > a,
+.pcoded .pcoded-navbar[navbar-theme="theme4"] .pcoded-item > li:hover > a {
+    background: #81828561;
+}
+.pcoded .pcoded-navbar[active-item-theme="theme4"] .pcoded-item>li.active>a:before {
+  border-left-color: #70cef9 !important;
+}
+.pcoded .pcoded-navbar[active-item-theme="theme4"] .pcoded-item li:hover>a {
+  color: #70cef9 !important;
+}
+/* 추가 */
+
+	#mainView, #sub01View, #sub02View, #sub03View, #sub04View, #sub05View, #sub06View, #sub07View{ width:100%; overflow:hidden;}
+	.hide{ display:none;}
+
+
+	/* top bi 영역 */
+	.sub_topWrap { width:100%; height:100%; background-color:#f2f2f2;}
+	.sub_top { width:100%; height:66px; margin:0 auto; }
+	.sub_top a{cursor:none; color:#000000;}
+	.sub_back_btn{ width:40px; height:66px; position:absolute; top:0; left:5px; background-image:url(assets/images/starwatch/sub_backBtn.png); background-repeat:no-repeat; background-size:40%;
+	background-position:center;}
+	.sub_noti_btn{ width: 43px; position:absolute; top:12px; left:14px; dispay:none;}
+	/*.sub_back_btn { width:20px; position:relative; left:12px; top:50%; margin-top:-18px; }*/
+	.sub_bi { /*width:120px;*/ position:absolute; left:50%; margin-left:-50px; top:15px;}
+	.sub_logout {width: 63px;    position: absolute;    right: 0;  top: 4px;}
+
+
+	/* visual영역 */
+	.main_visualWrap, .sub01_visualWrap  { width:100%; background-color:#47494b; border-bottom:3px #000000 solid;}
+		/* main */
+	.main_visualWrap  { width:100%; background-color:#47494b; border-bottom:3px #000000 solid;}
+	.main_visual { width:100%; height:30px; padding:15px 0 15px 0; background-color:#47494b; margin:0 auto;  position:relative;}
+	.main_txt01 { font-size: 14px; font-weight: 600; color: #ffffff; position: absolute; left: 15px; height: 25px;  top: 17px;}
+	/* select { -webkit-appearance:none; -moz-appearance:none; appearance:none; background:url(assets/images/starwatch/main_selecticon.png) no-repeat 90% 50%; background-size:8px;} */
+	.main_txt02 { color: #ffffff; height: 27px;  margin: 0 95px 0 54px;}
+	.main_txt02 input{width: 100%; height: 100%; border-radius: 5px; font-size: 14px;    padding-left: 5px; }
+	.main_img01 { position: absolute; right: 12px; top: 14px; width: 66px;    height: 32px; }
+	.main_img01 button { background-image: url(assets/images/starwatch/search_btn01.png);    background-size: 100% 100%;    background-repeat: no-repeat; width: 100%;height: 100%; border-radius: 5px;    border: 0;}
+
+	.main_setWrap{ width:100%; height: 60px; background-color:#f2f2f2;}
+	.main_setDate { width:calc(100% - 20px); height: 40px; margin:auto; }
+	.main_setDate li{ width:25%; height: 40px; float:left;     margin-top: 10px;     text-align: center;    line-height: 42px;    font-weight: bold;}
+	#set1 {background-image: url(assets/images/starwatch/main_date01_off.png);    background-size: 100% 100%;}
+	#set2 {background-image: url(assets/images/starwatch/main_date02_off.png);    background-size: 100% 100%;}
+	#set3 {background-image: url(assets/images/starwatch/main_date03_off.png);    background-size: 100% 100%;}
+	#set4 {background-image: url(assets/images/starwatch/main_date04_off.png);    background-size: 100% 100%;}
+	.main_setDate img{ width:100%; height: 40px; float:left; }
+
+		/* sub01 */
+	.sub01_visualWrap { width:100%; background-color:#47494b; border-bottom:3px #000000 solid; padding: 5px 0 0 5px}
+	.sub01_imgBox {  width:100%; height:90px; padding:15px 0 15px 0; background-color:#47494b; margin:0 auto;  position:relative;}
+	.sub02_imgBox {  height: 50px; text-align: center;}
+	.sub02_imgBox img{  width:80%; max-height: 35px;     max-width: 350px;}
+	.sub01img {  width:30%; background-color:#47494b; height:80px; position:relative; margin-top: 5px;}
+	.sub01_imgView { background-color:#6f6f6f; background-image:url(assets/images/starwatch/m05.jpg); background-size:cover; width:80px; height:80px; border-radius:50%; margin:auto;}
+	.sub01_visual { width:70%;  background-color:#47494b; margin:0 auto;     position: absolute; right: 0; top: 9px;  }
+	.sub01_txt01 { font-size:16px; font-weight:bold; color:#ffffff; width:290px;     margin-top: 10px;     margin-bottom: 6px;}
+	.sub01_txt02 { margin-top:3px; font-size:11px;  color:#ffffff; width:290px;  }
+	.sub01_txt03 { margin-top:5px; font-size:8px;  color:rgba(255,255,255,0.40); position: absolute; right: 18px; }
+
+	 	/* sub02 ~ sub07 레이아웃 동일 */
+	.sub02_visualWrap { width:100%; background-color:#47494b; border-bottom:3px #000000 solid;}
+	.sub02_visual { width:360px; background-color:#47494b;  margin:0 auto;}
+	.sub02_tit { position:relative; left:6px; width:94%;}
+	.sub02_tit img{ width:70px;}
+	.sub02_imgView{ background-image:url(assets/images/starwatch/m05.jpg); background-size:cover; background-color: #6f6f6f;}
+	.sub02_imgView { width:80px; height:80px; margin:0 auto; border-radius:50%; position:relative; top:-8px; }
+	.sub02_txt01 { margin-top:10px; text-align:center; font-size:18px; font-weight:bold; color:#ffffff; }
+	.sub02_txt02 { position: absolute; right: 0px; margin-top:5px; text-align:center; font-size:11px;  color:#000; padding-bottom:24px; }
+	.sub02_txt02 img{ display:inline-block; position:relative; top:0px; left:-2px; width:12px; }
+
+
+
+	/* main list영역 */
+	.main_listWrap { width:100%; background-color:#f7f7f7; }
+	.main_list { width:100%; height:104px; padding:15px 0 15px 0;margin:0 auto; position:relative;
+			background-image:url(assets/images/starwatch/main_bg01.png); background-size:100% 100%;
+    background-repeat: no-repeat; margin-bottom:5px;
+	}
+	.main_list a{ cursor:none; color:#000000;}
+	.main_leftList{ width:30%; height:100%;     margin-top: 6px;}
+	.leftList_img{ width:60px; height:60px; border-radius:50px; background-color:#dcdcdc; margin:auto;}
+	.m01{ background-image:url(assets/images/starwatch/m05.jpg); background-size:cover;}
+	.m02{ background-image:url(assets/images/starwatch/m02.png); background-size:cover;}
+	.m03{ background-image:url(assets/images/starwatch/m03.png); background-size:cover;}
+	.m04{ background-image:url(assets/images/starwatch/m04.jpg); background-size:cover;}
+	.leftList_name{ width:auto; font-size:14px; font-weight:500; text-align:center; margin-top:9px;}
+	.leftList_name img {width: 40px;    margin-bottom: 3px;}
+
+	.main_rightList{ width:70%; height:100%; position:absolute; right:0; top:0;     margin-top: 25px; }
+	.rightList_head{ width:95%; height:40px; position:relative; margin-top: 21px;}
+	.rightList_head ul li{width:50%; float:left; text-align:center; line-height: 18px; font-size: 11px;}
+	.rightList_head .right {width:calc(50% - 1px); border-right: 1px solid #e5e5e5;}
+	.rightList_head ul li img{width:42px;}
+	.rightList_top{ width:95%; height:20px; position:relative; margin-top: 4px;}
+	.rightList_top .top_bad{ width:calc(50% - 25px); float:left; background-color:#f1f1f1; text-align: right;}
+	.rightList_top .top_good{ width:calc(50% - 25px); float:left; background-color:#f1f1f1; }
+	.rightList_top ul li img{ height:15px;}
+	.rightList_top .top_center{width:50px; float:left;}
+	.rightList_top .top_center img{width:50px; }
+
+	.rightList_left{ width:calc(50% - 10px); float:left; padding-right:10px;}
+	.rightList_right{ width:calc(50% - 10px); float:left;padding-right:10px;}
+	.main_rightList .top_head {width:100%; height: 25px; background-image:url(assets/images/starwatch/main_tit_bg.png); background-size:100% 100%; text-align:center; margin-bottom: 2px;}
+	.main_rightList .top_head span{padding-top: 6px; font-size: 10px;   font-weight: bold;}
+	.main_rightList .top_dtl {width:100%; height:21px; }
+	.main_rightList .top_txt {width:25px; float:left; margin-top: 5px; font-size: 10px;}
+	.main_rightList .top_grp {float:left; width:calc(100% - 25px);     margin:8px 0 0 0; background-color: #f3f3f3;    height: 8px;}
+	.main_rightList img{height:8px; margin-bottom: 8px;}
+
+	.top_txt01{ float:left; font-size:11px; margin-top:11px; }
+	.top_txt02, .top_txt03{ float:left; font-size:10px; position:absolute; right:15px; top:24px; }
+	.top_txt02{ right:60px;; }
+	.top_txt03 img{ margin:-2px 3px 0 0; width:10px;}
+	.top_txt02 img{ margin:-2px 3px 0 0; width:10px;}
+	.top_gBar{ width:95%; height:13%; background-color:#434343; margin-top:29px; position:absolute;}
+	.top_gAction{ width:50%; background-color:#ff448a; height:100%;}
+
+	.rightList_bottom{ width:100%; height:40px; position:relative; padding-top:4px;}
+	.bottom_txt01{ float:left; font-size:11px; margin-top:4px; }
+	.bottom_txt02, .bottom_txt03{ float:left; font-size:10px; position:absolute; right:15px; top:10px; }
+	.bottom_txt02{ right:60px; }
+	.bottom_txt03 img{ margin:-2px 3px 0 0; width:10px;}
+	.bottom_txt02 img{ margin:-2px 3px 0 0; width:10px;}
+	.bottom_gBar{ width:95%; height:13%; background-color:#434343; margin-top:22px;position:absolute;}
+	.bottom_gAction{ width:50%; height:100%; background-color:#2b97fa; }
+
+
+	/* sub01 list영역 */
+	.sub01_listWrap{ width:100%; background-color:#ffffff; border-bottom:1px #dcdcdc solid;}
+	.sub01_list{ width:100%; height:160px; background-color:#ffffff; position:relative; margin:auto;}
+
+	.menu01_left{ /*background-color:red;*/  height:100%; position:absolute; left:0; top:0;  height:100%;}
+	.menu_icon01 img{ width:70px; /*background-image:url(assets/images/starwatch/sub01_tit01.png); background-size:cover;*/ margin-left:14px;}
+	.menu_icon02 img{ width:70px; /*background-image:url(assets/images/starwatch/sub01_tit02.png); background-size:cover;*/ margin-left:14px;}
+	.menu_icon03 img{ width:70px; /*background-image:url(assets/images/starwatch/sub01_tit03.png); background-size:cover;*/ margin-left:14px;}
+	.menu_maintxt{ font-size:14px; color:#989696; margin-left:14px; margin-top:36px;}
+	.menu_maintxt img{ width: 40px; padding-bottom: 2px;}
+	.menu_subtxt{ font-size:18px; font-weight:bold; margin-left:17px; margin-top:4px; margin-right:15px;}
+
+	.menu01_right{ /*background-color:pink;*/ position:absolute; right:15px; top:15px; height:100%; width: 161px;}
+	.menu01_right a{ cursor:none; color:#000000;}
+	.menu_r01{ height:44px; /*background-color:blue;*/  position:relative; margin-left:10px; margin:auto;     font-size: 14px;}
+	.menu_r02{ height:44px; /*background-color:blue;*/ border-top: 1px solid #e7e7e7; border-bottom: 1px solid #e7e7e7; position:relative; margin-left:10px; margin:auto;     font-size: 14px;}
+	.l_img {width:15px; float:left; margin-top: 20px;	}
+	.l_img img{width:6px;}
+	.c_txt {width:calc(100% - 65px); float:left; margin-top: 14px;font-size: 12px;}
+	.r_img {width:50px; float:left; margin-top: 12px;	}
+	.r_img img{width:50px;}
+	.r01_bg01{ width:180px; height:46px; border-radius:25px; border:1px #70cef9 solid; line-height:50px; text-align:center; font-size:14px; float:left; margin-top:25px; }
+	.r01_bg02{ width:180px; height:46px; border-radius:25px; border:1px #ee9332 solid; line-height:50px; text-align:center; font-size:14px; float:left; margin-top:25px; }
+	.r01_bg03{ width:180px; height:46px; border-radius:25px; border:1px #ff7b74 solid; line-height:50px; text-align:center; font-size:14px; float:left; margin-top:25px; }
+	.r01_dot01{ width:7px; height:7px; background-color:#70cef9; border-radius:50px; float:left;  position:absolute; bottom:28px; left:18px;}
+	.r01_dot02{ width:7px; height:7px; background-color:#ee9332; border-radius:50px; float:left;  position:absolute; bottom:28px; left:18px;}
+	.r01_dot03{ width:7px; height:7px; background-color:#ff7b74; border-radius:50px; float:left;  position:absolute; bottom:28px; left:18px;}
+	.r01_txt{ width:180px; height:46px; line-height:50px; text-align:center; font-size:14px; float:left; position:absolute; bottom:10px;}
+	.r01_btn01{ width:10px; height:12px; background-image:url(assets/images/starwatch/sub01_img01.png); background-size:cover; position:absolute; bottom:25px; left:162px;}
+
+	.r02_bg{ width:180px; height:46px; border-radius:25px; border:1px #000000 solid; line-height:50px; text-align:center; font-size:14px; float:left; margin-top:5px; }
+	.r02_dot{ width:7px; height:7px; background-color:#000000; border-radius:50px; float:left;  position:absolute; top:27px; left:18px;}
+	.r02_txt{ width:180px; height:46px; line-height:50px; text-align:center; font-size:14px; float:left; position:absolute; top:5px;}
+	.r02_btn01{ width:10px; height:12px; background-image:url(assets/images/starwatch/sub01_img01.png); background-size:cover; position:absolute; top:24px; left:162px;}
+
+	/* sub02 ~ sub07 list영역 */
+	.listWrap { width:100%; height:100px; background-color:#ffffff; border-bottom:1px #dcdcdc solid; }
+	.list { width:100%; height:92px; background-color:#ffffff; margin:0 auto; position:relative; float: left;}
+	.list .day{position:absolute; color:#787878; font-size:11px; bottom: 0; right: 13px; height: 13px;}
+	.no { font-size:22px; line-height:92px; padding-left:13px; float:left; }
+	.no_top { font-size:22px; line-height:92px; padding-left:10px; float:left; color:#ff448a; }
+	.new_txt { width:10px; height:10px; position:absolute; top:31px; left:5px; }
+	.contain_img {width: 14px;    height: 12px;    margin-top: 6px;}
+	.list_txtView { width:100%; height:65px;  /*background-color:red;*/ padding-left:42px; padding-top:26px; position:relative;}
+	.list_txtView_sub07 { width:300px; height:65px;  /*background-color:red;*/ padding-left:42px; padding-top:18px; position:relative;}
+	.txtView01 { line-height:24px; font-size:14px; margin-bottom:2px; max-width:95%;    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: -webkit-box}
+	.txtView01 p{ margin-bottom: 0px; height: 100%;color:#000000; border-bottom:1px #000000 solid;}
+	.txtView02 { float:left; width:100px; height:14px; margin-right:2px; font-size:10px; color:#989696;    white-space: nowrap;}
+	.txtView02 img { height:11px; margin-right:6px;}
+	.txtView03 { clear:both;  margin-right:10px; font-size:8px; position:absolute; bottom:10px; color:#989696;}
+	.txtView03 img { height:11px; margin-right:6px;}
+	.imgView{ width:60px; height:60px; background-color:#f1f1f1; border:1px #8b8b8b solid; border-radius:50px; position:absolute; top:50%; margin-top:-30px; right:20px;}
+	.imgView_txt{ width:60px; height:60px; position:absolute; top:46%; margin-top:-10px; text-align:center; right:21px; font-weight:bold; line-height:16px;}
+
+
+
+
+	/* 레이어팝업 */
+	.conWrap{ position:fixed; top:0px; left:0px; width:100%; height:100%; background-color:rgba(0,0,0,0.80); z-index:1000;}
+	.conWrap2{ position:fixed; top:0px; left:0px; width:100%; height:100%; background-color:rgba(0,0,0,0.85); z-index:1000;}
+	.conbox01{ width:100%; height:280px;; position:relative; top:50%; margin-top:-150px; /*background-color:red;*/} /* sub05 팝업 */
+	.conbox02{ width:100%; height:auto; position:relative; top:50%; background-color:red;/**/} /* sub07 팝업 */
+	.original {position:absolute; width:86px; left:5px; top:5px;}
+	.original img {width:100%}
+	.conbox03{ max-width:100%; max-height: 250px;    overflow: auto; -webkit-overflow-scrolling:touch; position:relative; top:21%; line-height: 24px; background-color:#fff; padding : 15px; font-size:14px; /**/} /* sub07 팝업 */
+	.conbox04{ max-width:100%; max-height: 336px;    overflow: auto;  -webkit-overflow-scrolling:touch; position:relative; top:21%; line-height: 24px; background-color:#fff; padding : 15px; font-size:14px;/**/} /* sub07 팝업 */
+	.conbox05{ background-color:white;/*max-width:100%; height: 100%; position:relative; top:50px; line-height: 24px; padding : 15px; font-size:14px;*/} /* sub07 팝업 */
+  .conbox05 .col-sm-12{padding-top: 10px;    padding-bottom: 42px;}
+	.conbox05 .txt_title{font:14px 'NanumGothic', '나눔고딕', dotum, Arial, Tahoma, sans-serif; color:#5d5d5d;    margin-top: 10px; font-weight: bold;     margin-bottom: 5px;}
+	.conbox05 .txt_detail{font:12px 'NanumGothic', '나눔고딕', dotum, Arial, Tahoma, sans-serif; color:#000; margin-bottom: 12px;}
+	.conbox05 .grp_01{height:80px; position:relative;  margin:0 10px 38px 10px;}
+	.conbox05 .grp_01 .grp_bg {width:100%; height:20px; position: absolute; bottom: 25px;}
+	.conbox05 .grp_01 .grp_stick {height: 15px; position: absolute; top: 33px; left:50%;}
+	.conbox05 .grp_01 .grp_mark {height: 25px; position: absolute;     top: 6px;}
+	.conbox05 .grp_01 .grp_txt_left{position: absolute; bottom: 0;color: #000;text-align: justify;left:0; font-size: 10px;}
+	.conbox05 .grp_01 .grp_txt_right{position: absolute; bottom: 0;color: #000;text-align: justify;right:0; font-size: 10px;}
+  .conbox05 .grp_02{height:200px; position:relative;     margin: 10px 0 38px 0;}
+  .conbox05 .grp_03{position:relative;     margin-top: 10px; padding: 0 10px;}
+  .conbox05 .grp_03 span{font-size:12px; float:left; color:#69c4ca;  margin-bottom: 5px;}
+
+	.con01{ position:absolute; width:400px; height:250px; /*border:1px #ffffff solid;*/ left:50%; margin-left:-200px;} /* sub05 팝업 */
+	.con01 img{ height:100%; display:block; margin:auto auto;  }
+	.con02{ display:inline-table; position:absolute; width:300px; height:auto; border:1px #ffffff solid; left:50%; margin-left:-150px;  } /* sub07 팝업 */
+	.con02 img{ width:100%; display:block; vertical-align:middle;}
+	.closeBtn{ position:absolute; top:20px; right:20px;}
+.loading {
+	cursor:pointer;
+	text-align:center;
+ 	display: none;
+	position: fixed;
+	width: 100%;
+	height:100%;
+	/* opacity: 0.7; */
+    background-color: rgba(0, 0, 0, 0.5);
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+/* 	margin: auto; */
+	z-index: 9999;
+
+}
+
+.topScroll{
+	position: fixed;
+	z-index: 555;
+	bottom: 22px;
+    left: 13px;
+}
+.topScroll img{
+	width:50px;
+}
+
+.search_div{background-color: #f2f2f2; position: relative;    height: 50px;}
+.search_div .search_field{padding-top: 10px; padding-left: 5px; width: 100%; height: 100%;}
+.search_div .search_date{margin-right: 123px;}
+.search_div .search_date ul{    width: 100%;    height: 100%;}
+.search_div .search_date li{width: 33.3333%;    float: left;}
+.search_div select{ display:block; width:97%; height:30px;  border-radius:4px; background-color:#ffffff; padding-left:5px; border: 1px solid #cecece; }
+.search_div button { background-image: url(assets/images/starwatch/subpage_btn02.png); background-size: 100% 100%; background-repeat: no-repeat; width: 100%;height: 100%; border: 0;}
+.search_div .search{width:50px; height: 30px;     position: absolute;    right: 64px;    top: 10px;}
+.search_div .today{ width:50px; height: 30px; position: absolute; right:5px; top: 10px;}
+.search_div .today img{width:100%; height:100%;}
+
+section { text-align: center;}
+#zoomSection .panzoom { width: 100%; height: 100%;}
+
+
+.is-loading {
+  background-color: black;
+  background-image: url('http://desandro.github.io/imagesloaded/assets/loading.gif');
+}
+
+.is-broken {
+  background-image: url('http://desandro.github.io/imagesloaded/assets/broken.png');
+  background-color: #be3730;
+  width: 120px;
+}
+
+.is-loading img,
+.is-broken img {
+  opacity: 0;
+}

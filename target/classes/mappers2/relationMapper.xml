@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="org.union.mappers.RelationMapper">
+ 
+ 	<insert id="create">
+ 		insert into
+ 			relation_data(relation_keyword, relation_word)
+ 		values
+ 			(#{relation_keyword}, #{relation_word})
+ 	
+ 	</insert>
+ 
+ 	<update id="update">
+ 		update
+ 			relation_data
+ 		set
+ 			relation_keyword = #{relation_keyword},
+ 			relation_word = #{relation_word},
+ 			updateDate = now()
+ 		where
+ 			relation_idx = #{relation_idx}
+ 			
+ 	</update>
+ 	
+ 	<delete id="delete">
+ 		delete from
+ 			relation_data
+ 		where
+ 			relation_idx = #{relation_idx}
+ 	
+ 	</delete>
+ 	
+ </mapper>

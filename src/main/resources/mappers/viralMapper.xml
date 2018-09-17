@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.union.mapper.ViralMapper">
+
+	<sql id="search">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="startDate != null">
+			<if test="endDate != null">
+				and createDate <![CDATA[>=]]> #{startDate}
+				and createDate <![CDATA[<=]]> #{endDate}
+			</if>
+			<if test="endDate == null">
+			</if>
+		</if>
+		
+		<if test="portal_name != null">
+			<if test="portal_name == 'naver'.toString()">
+				and portal_name = 'naver'
+			</if>
+			<if test="portal_name == 'daum'.toString()">
+				and portal_name = 'daum'
+			</if>
+			<if test="portal_name == 'all'.toString()">
+				and portal_name is not null
+			</if>
+		</if>
+		
+		<if test="portal_type != null">
+			<if test="portal_type == 'blog'.toString()">
+				and portal_type = 'blog'
+			</if>
+			<if test="portal_type == 'cafe'.toString()">
+				and portal_type = 'cafe'
+			</if>
+			<if test="portal_type == 'kintip'.toString()">
+				and portal_type = 'kintip'
+			</if>
+			<if test="portal_type == 'webdoc'.toString()">
+				and portal_type = 'webdoc'
+			</if>
+			<if test="portal_type =='score'.toString()">
+				and portal_type = 'score'
+			</if>
+			<if test="portal_type == 'all'.toString()">
+				and portal_type is not null
+			</if>
+		</if>
+		
+	</sql>
+
+
+	<insert id="create">
+		insert into 
+			viral_data(user_idx,viral_time, portal_name, portal_type, viral_title, viral_rank, viral_isUser, keyword, url, writeDate)
+		values 
+			( #{user_idx}, #{viral_time}, #{portal_name}, #{portal_type}, #{viral_title}, #{viral_rank}, #{viral_isUser}, #{keyword}, #{url}, #{writeDate})
+            
+	</insert>
+
+	<select id="read" resultType="ViralVO">
+		select 
+			*
+		from 
+			viral_data
+		where
+			viral_idx = #{viral_idx}
+		
+	</select>
+	
+	<update id="update">
+		update 
+			viral_data
+		set 
+			viral_title = #{viral_title},
+            viral_rank = #{viral_rank},
+            user_idx = #{user_idx},
+            keyword = #{keyword},
+            url = #{url},
+            writeDate = #{writeDate},
+            updateDate = now()
+		where 
+			viral_idx = #{viral_idx}
+			
+	</update>
+	
+	<delete id="delete">
+		delete from
+			viral_data
+		where
+			viral_idx = #{viral_idx}
+			
+	</delete>
+	
+	<select id="searchInList" resultType="ViralVO">
+		select
+			*
+		from
+			viral_data
+		where 
+			viral_isUser = 1
+		<include refid="search"></include>
+		order by viral_time desc, keyword, viral_rank
+		
+	</select>
+	
+	<select id="searchOutList" resultType="ViralVO">
+		select
+			*
+		from
+			viral_data
+		where 
+			viral_isUser = 2
+		<include refid="search"></include>
+		order by viral_time desc, keyword, viral_rank
+		
+	</select>
+	
+	<select id="searchAllList" resultType="ViralVO">
+		select
+			*
+		from
+			viral_data
+		where 
+			keyword is not null
+		<include refid="search"></include>
+		order by portal_name desc, viral_time desc, keyword, viral_rank;
+		
+	</select>
+	
+	<select id="getSearchInCount" resultType="Integer">
+		select
+			count(*)
+		from
+			viral_data
+		where
+			viral_isUser = 1
+		<include refid="search"></include>
+	
+	</select>
+	
+	<select id="getSearchOutCount" resultType="Integer">
+		select
+			count(*)
+		from
+			viral_data
+		where
+			viral_isUser = 2
+		<include refid="search"></include>
+	
+	</select>
+	
+	<select id="getHistoryCount" resultType="Integer">
+		select count(*) as count
+		from (
+    			select
+					*
+				from
+					viral_history_data
+				where
+					viral_time is not null
+				<include refid="search"></include>
+				group by url
+        
+        	) as rowData
+		
+	</select>
+	
+	<select id="historyPage" resultType="ViralVO">
+		select
+			*
+		from
+			viral_history_data
+		where
+			viral_time is not null
+		<include refid="search"></include>
+		group by url
+	
+		limit #{startPage}, #{perPageNum}
+	
+	</select>
+	
+	<select id="getHistoryRank" resultType="GraphVO">
+		select viral_time writeDate, viral_rank type1 from viral_history_data 
+		where url = #{url}
+		group by date_format(viral_time, '%x-%m-%d') 
+		order by viral_time desc 
+		limit 1, 10
+	
+	
+	</select>
+	
+</mapper>

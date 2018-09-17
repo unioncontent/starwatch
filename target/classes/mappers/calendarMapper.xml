@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.union.mapper.CalendarMapper">
+
+	
+	<insert id="create">
+		insert into calendar_data(calendar_title, calendar_date) values(#{calendar_title}, #{calendar_date})
+	
+	</insert>
+
+	<delete id="delete">
+		delete from calendar_data where calendar_title = #{title}
+	
+	</delete>
+	
+	<select id="listDate" resultType="CalendarVO">
+		select date_format(calendar_date, '%x-%m-%d') calendar_date, group_concat(calendar_title) calendar_title
+		from calendar_data group by calendar_date
+	
+	</select>
+
+
+</mapper>

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.union.mapper.KeywordMapper">
+
+	<sql id="search">
+		<if test="selectKey == null">
+			and keyword_main = #{selectKey}
+		</if>
+		<if test="selectKey != null">
+			and keyword_main = #{selectKey}
+		</if>
+	</sql>
+	<sql id="search_writeDate">
+		<if test="company != null">
+			and
+			   keyword in (select 
+						keyword 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company} 
+									and 
+										keyword_property = '포함'
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+				and keyword in (select keyword from keyword_data where keyword_property = '포함' and keyword_main = #{selectKey})
+		</if>
+		<if test="writeDate != null">
+			and writeDate = #{writeDate}
+		</if>
+		<if test="startDate == null">
+			and writeDate <![CDATA[>=]]> CURDATE()
+		</if>
+		<if test="startDate != null">
+			and writeDate <![CDATA[>=]]> #{startDate}
+			<if test="endDate != null">
+				and writeDate <![CDATA[<=]]> #{endDate}
+			</if>
+		</if>
+		<if test="textType != null">
+			and textType = #{textType}
+		</if>
+	</sql>
+	
+	<sql id="search_writeDate2">
+		<if test="company != null">
+			and
+			   user_idx in (select 
+						user_idx 
+					from 
+						keyword_data
+					where
+						user_idx = (select 
+										user_idx 
+									from 
+										user_data 
+									where 
+										user_name = #{company}
+									)
+					)
+		</if>
+		<if test="selectKey != null">
+			and keyword_main = #{selectKey}
+		</if>
+	</sql>
+
+	<insert id="create">
+		insert into
+			keyword_data(user_idx, keyword_type, keyword_property, keyword)
+		values
+			(#{user_idx}, #{keyword_type}, #{keyword_property}, #{keyword})
+	
+	</insert>
+
+	<select id="read" resultType="KeywordVO">
+		select
+			*
+		from
+			keyword_data
+		where
+			keyword = #{keyword}
+		limit 0, 1
+	</select>
+
+	<update id="update">
+		update
+			keyword_data
+		set
+			user_idx = #{user_idx},
+			keyword_type = #{keyword_type},
+			keyword_property = #{keyword_property},
+			keyword = #{keyword},
+			updateDate = now()
+		where
+			keyword_idx = #{keyword_idx}
+	
+	</update>
+	
+	<update id="stateUpdateOn">
+		update keyword_data 
+			set keyword_property='포함'
+		where
+			keyword_main = #{keyword_main} and keyword_property='포함0';
+	
+	</update>
+	
+	<update id="stateUpdateOff">
+		update keyword_data 
+			set keyword_property='포함0'
+		where
+			keyword_main = #{keyword_main} and keyword_property='포함';
+	
+	</update>
+
+	<delete id="delete">
+		delete from
+			keyword_data
+		where
+			keyword = #{keyword}
+		
+	</delete>
+	
+	<delete id="swearwordDelete">
+		delete from
+			swearword_data
+		where
+			swearword = #{swearword}
+		
+	</delete>
+	
+	<select id="listByUser" resultType="KeywordVO">
+		select distinct
+			keyword_main
+		from
+			keyword_data
+		where
+			user_idx = #{user_idx}
+		and
+			keyword_property = '포함'
+	
+	</select>
+	
+	<select id="getKeyword" resultType="KeywordVO">
+		select 
+			distinct keyword 
+		from 
+			keyword_data 
+		where 
+			keyword_main = #{keyword_main} 
+		and 
+			keyword_property='포함';
+	
+	</select>
+	
+	<select id="readByKeyword" resultType="KeywordVO">
+		select
+			user_idx
+		from
+			keyword_data
+		where
+			keyword = #{keyword}
+	
+	</select>
+
+	<select id="listAll" resultType="KeywordVO">
+		select distinct
+			keyword_main, user_idx
+		from
+			keyword_data
+		where
+			keyword_property = '포함'
+		order by user_idx
+	
+	</select>
+	
+	<select id="showboxListAll" resultType="KeywordVO">
+		select distinct
+			keyword_main, user_idx
+		from
+			keyword_data
+		where
+			keyword_property = '포함'
+		and keyword in (select keyword from keyword_data where user_idx = any(select user_idx from user_data where user_name = '쇼박스') )	
+		order by user_idx
+	</select>
+	
+	<select id="listPage" resultType="KeywordListVO">
+		select 
+			keyword_main, 
+    		count(if(keyword_property = '포함', keyword_property, null)) first,
+    		count(if(keyword_property = '제외', keyword_property, null)) second,
+    		createDate,
+    		(select company_name from user_data  b where b.user_idx = a.user_idx) company
+		from keyword_data a
+		where
+			keyword_main is not null
+		<include refid="search_writeDate2"></include> 
+		group by keyword_main
+	</select>
+	
+	<insert id="createMain">
+		insert keyword_data (user_idx, keyword_main)
+		values ((select user_idx from user_data b where company_name = #{company}), #{keyword_main})
+	</insert>
+	
+	<select id="listByMain" resultType="KeywordVO">
+		select * from keyword_data where keyword_main = #{keyword_main}
+	
+	</select>
+	
+	<insert id="createKeyword">
+		insert keyword_data (user_idx, keyword_main, keyword, keyword_property, keyword_type)
+		values
+			(
+		    (select user_idx from keyword_data a where keyword_main = #{keyword_main} group by keyword_main),
+		    #{keyword_main},
+		    #{keyword},
+		    #{keyword_property},
+		    #{keyword_type}
+		    )
+		
+	</insert>
+	
+	<delete id="deleteMain">
+		delete from keyword_data where keyword_main = #{keyword_main}
+	
+	</delete>
+
+	<select id="checkMain" resultType="Integer">
+		select count(*) from keyword_data where keyword_main = #{keyword_main}
+	
+	</select>
+	
+	<select id="checkSwearword" resultType="Integer">
+		select count(*) from swearword_data where swearword = #{swearword}
+	
+	</select>
+	
+	<select id="swearwordList" resultType="SwearwordVO">
+		select 
+			*
+		from 
+			swearword_data
+		order by swearword_idx
+	</select>
+	
+	<insert id="swearwordCreate">
+		insert into
+			swearword_data(swearword)
+		values
+			(#{swearword})
+	
+	</insert>
+	
+	<select id="keywordGetList" resultType="KeywordVO">
+		select 
+			keyword 
+		from 
+			keyword_data 
+		where
+			keyword_property='포함'
+		<include refid="search"></include> 
+			
+	</select>
+	
+	<insert id="createIssue">
+		insert into
+			issue_data(company_name, title_key, keyword, issue_content, writeDate)
+		values
+			(#{company_name}, #{title_key}, #{keyword}, #{issue_content}, #{writeDate})
+	</insert>
+	
+	<select id="issueList" resultType="IssueVO">
+		select 
+			* 
+		from 
+			issue_data
+		where
+			issue_content is not null 
+		<include refid="search_writeDate"></include>
+		order by writeDate desc;
+	</select>
+	
+	<select id="issueUpList" resultType="IssueVO">
+		select 
+			issue_idx,title_key,keyword,issue_content,DATE_FORMAT(writeDate,'%Y-%m-%d')as writeDate,createDate
+		from 
+			issue_data
+		where
+			issue_content is not null 
+		<include refid="search_writeDate"></include>
+		order by writeDate desc;
+	</select>
+	
+	<update id="issueUpdate">
+		update
+			issue_data
+		set
+			issue_content = #{issue_content}
+		where
+			issue_idx = #{issue_idx}
+	</update>
+	
+	<delete id="issueDelete">
+		delete from
+			issue_data
+		where
+			issue_idx = #{issue_idx}
+		
+	</delete>
+	
+</mapper>
