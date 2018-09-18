@@ -20,12 +20,12 @@
     	</security:headers>
 	
 
-		<security:form-login login-page="/starwaaach"
+		<security:form-login login-page="/starwatch"
 			username-parameter="username" 
 			password-parameter="password"
 			login-processing-url="/loginAction" 
 			default-target-url="/login/loginSuccess"
-			authentication-failure-url="http://overware.co.kr/" 
+			authentication-failure-url="/starwatch" 
 			always-use-default-target="true"
 			 />
 
