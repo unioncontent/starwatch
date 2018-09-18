@@ -77,6 +77,32 @@
     border-radius: 1px;
     border-width: 1px;
 	}
+	#loading {
+	height: 100%;
+	left: 0px;
+	position: fixed;
+	_position:absolute; 
+	top: 0px;
+	width: 100%;
+	filter:alpha(opacity=50);
+	-moz-opacity:0.5;
+	opacity : 0.5;
+	}
+	
+	.loading {
+		background-color: darkgrey;
+		z-index: 199;
+	}
+	
+	#loading_img{
+		position:absolute; 
+		top:50%;
+		left:50%;
+		height:300px;
+		margin-top:-100px; 
+		margin-left:-165px;
+		z-index: 200; 
+	}
   </style>
 </head>
 
@@ -340,6 +366,19 @@ $(function() {
 	  $(document).ajaxSend(function(e, xhr, options) {
 	  	xhr.setRequestHeader(header, token);
 	  });
+});
+
+//BODY 에 로딩화면 추가
+var loading = $('<div id="loading" class="loading"></div><img id="loading_img" alt="loading" src="../assets/images/ajax-loader.gif" style="width: 330px; height: 219px;">').appendTo(document.body).hide();
+
+//	ajax 통신 시작시 실행
+$(window).ajaxStart(function() {
+	loading.show();
+});
+
+//	ajax 통신 종료시 실행
+$(window).ajaxStop(function() {
+	loading.hide();
 });
 
 $(document).ready(function(){
