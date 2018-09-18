@@ -20,12 +20,12 @@
     	</security:headers>
 	
 
-		<security:form-login login-page="/starwatch"
+		<security:form-login login-page="/"
 			username-parameter="username" 
 			password-parameter="password"
 			login-processing-url="/loginAction" 
 			default-target-url="/login/loginSuccess"
-			authentication-failure-url="/starwatch" 
+			authentication-failure-url="" 
 			always-use-default-target="true"
 			 />
 
