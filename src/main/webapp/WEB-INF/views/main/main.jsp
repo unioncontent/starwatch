@@ -221,7 +221,7 @@
                                   	<c:if test="${mpersen < 10}"><img src="../assets/images/starwatch/gif_icon01.gif" /></c:if>
                                     <c:if test="${mpersen >= 10 && mpersen <=20}"><img src="../assets/images/starwatch/gif_icon02.gif" /></c:if>
                                     <c:if test="${mpersen >= 21 && mpersen <=30}"><img src="../assets/images/starwatch/gif_icon03.gif" /></c:if>
-                                    <c:if test="${mpersen >= 31}"><img src="../assets/images/starwatch/gif_icon04.png" /></c:if>
+                                    <c:if test="${mpersen >= 31}"><img src="../assets/images/starwatch/gif_icon04.gif" /></c:if>
                                   </li>
                                   <li class="menu_subtxt">${mediaCount} 개</li>
                                 </ul>
@@ -261,7 +261,7 @@
                                     <c:if test="${cmpersen < 10}"><img src="../assets/images/starwatch/gif_icon01.gif" /></c:if>
                                     <c:if test="${cmpersen >= 10 && cmpersen <=20}"><img src="../assets/images/starwatch/gif_icon02.gif" /></c:if>
                                     <c:if test="${cmpersen >= 21 && cmpersen <=30}"><img src="../assets/images/starwatch/gif_icon03.gif" /></c:if>
-                                    <c:if test="${cmpersen >= 31}"><img src="../assets/images/starwatch/gif_icon04.png" /></c:if>
+                                    <c:if test="${cmpersen >= 31}"><img src="../assets/images/starwatch/gif_icon04.gif" /></c:if>
                                   </li>
                                   <li class="menu_subtxt">${writeTextType.al} 개</li>
                                 </ul>
@@ -300,7 +300,7 @@
                                     <c:if test="${rpersen < 10}"><img src="../assets/images/starwatch/gif_icon01.gif" /></c:if>
                                     <c:if test="${rpersen >= 10 && rpersen <=20}"><img src="../assets/images/starwatch/gif_icon02.gif" /></c:if>
                                     <c:if test="${rpersen >= 21 && rpersen <=30}"><img src="../assets/images/starwatch/gif_icon03.gif" /></c:if>
-                                    <c:if test="${rpersen >= 31}"><img src="../assets/images/starwatch/gif_icon04.png" /></c:if>
+                                    <c:if test="${rpersen >= 31}"><img src="../assets/images/starwatch/gif_icon04.gif" /></c:if>
                                   </li>
                                   <li class="menu_subtxt">${replyCount} 개</li>
                                 </ul>
