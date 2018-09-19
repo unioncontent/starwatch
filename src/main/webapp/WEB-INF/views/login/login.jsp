@@ -56,7 +56,7 @@
                             <div class="auth-box">
                                <div class="row">
 								<div class="col-md-12">
-									<img src="../assets/images/starwatch_logo.png" alt="logo.png" style="width:  200px;height: 53px;">
+									<img src="../starwatch/assets/images/starwatch_logo.png" alt="logo.png" style="width:  200px;height: 53px;">
 								</div>
 							</div>
                                 <hr/>
