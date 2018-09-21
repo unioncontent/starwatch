@@ -169,6 +169,18 @@
                           </c:forEach>
                           </c:if>
                         </select>
+                        <select id = "selectPart" name="select" class="col-md-1 form-control form-control-inverse m-b-10 p-r-5 f-left select-left">
+                          <option>분류</option>
+                          <option value="media">뉴스</option>
+                          <option value="write">게시글</option>
+                          <option value="reply">댓글</option>
+                        </select>
+                        <select id = "selectTextType" name="select" class="col-md-1 form-control form-control-inverse m-b-10 p-r-5 f-left select-left">
+                          <option>분류글</option>
+                          <option value="좋은글">좋은글</option>
+                          <option value="나쁜글">나쁜글</option>
+                          <option value="관심글">관심글</option>
+                        </select>
 						</c:if>
                       </div>
                       <div class="col-md-6">

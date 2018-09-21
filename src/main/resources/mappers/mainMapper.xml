@@ -202,6 +202,8 @@
 			url is not null
 		and
 			textType != '삭제글'
+		and
+			portal_type != 'score'
 		<include refid="search_writeDate"></include>
         ) x;
 		
@@ -246,6 +248,8 @@
 			url is not null
 		and
 			textType != '삭제글'
+		and
+			portal_type != 'score'
 		<include refid="search_writeDate"></include>
         ) x
         order 
@@ -279,6 +283,8 @@
 			url is not null
 		and
 			textType != '삭제글'
+		and
+			portal_type != 'score'
 		<include refid="search_writeDate"></include>
         ) x;
 		
