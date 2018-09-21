@@ -141,7 +141,19 @@
                           </c:forEach>
                           </c:if>
                         </select>
-						</c:if>
+                        <select id = "selectPart" name="select" class="col-md-1 form-control form-control-inverse m-b-10 p-r-5 f-left select-left">
+                          <option>분류</option>
+                          <option value="media">뉴스</option>
+                          <option value="write">게시글</option>
+                          <option value="reply">댓글</option>
+                        </select>
+                        <select id = "selectTextType" name="select" class="col-md-1 form-control form-control-inverse m-b-10 p-r-5 f-left select-left">
+                          <option>분류글</option>
+                          <option value="좋은글">좋은글</option>
+                          <option value="나쁜글">나쁜글</option>
+                          <option value="관심글">관심글</option>
+                        </select>
+                        </c:if>
 
 						<c:if test="${user.user_name != 'union'}">
                         <select name="select" class="col-md-1 form-control form-control-inverse m-b-10 m-l-0 p-r-5 f-left select-left" id="selectKeyword">
@@ -220,9 +232,19 @@
                           	<img src="../assets/images/starwatch/sub01_tit03.png" alt="뉴스_관심기사">
                           	<span class="sub02_txt02"><img src="../assets/images/starwatch/sub02_img05.png" alt="긍정 댓글"> 관심 댓글 : ${total}건</span>
                           </c:if>
-                            
                           </li>
                           <c:if test="${ 'media' eq part}">
+
+                          <c:if test="${empty detailMediaList}">
+                          <div class="listWrap">
+                            <ul style="margin-top: 50px;">
+                            <li style="vertical-align:middle; text-align: center;">
+                            	<b>등록된 기사글이 없습니다.</b>
+                            </li>
+                            </ul>
+                          </div>
+                          </c:if>
+                          
                       	  <c:forEach items="${detailMediaList}" var = "detailM" varStatus="index">
                           <div class="listWrap">
                             <ul class="list">
@@ -251,6 +273,17 @@
                         </c:forEach>
                         </c:if>
                         <c:if test="${ 'write' eq part}">
+                        
+                        <c:if test="${empty detailWriteList}">
+                          <div class="listWrap">
+                            <ul style="margin-top: 50px;">
+                            <li style="vertical-align:middle; text-align: center;">
+                            	<b>등록된 게시글이 없습니다.</b>
+                            </li>
+                            </ul>
+                          </div>
+                          </c:if>
+                        
                       	  <c:forEach items="${detailWriteList}" var = "detailM" varStatus="index">
                           <div class="listWrap">
                             <ul class="list">
@@ -279,6 +312,17 @@
                         </c:forEach>
                         </c:if>
                         <c:if test="${ 'reply' eq part}">
+                        
+                          <c:if test="${empty detailReplyList}">
+	                          <div class="listWrap">
+	                            <ul style="margin-top: 50px;">
+	                            <li style="vertical-align:middle; text-align: center;">
+	                            	<b>등록된 댓글이 없습니다.</b>
+	                            </li>
+	                            </ul>
+	                          </div>
+                          </c:if>
+                        
                       	  <c:forEach items="${detailReplyList}" var = "detailM" varStatus="index">
                           <div class="listWrap">
                             <ul class="list">
@@ -507,6 +551,52 @@ $(document).ready(function(){
 		searchList();
 	});
 	
+	var textOption = decodeURI(window.location.href.split("textType=")[1]).split("&")[0];
+	console.log("textOption: " + textOption);
+
+	var $selectTextType = $('#selectTextType');
+
+	if(selectTextType != 'undefined'){
+		for(var i = 0; i < $selectTextType[0].length; i++ ){
+			if($selectTextType[0][i].value == textOption){
+				$selectTextType[0][i].selected = 'selected';
+			}
+		}
+	}
+	$selectTextType[0][0].disabled = true;
+
+
+	// 분류 선택시
+	$selectTextType.change(function(){
+		console.log("selectTextType clicked....");
+		console.log($('#selectTextType option:selected').val());
+
+		searchList();
+	});
+	
+	var partOption = decodeURI(window.location.href.split("part=")[1]).split("&")[0];
+	console.log("partOption: " + partOption);
+
+	var $selectPart = $('#selectPart');
+
+	if(selectPart != 'undefined'){
+		for(var i = 0; i < $selectPart[0].length; i++ ){
+			if($selectPart[0][i].value == partOption){
+				$selectPart[0][i].selected = 'selected';
+			}
+		}
+	}
+	$selectPart[0][0].disabled = true;
+
+
+	// 파트 선택시
+	$selectPart.change(function(){
+		console.log("selectPart clicked....");
+		console.log($('#selectPart option:selected').val());
+
+		searchList();
+	});
+	
 	// 당일 클릭시
 	$('#toDay').on("click", function(){
 	  console.log("toDay clicked....");
@@ -664,9 +754,8 @@ makeDateFormat($("#fromDate").val());
 	  				  + "&selectKey="
 	  				  + $('#selectKeyword option:selected').val()
 	  				  + "&part="
-	  				  + $('input[name=part]').val()
-	  				  + "&textType="
-	  				  + $('input[name=textType]').val()
+	  				  + $("#selectPart option:selected").val()
+	  				  + "&textType=" + $("#selectTextType option:selected").val()
 	  			      + "&startDate=" + makeDateFormat($("#fromDate").val(), 0)
 		  			  + "&endDate=" +  makeDateFormat($("#fromDate").val(), 1);
 	  	
