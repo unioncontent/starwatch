@@ -121,8 +121,7 @@ tr.more{
   text-overflow: ellipsis;
 }
 .content-nowrap2{
-  width: 270px;
-  margin:0 auto;
+  width: 250px;
   overflow: hidden;
   text-overflow: ellipsis;
 }

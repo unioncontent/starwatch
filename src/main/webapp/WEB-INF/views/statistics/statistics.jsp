@@ -221,8 +221,8 @@
                               <img src="../assets/images/starwatch/sub01_pop_graph_bg.png" class="grp_bg" />
                               <img src="../assets/images/starwatch/sub01_pop_graph_icon01.png" class="grp_mark" style="left:calc(${badpersen}% - 9px);" />
                               <!-- <img src="assets/images/starwatch/sub01_pop_graph_icon02.png" class="grp_stick" /> -->
-                              <div class="grp_txt_left">BAD</div>
-                              <div class="grp_txt_right"> GOOD</div>
+                              <div class="grp_txt_left">GOOD</div>
+                              <div class="grp_txt_right">BAD</div>
                             </div>
                           </div>
                           <div class="col-sm-12">
