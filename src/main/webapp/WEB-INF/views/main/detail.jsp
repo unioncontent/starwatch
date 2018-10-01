@@ -267,7 +267,7 @@
                                 <ul class="list_txtView">
                                   <li class="txtView01">
                                   	<c:if test="${ '나쁜글' eq textType}">
-                                  		<img class="contain_img" src="../assets/images/starwatch/sub_icon01.png">
+                                  		<img class="contain_img" src="../assets/images/starwatch/sub_icon01.png"style="margin-right: 5px;">
                                   	</c:if>
                                     <p><a href="${detailM.url}" target="_blank">
                                     <div class='content-nowrap2'>${detailM.media_title}</div>
@@ -306,7 +306,7 @@
                                 <ul class="list_txtView">
                                   <li class="txtView01">
                                   	<c:if test="${ '나쁜글' eq textType}">
-                                  		<img class="contain_img" src="../assets/images/starwatch/sub_icon01.png">
+                                  		<img class="contain_img" src="../assets/images/starwatch/sub_icon01.png" style="margin-right: 5px;">
                                   	</c:if>
                                     <p><a href="${detailM.url}" target="_blank">
                                     <div class='content-nowrap2'>${detailM.community_title}</div>
