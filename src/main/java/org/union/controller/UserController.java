@@ -56,30 +56,32 @@ public class UserController {
 
 			session.setAttribute("companyList", userService.listAll());
 			session.setAttribute("keywordList", keywordService.listAll());
+			
+			return "redirect:../main/main";
 		
 		}else {
 			logger.info("CP 접속");
 			
 			session.setAttribute("keywordList", keywordService.listByUser(vo.getUser_idx()));
 			session.setAttribute("companyList", vo);
+			
+			List<KeywordVO> userList = keywordService.listByUser(vo.getUser_idx());
+			String userk = userList.get(0).getKeyword_main();
+			String user = URLEncoder.encode(userk, "UTF-8");
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date current = new Date();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(current);
+			cal.add(Calendar.DATE, -7);
+			String date1 = sdf.format(cal.getTime());
+			
+			Calendar cal2 = Calendar.getInstance();
+			cal2.setTime(current);
+			String date2 = sdf.format(cal2.getTime());
+			
+			return "redirect:../main/main?&selectKey="+user+"&startDate="+date1+"&endDate="+date2;
 		}
-		
-		List<KeywordVO> userList = keywordService.listByUser(vo.getUser_idx());
-		String userk = userList.get(0).getKeyword_main();
-		String user = URLEncoder.encode(userk, "UTF-8");
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date current = new Date();
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(current);
-		cal.add(Calendar.DATE, -7);
-		String date1 = sdf.format(cal.getTime());
-		
-		Calendar cal2 = Calendar.getInstance();
-		cal2.setTime(current);
-		String date2 = sdf.format(cal2.getTime());
-		
-		return "redirect:../main/main?&selectKey="+user+"&startDate="+date1+"&endDate="+date2;
 	}
 	
 	@GetMapping("/logout")
