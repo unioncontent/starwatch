@@ -43,7 +43,7 @@ public class StatisticsController {
 	private static Logger logger = LoggerFactory.getLogger(StatisticsController.class);
 
 	@GetMapping("/statistics")
-	public void statisticsGET(@ModelAttribute("cri") SearchCriteria cri, Model model, String selectKey) throws SQLException {
+	public void statisticsGET(@ModelAttribute("cri") SearchCriteria cri, Model model, String selectKey, String startDate, String endDate) throws SQLException {
 		logger.info("statistics called....");
 		
 		cri.setKeyword(null);
@@ -83,6 +83,8 @@ public class StatisticsController {
 		
 		model.addAttribute("searchkeywordList", statisticsService.searchkeywordList(cri));
 		model.addAttribute("selectKey", selectKey);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
 		
 	
 		Integer totalCnt = statisticsService.searchkeywordCount(cri);

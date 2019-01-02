@@ -99,7 +99,11 @@
       <div class="pcoded-main-container">
         <div class="pcoded-wrapper">
           <!-- left menu start -->
-          <jsp:include page='../include/side.jsp' />
+          <jsp:include page='../include/side.jsp' flush="false">
+	          <jsp:param name="selectKey" value="${selectKey}"/>
+	          <jsp:param name="startDate" value="${startDate}"/>
+	          <jsp:param name="endDate" value="${endDate}"/>
+		  </jsp:include>
           <!-- left menu end -->
           <!-- content start -->
           <div class="pcoded-content">
@@ -114,7 +118,7 @@
                       <div class="col-md-6">
                         <c:if test="${user.user_name == 'union'}">
                         <select name="select" class="col-md-1 form-control form-control-inverse m-l-0 m-b-10 p-r-5 f-left select-left" id="selectKeyword">
-                          <option>키워드</option>
+                          <!-- <option>키워드</option> -->
                           <c:if test="${modelKeywordList == null}" >
                           	<c:forEach items="${keywordList}" var = "keywordList">
                           <option value="${keywordList.keyword_main}">${keywordList.keyword_main}</option>
@@ -130,7 +134,7 @@
 
 						<c:if test="${user.user_name != 'union'}">
                         <select name="select" class="col-md-1 form-control form-control-inverse m-b-10 m-l-0 p-r-5 f-left select-left" id="selectKeyword">
-                          <option>키워드</option>
+                          <!-- <option>키워드</option> -->
                           <c:if test="${modelKeywordList == null}" >
                           	<c:forEach items="${keywordList}" var = "keywordList">
                           <option value="${keywordList.keyword_main}">${keywordList.keyword_main}</option>

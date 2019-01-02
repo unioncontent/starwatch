@@ -2,6 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%
+request.setCharacterEncoding("utf-8");
+String keyword = request.getParameter("selectKey");
+String startDate = request.getParameter("startDate");
+String endDate = request.getParameter("endDate");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- left menu start -->
 <style>
@@ -34,14 +40,14 @@
     </div>
     <ul class="pcoded-item pcoded-left-item">
 	    <li class="main">
-		    <a href="../main/main">
+		    <a href="../main/main?selectKey=<%=keyword%>&startDate=<%=startDate%>&endDate=<%=endDate%>">
 		    <span class="pcoded-micon"><i class="ti-dashboard"></i></span>
 		    <span class="pcoded-mtext">모니터링현황</span>
 		    <span class="pcoded-mcaret"></span>
 		    </a>
 	    </li>
 	    <li class="statistics">
-		    <a href="../statistics/statistics">
+		    <a href="../statistics/statistics?selectKey=<%=keyword%>&startDate=<%=startDate%>&endDate=<%=endDate%>">
 			    <span class="pcoded-micon"><i class="ti-stats-up"></i></span>
 			    <span class="pcoded-mtext">통계현황</span>
 			    <span class="pcoded-mcaret"></span>
@@ -64,6 +70,5 @@
 			li.className += " active pcoded-trigger";
 		}
 		
-	
 </script>
 <!-- left menu end -->

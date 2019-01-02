@@ -125,7 +125,11 @@
       <div class="pcoded-main-container">
         <div class="pcoded-wrapper">
           <!-- left menu start -->
-          <jsp:include page='../include/side.jsp' />
+          <jsp:include page='../include/side.jsp' flush="false">
+	          <jsp:param name="selectKey" value="${selectKey}"/>
+	          <jsp:param name="startDate" value="${startDate}"/>
+	          <jsp:param name="endDate" value="${endDate}"/>
+		  </jsp:include>
           <!-- left menu end -->
           <!-- content start -->
           <div class="pcoded-content">

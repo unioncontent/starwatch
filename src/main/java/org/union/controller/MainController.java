@@ -56,10 +56,10 @@ public class MainController {
 		cri.setKeyword(null);
 		cri.setTextType(null);
 		
-		if(cri.getSelectKey() == "" || "키워드".equals(cri.getSelectKey()) ) {
+		/*if(cri.getSelectKey() == "" || "키워드".equals(cri.getSelectKey()) ) {
 			logger.info("selectKey is null");
 			cri.setSelectKey(null);
-		}
+		}*/
 		if("undefined".equals(cri.getStartDate()) || "undefined".equals(cri.getEndDate())
 				|| cri.getStartDate() == "" || cri.getEndDate() == ""){
 			cri.setStartDate(null);
@@ -122,7 +122,7 @@ public class MainController {
 	}
 	
 	@GetMapping("/detail")
-	public void detailGET(@ModelAttribute("cri") SearchCriteria cri, Model model, String part, Integer total) throws SQLException {
+	public void detailGET(@ModelAttribute("cri") SearchCriteria cri, Model model, String part, Integer total, String selectKey, String startDate, String endDate) throws SQLException {
 		logger.info("detail called....");
 		
 		cri.setKeyword(null);
@@ -166,6 +166,10 @@ public class MainController {
 		}
 		
 		logger.info("cri: " + cri);
+		
+		model.addAttribute("selectKey", selectKey);
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
 		
 		if(part.equals("media")) {
 			
