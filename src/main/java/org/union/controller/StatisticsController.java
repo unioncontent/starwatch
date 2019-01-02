@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.javassist.bytecode.stackmap.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,8 @@ public class StatisticsController {
 		model.addAttribute("selectKey", selectKey);
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
+		model.addAttribute("total", statisticsService.searchkeywordCount(cri));
+		model.addAttribute("badtotal", statisticsService.searchkeywordBadCount(cri));
 		
 	
 		Integer totalCnt = statisticsService.searchkeywordCount(cri);
@@ -92,7 +95,7 @@ public class StatisticsController {
 		logger.info("총수:" + statisticsService.searchkeywordCount(cri));
 		logger.info("나쁜글:" + statisticsService.searchkeywordBadCount(cri));
 		
-		double badpersen = Math.round(badCnt / totalCnt * 100);
+		long badpersen = Math.round(badCnt / totalCnt * 100);
 		
 		logger.info("퍼센트" + badpersen);
 		

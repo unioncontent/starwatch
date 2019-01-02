@@ -212,15 +212,23 @@
                             </div>
                           </div>
                           <br>
-                          <div class="col-sm-12">
+                          <div class="col-sm-12" style="height: 200px;">
                             <p class="txt_title">● TODAY 스타리듬</p>
                             <p class="txt_detail">
                             <c:if test="${selectKey != null}">
                             	${selectKey}님의 전체적인 오늘 상황의 데이터 결과입니다.
+								<div class="grp_03" id="grp_03">
+									<span>
+		                            	총게시글 : <fmt:formatNumber value="${total}" pattern="#,###" />건 /
+		                           	          나쁜글 : <fmt:formatNumber value="${badtotal}" pattern="#,###" />건 /
+		                           	          퍼센트 : ${badpersen}%
+	                            	</span>
+                            	</div>
                             </c:if>
                             <c:if test="${selectKey == null}">
                             </c:if>
                             </p>
+                            <br>
                             <div class="grp_01">
                               <img src="../assets/images/starwatch/sub01_pop_graph_bg.png" class="grp_bg" />
                               <img src="../assets/images/starwatch/sub01_pop_graph_icon01.png" class="grp_mark" style="left:calc(${badpersen}% - 9px);" />
