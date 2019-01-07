@@ -41,6 +41,9 @@
 		#link:hover{
 			text-decoration: underline;
 		}
+		.btn:focus, .btn:hover {
+		    background-color: #3b628a !important;
+		}
 	</style>
 </head>
 
