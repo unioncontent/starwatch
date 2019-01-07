@@ -42,7 +42,7 @@
             <li class="user-profile header-notification">
                 <form id='logoutForm' action="../logoutAction" method="post">
                 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-                  		<a onclick='$("#logoutForm").submit();'>
+                  		<a onclick='$("#logoutForm").submit();' style="cursor:pointer;">
                     <i class="ti-layout-sidebar-left"></i> Logout
                   </a>
                 </form>

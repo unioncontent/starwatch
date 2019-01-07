@@ -73,7 +73,7 @@
                                 <div class="row m-t-30">
                                     <div class="col-md-12">
                                       <button id='loginBtn' type="button" class="btn bg-inverse btn-md btn-block waves-effect text-center m-b-20"
-                                      onclick="login();" >확인</button>
+                                      onclick="login();" style="cursor:pointer;">확인</button>
                                     </div>
                                 </div>
                                 <hr />
