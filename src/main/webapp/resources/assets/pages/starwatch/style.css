@@ -176,7 +176,7 @@
 	.menu_subtxt{ font-size:18px; font-weight:bold; margin-left:17px; margin-top:4px; margin-right:15px;}
 
 	.menu01_right{ /*background-color:pink;*/ position:absolute; right:15px; top:15px; height:100%; width: 161px;}
-	.menu01_right a{ cursor:none; color:#000000;}
+	.menu01_right a{ cursor:pointer; color:#000000;}
 	.menu_r01{ height:44px; /*background-color:blue;*/  position:relative; margin-left:10px; margin:auto;     font-size: 14px;}
 	.menu_r02{ height:44px; /*background-color:blue;*/ border-top: 1px solid #e7e7e7; border-bottom: 1px solid #e7e7e7; position:relative; margin-left:10px; margin:auto;     font-size: 14px;}
 	.l_img {width:15px; float:left; margin-top: 20px;	}
