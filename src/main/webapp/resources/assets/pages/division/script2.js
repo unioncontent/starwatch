@@ -86,7 +86,7 @@ $(document).ready(function () {
         function(){
           swal("Success!", "이미지다운 되었습니다.", "success");
           
-          self.location = "imageDownload?" + "searchType=" + decodeURI(window.location.href.split("&searchType=")[1]).split("&")[0]
+          self.location = "http://49.247.5.169/classification/imageDownload?" + "searchType=" + decodeURI(window.location.href.split("&searchType=")[1]).split("&")[0]
 	 	  + "&keyword=" + decodeURI(window.location.href.split("&keyword=")[1]).split("&")[0]
     	  + "&company=" + $("#selectCompany option:selected").val()
           + "&selectKey=" + $('#selectKeyword option:selected').val()
@@ -112,7 +112,7 @@ $(document).ready(function () {
 	  console.log(thumbName);
 	  
 	  
-	  var path = '../classification/show?name=' + thumbName;
+	  var path = 'http://49.247.5.169/classification/show?name=' + thumbName;
 	  $("#thumbnail").attr("src", path);
 	  $('#imageModal').modal('show');
 	  
