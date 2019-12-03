@@ -230,7 +230,7 @@
                             </p>
                             <br>
                             <div class="grp_01">
-                              <img src="../assets/images/starwatch/sub01_pop_graph_bg.png" class="grp_bg" />
+                              <img src="../assets/images/starwatch/sub01_pop_graph_bg.png" class="grp_bg" style="transform: rotate(180deg)" />
                               <img src="../assets/images/starwatch/sub01_pop_graph_icon01.png" class="grp_mark" style="left:calc(${badpersen}% - 9px);" />
                               <!-- <img src="assets/images/starwatch/sub01_pop_graph_icon02.png" class="grp_stick" /> -->
                               <div class="grp_txt_left">GOOD</div>
